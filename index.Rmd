@@ -1,0 +1,34 @@
+---
+title: "Economia Matemática"
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 03-26-2021
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(matlib)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: center;
+  font-size: 26px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+
+```
+
+
+**Esse site acompanha as aulas da disciplina Economia Matemática (HO-012).**
+

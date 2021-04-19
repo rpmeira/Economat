@@ -1,0 +1,16 @@
+name: "Economat"
+title: "Economat"
+description: |
+  Economat
+output_dir: "docs"
+navbar:
+  logo:
+    image: chalkboard-icon-18.jpg
+  right:
+    - text: "Inicio"
+      href: index.html
+    - text: "Algelin"
+      href: about.html
+    - text: "Eq. Diff"
+      href: eqdiff.html
+output: distill::distill_article

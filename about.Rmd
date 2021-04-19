@@ -1,0 +1,800 @@
+---
+title: "Algebra Linear"
+description: |
+  Essa aula estuda vetores, matrizes e sistemas lineares.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 03-26-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+```
+
+## Vetores
+
+A função `c()` cria vetores no R
+
+### Operações com Vetores
+
+```{r}
+# Soma
+
+v1 <- c(5, 8, 9, 6.25, 7, 7)
+v2 <- c(7, 5, 10, 3, 3, 4)
+
+soma_vetores <- v1 + v2
+soma_vetores
+```
+
+```{r}
+# Tamanho do vetor
+
+length(soma_vetores)
+```
+
+```{r}
+# Produto por escalar
+
+vetor1 <- soma_vetores * 0.5
+vetor2 <- soma_vetores * runif(n = 1, min = 0, max = 1)
+```
+
+```{r}
+vetor1
+vetor2
+```
+
+```{r}
+# Produto Escalar
+
+prod_esca <- sum(v1 * v2)
+prod_esca
+```
+
+```{r}
+# Norma
+
+norma_v1 <- sqrt(x = sum(v1 * v2))
+norma_v1
+```
+
+### Outras funções
+
+```{r}
+# Sequência
+
+seq(from = 1, to = 10, by = 2)
+```
+
+```{r}
+# Repetição
+
+rep(x = c(1,3), 10)
+```
+
+```{r}
+# Ordenação
+
+v = c(2, 8, 3, 1, 9)
+sort(x = v, decreasing = FALSE)
+```
+
+
+## Matrizes
+
+A função `matrix()` cria matrizes no R
+
+```{r}
+# Criando uma Matriz
+
+elementos <- seq(from = 1, to = 6, by = 1)
+A <- matrix(data = elementos, nrow = 2)
+A
+```
+
+```{r}
+# Criando a mesma Matriz
+
+A <- matrix(data = 1:6, ncol = 3)
+A
+```
+
+```{r}
+# Dimensões de uma Matriz
+
+dim(x = A)
+nrow(x = A)
+ncol(x = A)
+```
+
+
+### Matrizes especiais
+
+
+```{r}
+# Matriz nula
+
+matrix(data = 0, nrow = 2, ncol = 2)
+```
+
+```{r}
+# Matriz unitária
+
+matrix(data = 1, nrow = 2, ncol = 2)
+```
+
+```{r}
+# Matriz diagonal
+
+diag(x = 1:5)
+```
+
+```{r}
+# Matriz identidade
+
+diag(x = 1, nrow = 4)
+```
+
+```{r}
+# Obter a diagonal de uma matriz
+
+A <- matrix(data = 1:9, nrow = 3)
+A
+diag(x = A)
+```
+
+
+### Operações com Matrizes
+
+```{r}
+A <- matrix(data = c(1, 3, 2, 2, 8, 9), ncol = 2)
+A
+B <- matrix(data = 1:6, ncol = 2)
+B
+C <- matrix(data = c(5, 8, 4, 2), ncol = 2)
+C
+```
+
+```{r}
+# Soma de Matrizes
+
+A + B
+```
+
+```{r}
+# Subtração de Matrizes
+
+A - B
+```
+
+```{r}
+# Produto por um escalar
+
+A * 3
+```
+
+```{r}
+# Transposta de uma Matriz
+
+t(A)
+```
+
+
+### Acesso aos Valores
+
+Precisamos de dois indicadores [linha, coluna]
+
+```{r}
+# Elemento da linha 1 e coluna 2
+
+A[1, 2]
+```
+
+```{r}
+# Todos os elementos da coluna 2
+
+A[, 2]
+```
+
+```{r}
+# Todos os elementos da linha 3
+
+A[3, ]
+```
+
+```{r}
+# Eliminar coluna 3
+
+A[, -3]
+```
+
+
+## Sistemas Lineares
+
+Pacotes para tratamento de matrizes e sistemas lineares:
+
+- matrixcale
+- Matrix
+- limSolve
+- matlib
+
+### Visualização de sistemas simples
+
+Seja o sistema:
+
+$$
+\begin{aligned}
+  \begin{cases}
+      2x + y = 5 \\
+      x - 1y = 6
+  \end{cases}
+\end{aligned}
+$$
+
+Matricialmente:
+
+$$
+\begin{aligned}
+  A = 
+  \begin{bmatrix}
+    2 & 1 \\
+    1 & -1
+  \end{bmatrix}
+  \qquad 
+  B = 
+  \begin{bmatrix}
+    5 \\
+    6
+  \end{bmatrix}
+\end{aligned}
+$$
+No R usaremos o pacote **matlib**.
+
+```{r}
+A <- matrix(data = c(2, 1, 1, -1), ncol = 2)
+B <- matrix(data = c(5, 6), ncol = 1)
+```
+
+```{r}
+A
+B
+```
+
+A função `showEqn()` nos permite visualizar as equações lineares correspondentes, a partir das matrizes $\small A$ e $\small B$; e a função `plotEqn()` permite a visualização das equações lineares de sistemas bivariados.
+
+### Sistemas de duas variáveis
+
+#### Exemnplo 1
+
+```{r}
+# Visualizar as equações
+
+showEqn(A = A, b = B)
+```
+
+
+```{r}
+# Plotar as equações
+
+plotEqn(A = A, b = B, lwd = 1)
+```
+
+
+Como se observa, pela interseção das duas retas, se entende que o sistema possui uma única solução. Ou seja, é um sistema possível e determinado. 
+
+
+#### Exemplo 2
+
+No caso de três equações de um sistema determinado bivariado (ainda no $\mathbb{R}^ 2$):
+
+```{r}
+A <- matrix(data = c(1:3, -1, 2, 1), ncol = 2)
+B <- matrix(data = c(2, 1, 3), ncol = 1)
+
+showEqn(A = A, b = B)
+plotEqn(A = A, b = B, lwd = 1)
+```
+
+Se para definir um ponto no espaço bidimensional precisamos de apenas duas retas, o que uma terceira reta representaria no sistema? Veja que uma das equações pode ser reescrita a partir das outras duas!
+
+#### Exemplo 3
+
+Ainda no $\mathbb{R}^2$, quando temos um sistema indeterminado, a geometria resultante muda pois o sistema possui infinitas soluções:
+
+```{r}
+A <- matrix(data = c(2, 4, 1, 2), ncol = 2)
+B <- matrix(data = c(5, 10), ncol = 1)
+
+showEqn(A = A, b = B)
+plotEqn(A = A, b = B, lwd = 1)
+```
+
+#### Exemplo 4
+
+E quando o sistema é impossível/inconsistente, geometricamente não veremos nenhum caso de interseção entre as retas:
+
+```{r}
+A <- matrix(data = c(1,2,3, -1, 2, 1), ncol = 2)
+B <-matrix(data = c(2,1,6), ncol = 1)
+
+showEqn(A = A, b = B)
+plotEqn(A = A, b = B, lwd = 1)
+```
+
+
+### Sistemas de três variáveis
+
+No $\mathbb{R}^3$, podemos seguir usando a função `showEqn()` para verificar as equações equivalentes do sistema, mas
+para fins de visualização gráfica, usamos a função `plotEqn3d()`.
+
+#### Sistema Determinado
+
+```{r}
+A <- matrix(data = c(6, 2, 3, 2, 4, 2, 1, 1, 8), ncol = 3)
+B <- matrix(data = c(7, 7, 13), ncol = 1)
+
+showEqn(A = A, b = B)
+```
+
+```{r, eval=FALSE, error=TRUE}
+plotEqn3d(A = A, b = B)
+```
+
+
+Como observamos, as equações agora representam planos no espaço tridimensional, e havendo uma única solução do sistema, teremos geométrica mente a solução representada pelo ponto de interseção dos três planos (das três equações). 
+
+#### Sistema Inconsistente
+
+No caso de um sistema inconsistente, não haverá interseção entre os três planos:
+
+```{r}
+A <- matrix(data = c(1, 3, 1,
+                     1, -2, -2,
+                     2, 1, -1), ncol = 3, byrow = TRUE)
+B <- matrix(data = c(2, 3, 6), ncol = 1)
+
+showEqn(A = A, b = B)
+```
+
+```{r, eval=FALSE, error=TRUE}
+plotEqn3d(A = A, b = B)
+```
+
+
+### Escalonamento de matrizes (Gauss-Jordan)
+
+```{r}
+A <- matrix(data = c(6, 2, 3, 2, 4, 2, 1, 1, 8), ncol = 3)
+A
+```
+
+```{r}
+# Escalonamento
+
+echelon(A = A, verbose = TRUE, fractions = TRUE)
+```
+
+Para criar a matriz ampliada precisamos juntar a matriz de coeficientes e a matriz de termos independentes:
+
+```{r}
+B <- matrix(data = c(7, 7, 13), ncol = 1)
+B
+```
+
+
+```{r}
+A <- matrix(data = c(6, 6, 3, 2, 4, 1, 1, 1, 0.5), ncol = 3)
+B <- matrix(data = c(7, 2, 13), ncol = 1)
+echelon(A = A, B = B, verbose = TRUE, fractions = TRUE)
+```
+
+
+```{r}
+# Juntando as matrizes
+
+Ahat <- cbind(A, B)
+Ahat
+```
+
+
+### Posto de uma matriz
+
+A função `R()` do pacote matlib nos permite avaliar o posto de uma matriz:
+
+```{r}
+# Se os postos são iguais, o sistema terá solução
+
+posto_A <- R(A)
+posto_Ahat <- R(Ahat)
+
+c(posto_A, posto_Ahat)
+```
+
+
+## Resolução Numérica de Sistemas
+
+### Sistema Determinado
+
+Para o sistema determinado, temos que
+
+$$
+p_A = p_{\hat{A}} = n
+$$
+
+onde $\small n$ é o número de variáveis do sistema.
+
+```{r}
+A <- matrix(data = c(6, 2, 3, 2, 4, 2, 1, 1, 8), ncol = 3)
+B <- matrix(data = c(7, 7, 13), ncol = 1)
+n <- ncol(A)
+
+Ahat <- cbind(A, B)
+
+posto_A <- R(A)
+posto_Ahat <- R(Ahat)
+
+condicao1 <- posto_A == posto_Ahat
+condicao2 <- posto_A == n 
+```
+
+```{r}
+condicao1
+condicao2
+```
+
+Atendendo aos requisitos, podemos usar a função `solve()` sobre a matriz ampliada para obter a solução do sistema:
+
+```{r}
+# Sistema Determinado
+
+if (condicao1 & condicao2) {
+  X <- solve(A, B)
+  X
+}
+```
+
+Podemos também usar o escalonamento de matrizes:
+
+```{r}
+Ahat_esc <- echelon(A = Ahat, verbose = TRUE)
+Ahat_esc
+```
+
+```{r}
+# Coluna das soluções
+
+round(Ahat_esc[, (n + 1)], 2)
+```
+
+
+### Sistema Indeterminado
+
+O comando `solve(A, B)` dará erro caso o sistema seja indeterminado. Podemos optar pela solução via métodos numéricos. Para isso, usaremos o pacote **limSolve**:
+
+```{r}
+A <- matrix(data = c(2, 4, 1, 2), ncol = 2)
+B <- matrix(data = c(5, 10), ncol = 1)
+n <- ncol(A)
+
+c(R(A), R(B), n)
+```
+
+Como os postos são iguais, mas menores que $\small n = 2$, não podemos usar a função `solve()`.
+
+### Teorema de Binet
+
+```{r}
+A <- matrix(data = runif(100, -2, 2), ncol = 10) 
+B <- matrix(data = runif(100, -2, 2), ncol = 10) 
+
+A * B
+A %*% B
+
+C = A %*% B
+det(C) == det(A %*% B)
+det(A + B) == (det(A) + det(B))
+```
+
+
+### Inversa
+
+```{r}
+A <- matrix(data = c(6, 2, 3, 2, 4, 2, 1, 1, 8), ncol = 3)
+det(A)
+inv(A)
+```
+
+
+### Dependencia Linear
+
+```{r}
+v1 <- c(1, -1, 0, 0)
+v2 <- c(0, 0, 1, 1)
+v3 <- c(-2, 2, 1, 1)
+v4 <- c(1, 0, 0, 0)
+
+A <- matrix(data = cbind(v1, v2, v3, v4), ncol = 4)
+# Se o determinante de A for 0, os vetores são linearmente dependentes
+det(A)
+
+v5 <- c(2, -3, 2, 2)
+Ahat <- cbind(A, v5)
+Ahat
+# Como os postos são iguais (p = 3), o sistema é possivel.
+# Como o número de variáveis é maior que o posto (n > p), o sistema é indetemrinado.
+# Assim, v5 é combinação linear dos outros vetores.
+echelon(Ahat)
+```
+
+
+### Autovalores
+
+```{r}
+eigen(A)
+eigen(A)$vectors %>%
+  zapsmall(digits = 1)
+eigen(A)$values %>%
+  zapsmall(digits = 1)
+
+```
+
+
+
+## Exercícios sobre estrutura de ontrole
+
+#### Exercício 1
+
+Elabore uma função que verifique que uma matriz é quadrada e que seja singular antes de calcular a sua inversa. Não atendendo a uma das condições, a função deverá mostrar uma mensagem alertando o problema. Além de pode usar a estrutura de conotrle if-else, há também uma função chamada `ifelse()` para processos condicionados curtos.
+
+```{r, error=TRUE}
+A <- matrix(data = c(1, 5, 0, 0, 4, 2, 0, 0, 2), ncol = 3)
+B <- matrix(data = c(1, 5, 0, 0, 4, 2, 0, 0, 0), ncol = 3)
+C <- matrix(data = c(1, 5, 0, 0, 4, 2, 0, 0, 2), ncol = 2)
+det(A)
+det(B)
+det(C)
+
+inversa <- function(A) {
+  
+  cond1 <- dim(A)[1] == dim(A)[2]
+
+  if (!cond1) {
+    stop("Matriz não quadrada")
+  }
+  else
+    
+    cond2 <- det(A) != 0
+  
+    if (!cond2) {
+      stop("Matriz singular")
+    }
+    else
+      matlib::inv(A)
+  
+}
+
+inversa(A)
+inversa(B)
+inversa(C)
+```
+
+
+#### Exercício 2
+
+Temos uma lista de n=100 pessoas, cujas notas de desempenho possuem uma média de 500 e um desvio padrão de 20. Com uma nota maior que 500, o candidato é considerado aprovado (“A”) e apto para o emprego, caso contrário, o seu status é de reprovado (“R”). Gere um vetor com as notas e a partir dele, usando a função `ifelse()`, gere um vetor com o resultado final para cada candidato (“A” ou “R”). O vetor com as notas pode ser produzido com a função `rnorm()`.
+
+```{r}
+notas <- rnorm(n = 100, mean = 500, sd = 20)
+notas
+resultado <- ifelse(test = notas > 500, yes = "A", no = "R")
+resultado
+```
+
+
+#### Exercício 3
+
+Elabore uma função que calcule o cofator Aij de uma matriz A de ordem n.
+
+```{r}
+A <- matrix(data = c(1, 5, 0, 0, 4, 2, 0, 0, 2), ncol = 3)
+A
+```
+
+
+```{r}
+mcof <- function(A) {
+  C <- matrix(nrow = dim(A)[1], ncol = dim(A)[2])
+  
+  for (i in 1:dim(A)[1]) {
+    for (j in 1:dim(A)[2]) {
+      B <- A[-i, -j]
+      C[i, j] <- det(B)*(-1)^outer(X = i, Y = j, FUN = "+")
+    }
+  }
+  return(C)
+}
+mcof(A)
+```
+
+
+```{r}
+mcof <- function(A) {
+  C <- matrix(nrow = dim(A)[1], ncol = dim(A)[2])
+  
+  for (i in 1:dim(A)[1]) {
+    for (j in 1:dim(A)[2]) {
+      B <- A[-i, -j]
+      C[i, j] <- det(B)*(-1)^(i + j)
+    }
+  }
+  return(C)
+
+}
+mcof(A)
+```
+
+
+```{r}
+mcof2 <- function(A) {
+  C <- matrix(nrow = dim(A)[1], ncol = dim(A)[2])
+  
+  for (i in 1:dim(A)[1]) {
+    for (j in 1:dim(A)[2]) {
+      C[i, j] <- cofactor(A, i, j)
+    }
+  }
+  return(C)
+}
+mcof2(A)
+```
+
+## Exercícios Semana 3
+
+#### Exercício 4
+
+```{r}
+A <- matrix(data = c(1, 5, 0, 0, 4, 2, 0, 0, 2), ncol = 3)
+A
+```
+
+A) Calcule o determinante de A:
+
+```{r}
+det(A)
+```
+
+B) Obtenha a diagonal de A e calcule o produto dos seus elementos, usando a função `prod()`.
+
+```{r}
+diag(A)
+prod(diag(A))
+```
+
+C) Compare os resultados de A) e B)
+
+```{r}
+c(det(A), prod(diag(A)))
+```
+
+D) Podemos afirmar que A é inversível?
+
+Sim. Pois $det(A) \ne 0$
+```{r}
+inv(A)
+```
+
+
+#### Exercício 5
+
+Gere duas matrizes de ordem n = 10, com valores inteiros aleatorios de distribuição uniforme no intervalo [−10, 10]. Verifique o teorema de Binet (a falsidade da propriedade distributiva da soma para o determinante de matrizes).
+
+```{r}
+A <- matrix(data = runif(n = 100, min = -10, max = 10), ncol = 10)
+B <- matrix(data = runif(n = 100, min = -10, max = 10), ncol = 10)
+
+det(A)
+det(B)
+det(A + B)
+
+det(A + B) == (det(A) + det(B))
+```
+
+#### Exercício 6
+
+Determine os autovalores e autovetores das matrizes a seguir:
+
+A)
+
+```{r}
+A <- matrix(data = c(3, 0, 0, -3, 3, 0, -4, 5, -1), ncol = 3)
+A
+
+eigen(A)
+cbind(eigen(A)$values, diag(A))
+```
+
+Compare os autovalores obtidos com a diagonal principal da matriz triangular superior. Por que acontece o observado?
+
+R: Porque a matriz é triangular, portanto o produto da diagonal princial é o único termo do determinante que não se anula.
+
+B)
+
+```{r}
+A <- matrix(data = c(-1, 2, 2, -4, -7, -4, 14, 14, 11), ncol = 3)
+A
+
+eigen(A)
+cbind(eigen(A)$values, diag(A))
+```
+
+C )
+
+```{r}
+A <- matrix(data = c(1, -1, 1, 0, 0, 1, 2, 1, 2), ncol = 3)
+A
+
+eigen(A)
+cbind(eigen(A)$values, diag(A))
+```
+
+D)
+
+```{r}
+A <- matrix(data = c(3, 0, 0, -3, 3, 0, -4, 5, -1), ncol = 3)
+B <- matrix(data = c(-1, 2, 2, -4, -7, -4, 14, 14, 11), ncol = 3)
+C <- matrix(data = c(1, -1, 1, 0, 0, 1, 2, 1, 2), ncol = 3)
+
+avecA <- eigen(A)$vector
+avecB <- eigen(B)$vector
+avecC <- eigen(C)$vector
+
+avecA
+det(avecA)
+avecB
+det(avecB)
+avecC
+det(avecC)
+```
+
+Os determinantes são diferentes de 0, portanto os autovetores são linearmente independentes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
