@@ -2073,9 +2073,21 @@ code span.wa { color: #da4453; } /* Warning */
 <a href="index.html" class="title">Economat</a>
 </div>
 <div class="nav-right">
-<a href="index.html">Inicio</a>
+<a href="jdv.html">Jogo da Vida</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Aulas
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
 <a href="about.html">Algelin</a>
 <a href="eqdiff.html">Eq. Diff</a>
+<a href="cobweb.html">Cobweb</a>
+<a href="ordem2.html">Eq. Ordem 2</a>
+<a href="ordemsup.html">Ordem Superior</a>
+</div>
+</div>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2102,7 +2114,13 @@ code span.wa { color: #da4453; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#equações-homogêneas">Equações Homogêneas</a></li>
+<li><a href="#equações-homogêneas">Equações Homogêneas</a>
+<ul>
+<li><a href="#automatizando-esse-processo">Automatizando esse processo</a></li>
+</ul></li>
+<li><a href="#equações-não-homogêneas">Equações Não Homogêneas</a></li>
+<li><a href="#homogênea-x-não-homogênea">Homogênea x não-Homogênea</a></li>
+<li><a href="#exercícios">Exercícios</a></li>
 </ul>
 </nav>
 </div>
@@ -2123,7 +2141,481 @@ d-article div.sourceCode {
 </style>
 </div>
 <h2 id="equações-homogêneas">Equações Homogêneas</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Queremos analisar a dinâmica resultante de uma equação em diferença de ordem 1, analisando valores diversos para o coeficiente <span class="math inline">\(a_0\)</span>:</p>
+<p><span class="math display">\[
+y_{t+1} + a_0 y_t = 0
+\]</span> Já conhecemos a solução analítica:</p>
+<p><span class="math display">\[
+y_t = A(-a_0)^t
+\]</span> tal que, para <span class="math inline">\(t = 0\)</span>, <span class="math inline">\(A = y_0\)</span>, com <span class="math inline">\(y_0\)</span> representando a condição inicial (se conhecida).</p>
+<h4 id="criando-as-séries">Criando as séries</h4>
+<p>Mas também podemos oferecer a solução numérica via simulação, implementando diretamente a equação que define a dinâmica da sequência de valores (a série temporal):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### Parâmetros e Condições iniciais</span>
+
+<span class='co'># Coeficiente</span>
+<span class='va'>a0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+
+<span class='co'># Número de iterações</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+
+<span class='co'># Valor inicial</span>
+<span class='va'>y0</span> <span class='op'>&lt;-</span> <span class='fl'>0.025</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>### Séries temporais geradas a partir de cada coeficiente</span>
+
+<span class='co'># Séries</span>
+<span class='va'>y1</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+<span class='va'>y2</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+<span class='va'>y3</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+<span class='va'>y4</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+<span class='va'>y5</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+<span class='va'>y6</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+
+<span class='co'># Data-Frame (em forma de ts)</span>
+<span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>y1</span>, <span class='va'>y2</span>, <span class='va'>y3</span>, <span class='va'>y4</span>, <span class='va'>y5</span>, <span class='va'>y6</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>as.ts</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Plot das séries geradas</span>
+<span class='fu'>autoplot</span><span class='op'>(</span><span class='va'>ydata</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Equações de Ordem 1"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"right"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='va'>t</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>15</span>, to <span class='op'>=</span> <span class='fl'>25</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<h3 id="automatizando-esse-processo">Automatizando esse processo</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Através de Loop</span>
+<span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='cn'>NA</span>, nrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>ydata</span><span class='op'>[</span>, <span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Através de Função</span>
+<span class='va'>yfunchomo</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>a0</span>, <span class='va'>y0</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='cn'>NA</span>, nrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>ydata</span><span class='op'>[</span>, <span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>a0</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>y0</span>
+  <span class='op'>}</span>
+  
+  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>ydata</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"a0: "</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>a0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>y0</span>, <span class='va'>ydata</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span>start <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>ydata</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Exemplo </span>
+<span class='fu'>yfunchomo</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, a0 <span class='op'>=</span> <span class='op'>-</span><span class='fl'>2</span><span class='op'>:</span><span class='fl'>2</span>, y0 <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Time Series:
+Start = 0 
+End = 5 
+Frequency = 1 
+  a0: -2 a0: -1 a0: 0 a0: 1 a0: 2
+0    0.8    0.8   0.8   0.8   0.8
+1   -1.6   -0.8   0.0   0.8   1.6
+2    3.2    0.8   0.0   0.8   3.2
+3   -6.4   -0.8   0.0   0.8   6.4
+4   12.8    0.8   0.0   0.8  12.8
+5  -25.6   -0.8   0.0   0.8  25.6</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Exemplo direto do Plot</span>
+<span class='fu'>autoplot</span><span class='op'>(</span><span class='fu'>yfunchomo</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, a0 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.5</span>, <span class='fl'>1.5</span>, <span class='fl'>0.5</span><span class='op'>)</span>, y0 <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Equações de Ordem 1"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"right"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<p>Voltando ao exemplo do início:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'>yfunchomo</span><span class='op'>(</span>t <span class='op'>=</span> <span class='va'>t</span>, a0 <span class='op'>=</span> <span class='va'>a0</span>, y0 <span class='op'>=</span> <span class='va'>y0</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>autoplot</span><span class='op'>(</span><span class='va'>ydata</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Equações de Ordem 1"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"right"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='va'>t</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>15</span>, to <span class='op'>=</span> <span class='fl'>25</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<h2 id="equações-não-homogêneas">Equações Não Homogêneas</h2>
+<p>Queremos analisar uma série temporal <span class="math inline">\(y_t\)</span>, resultante de uma equação em diferença de ordem 1:</p>
+<p><span class="math display">\[
+y_{t+1} + a_0 \times y_t = b
+\]</span></p>
+<p>Ou:</p>
+<p><span class="math display">\[
+y_{t+1} = - a_0 \times y_t + b
+\]</span> Por exemplo:</p>
+<p><span class="math display">\[
+y_{t+1} - 1.1 \times y_t = 2
+\]</span></p>
+<p>Para isso, precisamos antes definir todos os nossos parâmetros iniciais: quantidade de períodos de simulação, as condições iniciais, e demais coeficientes da equação e auxiliares. Neste caso, <span class="math inline">\(a_0 = -1.1\)</span> e a única diferença com relação ao caso homogêneo é o acréscimo de um termo independente <span class="math inline">\(g(t) = b = 2\)</span>.</p>
+<p>Seria possível reusar a função <code>yfunchomo</code> criada acima caso soubéssemos o <span class="math inline">\(\overset{*}{y}\)</span> — ou seja, o <em>steady state</em>. Como usualmente a priori não sabemos esse valor, tempos que criar uma função que itere os valores de cada período.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita de cada Eq em diferença</span>
+<span class='va'>orbita</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>y0</span>, <span class='va'>b</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>out</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>y0</span>
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>out</span><span class='op'>[</span><span class='va'>i</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='op'>(</span><span class='op'>-</span><span class='va'>m</span><span class='op'>*</span><span class='va'>out</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>b</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Exemplo</span>
+<span class='fu'>orbita</span><span class='op'>(</span>m <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.1</span>, y0 <span class='op'>=</span> <span class='fl'>1</span>, b <span class='op'>=</span> <span class='fl'>2</span>, t <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> [1]  3.10000  5.41000  7.95100 10.74610 13.82071 17.20278 20.92306
+ [8] 25.01537 29.51690 34.46859</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que junta as diversas orbitas</span>
+<span class='va'>yfunc</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>a0</span>, <span class='va'>y0</span>, <span class='va'>b</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='cn'>NA</span>, nrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>ydata</span><span class='op'>[</span>, <span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>orbita</span><span class='op'>(</span>m <span class='op'>=</span> <span class='va'>a0</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>, y0 <span class='op'>=</span> <span class='va'>y0</span>, b <span class='op'>=</span> <span class='va'>b</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  
+  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>ydata</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"a0: "</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>a0</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='va'>ydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>y0</span>, <span class='va'>ydata</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span>start <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>ydata</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Exemplo</span>
+<span class='fu'>yfunc</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>10</span>, a0 <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1</span>, y0 <span class='op'>=</span> <span class='fl'>0.5</span>, b <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Time Series:
+Start = 0 
+End = 10 
+Frequency = 1 
+   a0: -1 a0: 0 a0: 1
+ 0    0.5   0.5   0.5
+ 1    2.5   2.0   1.5
+ 2    4.5   2.0   0.5
+ 3    6.5   2.0   1.5
+ 4    8.5   2.0   0.5
+ 5   10.5   2.0   1.5
+ 6   12.5   2.0   0.5
+ 7   14.5   2.0   1.5
+ 8   16.5   2.0   0.5
+ 9   18.5   2.0   1.5
+10   20.5   2.0   0.5</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Exemplo direto do Plot</span>
+<span class='fu'>autoplot</span><span class='op'>(</span><span class='fu'>yfunc</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, a0 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='op'>-</span><span class='fl'>0.5</span>, <span class='fl'>1</span><span class='op'>)</span>, y0 <span class='op'>=</span> <span class='fl'>0.8</span>, b <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Equações de Ordem 1"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"right"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<h2 id="homogênea-x-não-homogênea">Homogênea x não-Homogênea</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Exemplo do início da seção</span>
+<span class='fu'>autoplot</span><span class='op'>(</span>object <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'>yfunc</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, a0 <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.1</span>, y0 <span class='op'>=</span> <span class='fl'>1</span>, b <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,
+                           <span class='fu'>yfunc</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, a0 <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.1</span>, y0 <span class='op'>=</span> <span class='fl'>1</span>, b <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Equações de Ordem 1"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Não-Homogênea"</span>, <span class='st'>"Homogênea"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='va'>t</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>6</span>, to <span class='op'>=</span> <span class='fl'>15</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+</div>
+<h2 id="exercícios">Exercícios</h2>
+<p>A partir das rotinas anteriores, analise a dinâmica e o estado estacionário das séries cujas dinâmicas são resultado das equações a seguir:</p>
+<p><strong>1.</strong></p>
+<p><span class="math inline">\(y_t + a_0 \times y_{t-1} = \frac{1}{4}\)</span>, sendo que <span class="math inline">\(y_0 = 2\)</span> e <span class="math inline">\(a_0 = 0.25\)</span></p>
+<p>R: Pela equação, <span class="math inline">\(b = \frac{1}{4}\)</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>naohomo1</span> <span class='op'>&lt;-</span> <span class='fu'>yfunc</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>10</span>, a0 <span class='op'>=</span> <span class='fl'>0.25</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, b <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span><span class='op'>)</span>
+<span class='va'>homo1</span> <span class='op'>&lt;-</span> <span class='fu'>yfunc</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>10</span>, a0 <span class='op'>=</span> <span class='fl'>0.25</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, b <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>result1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>naohomo1</span>, <span class='va'>homo1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>result1</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Não-Homogênea"</span>, <span class='st'>"Homogênea"</span><span class='op'>)</span>
+<span class='va'>result1</span>
+</code></pre>
+</div>
+<pre><code>Time Series:
+Start = 0 
+End = 10 
+Frequency = 1 
+   Não-Homogênea     Homogênea
+ 0     2.0000000  2.000000e+00
+ 1    -0.2500000 -5.000000e-01
+ 2     0.3125000  1.250000e-01
+ 3     0.1718750 -3.125000e-02
+ 4     0.2070312  7.812500e-03
+ 5     0.1982422 -1.953125e-03
+ 6     0.2004395  4.882812e-04
+ 7     0.1998901 -1.220703e-04
+ 8     0.2000275  3.051758e-05
+ 9     0.1999931 -7.629395e-06
+10     0.2000017  1.907349e-06</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>autoplot</span><span class='op'>(</span><span class='va'>result1</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<p>Limpando o gráfico:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>autoplot</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>result1</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>0.25</span> <span class='op'>%*%</span> <span class='va'>y</span><span class='op'>[</span><span class='va'>t</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/plotmath.html'>frac</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>10</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, to <span class='op'>=</span> <span class='fl'>2</span>, by <span class='op'>=</span> <span class='fl'>0.25</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+</div>
+<p><strong>2.</strong></p>
+<p>Como faria para simular a série <span class="math inline">\(y_{t+1} = (−a0 \times y_t) + k_0 + (k_1 \times t)\)</span>? Teste para diversas condições inicials e analise o resultado.</p>
+<p>R: Primeiramente, devemos mudar nossa função <code>orbita</code>, afim de acomodar o termo <span class="math inline">\(k_1 \times t\)</span>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita de cada Eq em diferença</span>
+<span class='va'>orbita_trend</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>y0</span>, <span class='va'>k0</span>, <span class='va'>k1</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>out</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>y0</span>
+  <span class='va'>trend</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>trend</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span>
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>out</span><span class='op'>[</span><span class='va'>i</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='op'>-</span><span class='va'>m</span><span class='op'>*</span><span class='va'>out</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>k0</span> <span class='op'>+</span> <span class='va'>k1</span><span class='op'>*</span><span class='va'>trend</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Teste Orbita</span>
+<span class='fu'>orbita_trend</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, k0 <span class='op'>=</span> <span class='fl'>0</span>, k1 <span class='op'>=</span> <span class='fl'>1</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> [1]  0.000000  2.000000  2.000000  3.000000  3.500000  4.250000
+ [7]  4.875000  5.562500  6.218750  6.890625  7.554688  8.222656
+[13]  8.888672  9.555664 10.222168 10.888916 11.555542 12.222229
+[19] 12.888885 13.555557</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Teste plot</span>
+<span class='fu'>autoplot</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_trend</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, k0 <span class='op'>=</span> <span class='fl'>0</span>, k1 <span class='op'>=</span> <span class='fl'>1</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-23-1.png" width="624" /></p>
+</div>
+<p>Agora, voltando a questão, vamos testar para diversos valores de <span class="math inline">\(k_0\)</span> e <span class="math inline">\(k_1\)</span>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>s1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_trend</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.9</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, k0 <span class='op'>=</span> <span class='fl'>0</span>, k1 <span class='op'>=</span> <span class='fl'>0</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>s2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_trend</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.9</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, k0 <span class='op'>=</span> <span class='fl'>1</span>, k1 <span class='op'>=</span> <span class='fl'>0</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>s3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_trend</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.9</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, k0 <span class='op'>=</span> <span class='fl'>0</span>, k1 <span class='op'>=</span> <span class='fl'>1</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>s4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_trend</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.9</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, k0 <span class='op'>=</span> <span class='fl'>1</span>, k1 <span class='op'>=</span> <span class='fl'>1</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>series</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>s1</span>, <span class='va'>s2</span>, <span class='va'>s3</span>, <span class='va'>s4</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>series</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(0,0)"</span>, <span class='st'>"(1,0)"</span>, <span class='st'>"(0,1)"</span>, <span class='st'>"(1,1)"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>autoplot</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>series</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>[</span><span class='va'>t</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>==</span> <span class='op'>(</span><span class='op'>-</span><span class='va'>a</span><span class='op'>[</span><span class='fl'>0</span><span class='op'>]</span> <span class='op'>%*%</span> <span class='va'>y</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>+</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>0</span><span class='op'>]</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>%*%</span>  <span class='va'>t</span><span class='op'>)</span><span class='op'>)</span>, 
+          subtitle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>0</span><span class='op'>]</span>,<span class='va'>k</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>20</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, to <span class='op'>=</span> <span class='fl'>20</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-25-1.png" width="624" /></p>
+</div>
+<p><strong>3.</strong></p>
+<p><span class="math inline">\(y{t+1} = 0.9 · y_t + X_t\)</span>; com <span class="math inline">\(Xt \sim N(0, σ^2)\)</span>. Teste para valores diferentes de σ2 e analise o seu efeito sobre a dinâmica da série.</p>
+<p>R: Primeiramente, devemos mudar nossa função <code>orbita</code>, afim de acomodar o termo <span class="math inline">\(X_t\)</span>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita de cada Eq em diferença</span>
+<span class='va'>orbita_estoc</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>y0</span>, <span class='va'>s2</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>out</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>y0</span>
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>out</span><span class='op'>[</span><span class='va'>i</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='op'>-</span><span class='va'>m</span><span class='op'>*</span><span class='va'>out</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span>, mean <span class='op'>=</span> <span class='fl'>0</span>, sd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>s2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Teste Orbita</span>
+<span class='fu'>orbita_estoc</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, s2 <span class='op'>=</span> <span class='fl'>2</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> [1] -3.123713571  1.627564609 -0.725874212  0.565773764  1.030858409
+ [6] -1.378407214  0.816711837  1.459028626  2.720543393 -3.457193347
+[11]  0.770679615 -0.972717559 -1.835207102 -0.387656372 -0.179890254
+[16] -0.212916500 -0.516137316  0.009930374 -0.104278091 -3.075162231</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Teste plot</span>
+<span class='fu'>autoplot</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_estoc</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, s2 <span class='op'>=</span> <span class='fl'>2</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-28-1.png" width="624" /></p>
+</div>
+<p>Agora, voltando a questão, vamos testar para diversos valores de <span class="math inline">\(s^2\)</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>s21</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_estoc</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, s2 <span class='op'>=</span> <span class='fl'>0</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>s22</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_estoc</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, s2 <span class='op'>=</span> <span class='fl'>2</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>s23</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_estoc</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, s2 <span class='op'>=</span> <span class='fl'>4</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>s24</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='fu'>orbita_estoc</span><span class='op'>(</span>m <span class='op'>=</span> <span class='fl'>0.5</span>, y0 <span class='op'>=</span> <span class='fl'>2</span>, s2 <span class='op'>=</span> <span class='fl'>6</span>, t <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>seriess2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>s21</span>, <span class='va'>s22</span>, <span class='va'>s23</span>, <span class='va'>s24</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>seriess2</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"s2: "</span>, <span class='fl'>4</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>autoplot</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>seriess2</span>, facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>[</span><span class='va'>t</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>==</span> <span class='op'>(</span><span class='op'>-</span><span class='va'>a</span><span class='op'>[</span><span class='fl'>0</span><span class='op'>]</span> <span class='op'>%*%</span> <span class='va'>y</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>X</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"t"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"Y"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>15</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='fl'>0</span>, to <span class='op'>=</span> <span class='fl'>20</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>10</span>, to <span class='op'>=</span> <span class='fl'>10</span>, by <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="eqdiff_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2131,6 +2623,15 @@ d-article div.sourceCode {
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->

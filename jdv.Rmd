@@ -1,0 +1,366 @@
+---
+title: "O Jogo da Vida"
+description: |
+ Essa aula explora o "Jogo da Vida", proposto por John H. Conway na década de 70.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 04-18-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gridExtra)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+```
+
+## Introdução
+
+O Jogo da Vida consiste em um conjunto de agentes distribuidos em um *grid* de tamanho `n` previamente definido. Cada agente, representado em um quadrado desse *grid*, é caracterizado por um dos dois estados possíveis: morto ou vivo. 
+
+```{r}
+# Criando o Grid
+n <- 5
+gridIni <- expand.grid(x = 1:n, y = 1:n)
+gridIni$z <- runif(n = n^2, min = 0, max = 1) %>% 
+  round(digits = 0)
+```
+
+```{r}
+# Plotando o Grid
+ggplot(data = gridIni) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 0", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2))) -> plot0
+
+plot0
+```
+
+
+```{r, include=FALSE}
+# plot
+ggplot(data = gridIni) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), palette = 12) + 
+  labs(title = "Geração 0", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = paste0("(", gridIni[, 1], ", ", gridIni[, 2], ")")))
+```
+
+
+## O jogo
+
+O jogo consiste em atualizar os estados dos agentes a cada geração, o que ocorre a partir dos estados de seus vizinhos:
+
+1. Se o agente tem menos de dois vizinhos vivos, ele morre
+2. Se tem mais de três vizinhos vivos, ele morre
+3. Se tem exatamente dois vizinhos vivos, ele mantêm seu estado atutal (vivo ou morto)
+4. Se tem exatamente três vizinhos vivos, a célula muda seu estado de morto para vivo , ou permanece vivo se já está nesse estado.
+
+
+## Vizinhança
+
+As matrizes construídas a seguir servem para identificar os vizinhos (com seus respectivos estados) de cada agente.
+
+```{r}
+# Matriz ampliada
+mat <- matrix(data = 1:n^2, nrow = n)
+mat.pad <- rbind(NA, cbind(NA, mat, NA), NA)
+mat.pad
+```
+
+```{r}
+# Matriz com os vizinhos
+ind <- 2:(n + 1)
+vizinhos <- rbind(N  = as.vector(mat.pad[ind - 1, ind    ]),
+                  NE = as.vector(mat.pad[ind - 1, ind + 1]),
+                  E  = as.vector(mat.pad[ind    , ind + 1]),
+                  SE = as.vector(mat.pad[ind + 1, ind + 1]),
+                  S  = as.vector(mat.pad[ind + 1, ind    ]),
+                  SO = as.vector(mat.pad[ind + 1, ind - 1]),
+                  O  = as.vector(mat.pad[ind    , ind - 1]),
+                  NO = as.vector(mat.pad[ind - 1, ind - 1]))
+
+vizinhos
+```
+
+```{r}
+# Matriz com os estados dos vizinhos
+estados.vizinhos <- c()
+for (i in 1:n^2) {
+  estados.vizinhos <- cbind(estados.vizinhos, gridIni[vizinhos[, i], 3])
+}
+estados.vizinhos
+```
+
+```{r}
+# Trocar os 'NA' por 0
+estados.vizinhos0 <- estados.vizinhos
+estados.vizinhos0[is.na(estados.vizinhos0)] <- 0
+estados.vizinhos0
+```
+
+```{r}
+# Número de vizinhos vivos para cada agente
+vivos <- c()
+for (i in 1:n^2) {
+  vivos <- cbind(vivos, 
+                 length(estados.vizinhos0[, i][estados.vizinhos0[, i] == 1]))
+}
+vivos
+```
+
+
+## Atualização dos estados
+
+Seguindo as quatro regras apontadas anteriormente, assim fica o próximo período:
+
+```{r}
+# Criando novo Grid
+gridFin <- expand.grid(x = 1:n, y = 1:n)
+gridFin$z <- c(NA)
+
+# Atualizando os estados de cada agente
+for (i in 1:n^2) {
+  if (vivos[i] < 2) {
+    gridFin$z[i] <- 0
+  }
+  if (vivos[i] > 3) {
+    gridFin$z[i] <- 0
+  }
+  if (vivos[i] == 2) {
+    gridFin$z[i] <- gridIni$z[i]
+  }
+  if (vivos[i] == 3) {
+    gridFin$z[i] <- 1
+  }
+}
+```
+
+```{r}
+# Plotando novo Grid
+ggplot(data = gridFin) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 1", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2))) -> plot1
+
+plot1
+```
+
+Comparando as duas gerações:
+
+```{r}
+# Plots lado a lado
+grid.arrange(plot0, plot1, ncol = 2)
+```
+
+
+## Automatizando o jogo
+
+Agora que conseguimos codificar as regras do jogo, podemos escrever funções que realizam os passos necessários de forma automática.
+
+```{r}
+# Função que gera o número de vizinhos vivos de cada agente
+nViz <- function(n, gridI) {
+  
+  mat <- matrix(data = 1:n^2, nrow = n)
+  mat.pad <- rbind(NA, cbind(NA, mat, NA), NA)
+  ind <- 2:(n + 1)
+  vizinhos <- rbind(N  = as.vector(mat.pad[ind - 1, ind    ]),
+                    NE = as.vector(mat.pad[ind - 1, ind + 1]),
+                    E  = as.vector(mat.pad[ind    , ind + 1]),
+                    SE = as.vector(mat.pad[ind + 1, ind + 1]),
+                    S  = as.vector(mat.pad[ind + 1, ind    ]),
+                    SO = as.vector(mat.pad[ind + 1, ind - 1]),
+                    O  = as.vector(mat.pad[ind    , ind - 1]),
+                    NO = as.vector(mat.pad[ind - 1, ind - 1]))
+  estados.vizinhos <- c()
+  for (i in 1:n^2) {
+    estados.vizinhos <- cbind(estados.vizinhos, gridI[vizinhos[, i], 3])
+  }
+  estados.vizinhos0 <- estados.vizinhos
+  estados.vizinhos0[is.na(estados.vizinhos0)] <- 0
+  vivos <- c()
+  for (i in 1:n^2) {
+    vivos <- cbind(vivos, 
+                   length(estados.vizinhos0[, i][estados.vizinhos0[, i] == 1]))
+  }
+  
+  return(vivos)
+
+}
+```
+
+
+```{r}
+# Função que gera o grid final com os estados dos agentes
+intera <- function(n, gridF, vivos) {
+  
+  for (i in 1:n^2) {
+    if (vivos[i] < 2) {
+      gridF$z[i] <- 0
+    }
+    if (vivos[i] > 3) {
+      gridF$z[i] <- 0
+    }
+    if (vivos[i] == 2) {
+      gridF$z[i] <- gridIni$z[i]
+    }
+    if (vivos[i] == 3) {
+      gridF$z[i] <- 1
+    }
+  }
+  
+  return(gridF)
+  
+}
+```
+
+
+### Exemplos
+
+```{r}
+# Criando Grid inicial
+gera0 <- gridIni
+
+# Criando Grids para cada nova geração
+gera1 <- intera(n = n, gridF = gera0, vivos = nViz(n = n, gridI = gera0))
+gera2 <- intera(n = n, gridF = gera1, vivos = nViz(n = n, gridI = gera1))
+gera3 <- intera(n = n, gridF = gera2, vivos = nViz(n = n, gridI = gera2))
+gera4 <- intera(n = n, gridF = gera3, vivos = nViz(n = n, gridI = gera3))
+gera5 <- intera(n = n, gridF = gera4, vivos = nViz(n = n, gridI = gera4))
+```
+
+```{r}
+# Criando Plots para cada novo Grid
+ggplot(data = gera0) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 0", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2)), size = 2.5) -> plotgera0
+
+ggplot(data = gera1) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 1", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2)), size = 2.5) -> plotgera1
+
+ggplot(data = gera2) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 2", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2)), size = 2.5) -> plotgera2
+
+ggplot(data = gera3) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 3", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2)), size = 2.5) -> plotgera3
+
+ggplot(data = gera4) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 4", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2)), size = 2.5) -> plotgera4
+
+ggplot(data = gera5) +
+  aes(x = x, y = y, fill = factor(z)) + 
+  geom_tile(colour = "black", size = 0.8) +
+  coord_equal() +
+  theme_void() +
+  scale_fill_brewer(breaks = c(0, 1), 
+                    labels = c("0 - Morto", "1 - Vivo"),
+                    type = "seq",
+                    direction = 1, 
+                    palette = 12) + 
+  labs(title = "Geração 5", x = NULL, y = NULL, fill = "Life") +
+  geom_text(mapping = aes(label = 1:(n^2)), size = 2.5) -> plotgera5
+```
+
+```{r}
+# plotando os Grids lado a lado
+grid.arrange(plotgera0, plotgera1, plotgera2, plotgera3, plotgera4, plotgera5, 
+             ncol = 2)
+```
+
+
+
+
+
+
+
+

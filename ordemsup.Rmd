@@ -1,0 +1,190 @@
+---
+title: "Eq. Ordem Superior"
+description: |
+  Essa aula estuda Equações em Diferença de ordem superior.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 04-30-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+library(ggfortify)
+library(ggthemes)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+```
+
+## Equações de Ordem Superior
+
+Como já vimos, a equação linear em diferença de ordem *n* terá a sua solução analítica e estabilidade dependentes das *n* raízes do seu polinômio característico. Ainda, a condição do módulo de todas as raízes ser menor que a unidade continua a ser necessária para garantir a estabilidade da série no longo prazo.
+
+### Equação de Ordem 3
+
+Seja a equação de ordem 3, com $\small y_0 = 400$, $\small y_1 = 420$, $\small y_2 = 450$:
+
+$$
+1y_{t+3} -4y_{t+2} +4.8y_{t+1} -1.6y_{t+0} = 100
+$$
+
+Ela possuirá três raízes características. Simulando, notamos que a série $\small y_t$ apresenta uma trajetória explosiva não oscilatória e sem ciclos. Logo, as raízes serão reais e positivas e haverá ao menos uma raíz com módulo maior que a unidade.
+
+Temos que:
+
+```{r}
+a3 <- 1
+a2 <- -4
+a1 <- 4.8
+a0 <- -1.6
+y0 <- 400
+y1 <- 420
+y2 <- 450
+g <- 100
+t <- 10
+```
+
+Para simular essa série vamos, antes, construir a função de órtiba de terceira ordem:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença de ordem 2
+orbita_3o <- function(a2, a1, a0, y0, y1, y2, g, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  out[2] <- y1
+  out[3] <- y2
+  for (i in 1:(t-3)) {
+    out[i+3] <- -a2*out[i+2] -a1*out[i+1] -a0*out[i+0] + g
+  }
+  
+  return(out)
+  
+}
+```
+
+Simulando a série:
+
+```{r}
+orbita_3o(a2 = a2, a1 = a1, a0 = a0, y0 = y0, y1 = y1, y2 = y2, g = g, t = t) %>%
+  ts() %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = 1:10) +
+  scale_y_continuous(breaks = seq(0, 18000, 2500))
+```
+
+Analisando as raízes:
+
+```{r}
+# Vetor de coeficientes do polinomio 
+coefs <- c(a0, a1, a2, a3)
+# Raizes
+roots <- polyroot(coefs) %>% round(digits = 3)
+roots
+# A parte real das raizes
+lambda = Re(roots) %>% round(digits = 3)
+lambda
+```
+
+O *steady state* é dado por: 
+
+```{r}
+yp <- g/(a0+a1+a2+a3)
+yp
+```
+
+Como há 2 raízes maiores que a unidade, a série é explosiva. Logo, o ponto fixo é um repulsor. Além disso, as três raízes são reais e positivas, o que descarta a existência de oscilações ou de ciclos (como já havíamos previsto, dado o comportamento do gráfico).
+
+Assim, a solução explícita será dada pela combinação linear dos termos exponenciais tal que:
+
+$$
+\begin{align}
+& y_t = A_1(\lambda_1)^t + A_2(\lambda_2)^t + A_3(\lambda_3)^t + g \\
+& y_t = A_1(0.553)^t + A_2(1.447)^t + A_3(2.000)^t + 500
+\end{align}
+$$
+
+e com as três condições iniciais, determinamos as constantes arbitrárias A1, A2 e A3, por meio do sistema determinado resultante da substituição de y0, y1, y2 para t = 0, 1, 2 na solução explícita:
+
+```{r}
+# Para achar A1, A2 e A3
+v <- c(lambda[1]^0, lambda[1]^1, lambda[1]^2, 
+       lambda[2]^0, lambda[2]^1, lambda[2]^2,
+       lambda[3]^0, lambda[3]^1, lambda[3]^2)
+A <- matrix(data = v, ncol = 3)
+B <- c(y0, y1, y2) - yp
+X <- solve(A, B)
+X
+```
+Simulando os três componentes de forma independente:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença de ordem 3
+orbita_parc_3 <- function(X, lambda, t) {
+  
+  raiz1 <- vector(mode = "numeric", length = t)
+  raiz2 <- vector(mode = "numeric", length = t)
+  raiz3 <- vector(mode = "numeric", length = t)
+  soma <- vector(mode = "numeric", length = t)
+  for (i in 1:t) {
+    raiz1[i] <- X[1]*lambda[1]^i
+    raiz2[i] <- X[2]*lambda[2]^i
+    raiz3[i] <- X[3]*lambda[3]^i
+    soma[i] <- raiz1[i] + raiz2[i] + raiz3[i]
+  }
+  
+  out <- cbind(raiz1, raiz2, raiz3, soma)
+  colnames(out) <- c("Raiz 1", "Raiz 2", "Raiz 3", "y")
+  
+  return(out)
+  
+}
+```
+
+```{r}
+orbita_parc_3(X = X, lambda = lambda, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = 1:10) +
+  scale_y_continuous(breaks = seq(-5000, 40000, 5000))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

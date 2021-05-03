@@ -20,6 +20,7 @@ library(matlib)
 library(tidyverse)
 library(limSolve)
 library(ggfortify)
+library(ggthemes)
 ```
 
 ```{css, echo=FALSE}
@@ -80,50 +81,13 @@ y5 <- (a0[5])^(1:t) * y0
 y6 <- (a0[6])^(1:t) * y0
 
 # Data-Frame (em forma de ts)
-df_tsy <- data.frame(y1, y2, y3, y4, y5, y6) %>%
+ydata <- data.frame(y1, y2, y3, y4, y5, y6) %>%
   as.ts()
 ```
 
-#### Automatizando esse processo
-
 ```{r}
-ydata <- ts(matrix(NA, nrow = length(1:t), ncol = length(a0)))
-
-for (i in 1:length(a0)) {
-  ydata[, i] <- (a0[i])^(1:t) * y0
-}
-```
-
-```{r}
-yfunc <- function(t, a0, y0) {
-  
-  ydata <- ts(matrix(NA, nrow = length(1:t), ncol = length(a0)))
-  
-  for (i in 1:length(a0)) {
-    ydata[, i] <- (a0[i])^(1:t) * y0
-  }
-  
-  colnames(ydata) <- c(paste0(rep("Y "), 1:ncol(ydata)))
-  
-  return(ydata)
-  
-}
-```
-
-```{r}
-yfunc(t = t, a0 = a0, y0 = y0)
-```
-
-#### Plotando
-
-E agora sim, com essa base, partimos para a visualização das séries:
-
-```{r}
-ydata <- yfunc(t = t, a0 = a0, y0 = y0)
-```
-
-```{r}
-autoplot(ydata) +
+# Plot das séries geradas
+autoplot(ydata, facets = F) +
   ggtitle("Equações de Ordem 1") +
   xlab("t") +
   ylab("Y") +
@@ -133,8 +97,339 @@ autoplot(ydata) +
         legend.position = "right") +
   scale_colour_discrete("") +
   scale_x_continuous(breaks = seq(from = 0, to = t, by = 1)) +
-  scale_y_continuous(breaks = c(0, seq(from = round(min(ydata)), to = round(max(ydata)), by = round(sd(ydata)))))
+  scale_y_continuous(breaks = seq(from = -15, to = 25, by = 5))
 ```
+
+### Automatizando esse processo
+
+```{r}
+# Através de Loop
+ydata <- ts(matrix(NA, nrow = length(1:t), ncol = length(a0)))
+
+for (i in 1:length(a0)) {
+  ydata[, i] <- (a0[i])^(1:t) * y0
+}
+```
+
+```{r}
+# Através de Função
+yfunchomo <- function(t, a0, y0) {
+  
+  ydata <- ts(matrix(NA, nrow = length(1:t), ncol = length(a0)))
+  
+  for (i in 1:length(a0)) {
+    ydata[, i] <- (a0[i])^(1:t) * y0
+  }
+  
+  colnames(ydata) <- c(paste0(rep("a0: "), round(a0, 1)))
+  
+  ydata <- rbind(y0, ydata) %>% ts(start = 0)
+  
+  return(ydata)
+  
+}
+```
+
+```{r}
+# Exemplo 
+yfunchomo(t = 5, a0 = -2:2, y0 = 0.8)
+```
+
+```{r}
+# Exemplo direto do Plot
+autoplot(yfunchomo(t = 5, a0 = seq(-1.5, 1.5, 0.5), y0 = 0.8), facets = F) +
+  ggtitle("Equações de Ordem 1") +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "right") +
+  scale_colour_discrete("")
+```
+
+Voltando ao exemplo do início:
+
+```{r}
+ydata <- yfunchomo(t = t, a0 = a0, y0 = y0)
+```
+
+```{r}
+autoplot(ydata, facets = F) +
+  ggtitle("Equações de Ordem 1") +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "right") +
+  scale_colour_discrete("") +
+  scale_x_continuous(breaks = seq(from = 0, to = t, by = 1)) +
+  scale_y_continuous(breaks = seq(from = -15, to = 25, by = 5))
+```
+
+## Equações Não Homogêneas
+
+Queremos analisar uma série temporal $y_t$, resultante de uma equação em diferença de ordem 1:
+
+$$
+y_{t+1} + a_0 \times y_t = b
+$$
+
+Ou:
+
+$$
+y_{t+1} = - a_0 \times y_t + b
+$$
+Por exemplo:
+
+$$
+y_{t+1} - 1.1 \times y_t = 2
+$$
+
+Para isso, precisamos antes definir todos os nossos parâmetros iniciais: quantidade de períodos de simulação, as condições iniciais, e demais coeficientes da equação e auxiliares. Neste caso, $a_0 = -1.1$ e a única diferença com relação ao caso homogêneo é o acréscimo de um termo independente $g(t) = b = 2$.
+
+Seria possível reusar a função `yfunchomo` criada acima caso soubéssemos o $\overset{*}{y}$ --- ou seja, o *steady state*. Como usualmente a priori não sabemos esse valor, tempos que criar uma função que itere os valores de cada período.
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença
+orbita <- function(m, y0, b, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  for (i in 1:t) {
+    out[i+1] <- ((-m*out[i]) + b)
+  }
+  
+  return(out[-1])
+  
+}
+```
+
+```{r}
+# Exemplo
+orbita(m = -1.1, y0 = 1, b = 2, t = 10)
+```
+
+```{r}
+# Função que junta as diversas orbitas
+yfunc <- function(t, a0, y0, b) {
+  
+  ydata <- ts(matrix(NA, nrow = length(1:t), ncol = length(a0)))
+  
+  for (i in 1:length(a0)) {
+    ydata[, i] <- orbita(m = a0[i], y0 = y0, b = b, t = t)
+  }
+  
+  colnames(ydata) <- c(paste0(rep("a0: "), round(a0, 1)))
+  
+  ydata <- rbind(y0, ydata) %>% ts(start = 0)
+  
+  return(ydata)
+  
+}
+```
+
+```{r}
+# Exemplo
+yfunc(t = 10, a0 = -1:1, y0 = 0.5, b = 2)
+```
+
+```{r}
+# Exemplo direto do Plot
+autoplot(yfunc(t = 5, a0 = c(-1, 0.5, -0.5, 1), y0 = 0.8, b = 1), facets = F) +
+  ggtitle("Equações de Ordem 1") +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "right") +
+  scale_colour_discrete("")
+```
+
+## Homogênea x não-Homogênea
+
+```{r}
+# Exemplo do início da seção
+autoplot(object = ts(cbind(yfunc(t = 5, a0 = -1.1, y0 = 1, b = 2),
+                           yfunc(t = 5, a0 = -1.1, y0 = 1, b = 0))),
+         facets = F) +
+  ggtitle("Equações de Ordem 1") +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  scale_colour_discrete("", labels = c("Não-Homogênea", "Homogênea")) +
+  scale_x_continuous(breaks = seq(from = 0, to = t, by = 2)) +
+  scale_y_continuous(breaks = seq(from = -6, to = 15, by = 2))
+```
+
+## Exercícios
+
+A partir das rotinas anteriores, analise a dinâmica e o estado estacionário das séries cujas dinâmicas são resultado das equações a seguir:
+
+**1.** 
+
+$y_t + a_0 \times y_{t-1} = \frac{1}{4}$, sendo que $y_0 = 2$ e $a_0 = 0.25$
+
+R: Pela equação, $b = \frac{1}{4}$
+
+```{r}
+naohomo1 <- yfunc(t = 10, a0 = 0.25, y0 = 2, b = 1/4)
+homo1 <- yfunc(t = 10, a0 = 0.25, y0 = 2, b = 0)
+```
+
+```{r}
+result1 <- cbind(naohomo1, homo1)
+colnames(result1) <- c("Não-Homogênea", "Homogênea")
+result1
+```
+
+```{r}
+autoplot(result1, facets = F)
+```
+
+Limpando o gráfico:
+
+```{r}
+autoplot(object = result1, facets = F) +
+  ggtitle(expression(y[t] + (0.25 %*% y[t-1]) == frac(1,4))) +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  scale_colour_discrete("") +
+  scale_x_continuous(breaks = seq(from = 0, to = 10, by = 2)) +
+  scale_y_continuous(breaks = seq(from = -1, to = 2, by = 0.25))
+```
+
+**2.**
+
+Como faria para simular a série $y_{t+1} = (−a0 \times y_t) + k_0 + (k_1 \times t)$? Teste para diversas condições inicials e analise o resultado.
+
+R: Primeiramente, devemos mudar nossa função `orbita`, afim de acomodar o termo $k_1 \times t$:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença
+orbita_trend <- function(m, y0, k0, k1, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  trend <- rep(x = 0, t)
+  trend[1:t] <- 1:t
+  for (i in 1:t) {
+    out[i+1] <- (-m*out[i] + k0 + k1*trend[i])
+  }
+  
+  return(out[-1])
+  
+}
+```
+
+```{r}
+# Teste Orbita
+orbita_trend(m = 0.5, y0 = 2, k0 = 0, k1 = 1, t = 20)
+```
+
+```{r}
+# Teste plot
+autoplot(ts(orbita_trend(m = 0.5, y0 = 2, k0 = 0, k1 = 1, t = 20)))
+```
+
+Agora, voltando a questão, vamos testar para diversos valores de $k_0$ e $k_1$:
+
+```{r}
+s1 <- ts(orbita_trend(m = 0.9, y0 = 2, k0 = 0, k1 = 0, t = 20))
+s2 <- ts(orbita_trend(m = 0.9, y0 = 2, k0 = 1, k1 = 0, t = 20))
+s3 <- ts(orbita_trend(m = 0.9, y0 = 2, k0 = 0, k1 = 1, t = 20))
+s4 <- ts(orbita_trend(m = 0.9, y0 = 2, k0 = 1, k1 = 1, t = 20))
+
+series <- cbind(s1, s2, s3, s4)
+colnames(series) <- c("(0,0)", "(1,0)", "(0,1)", "(1,1)")
+```
+
+
+```{r}
+autoplot(object = series, facets = F) +
+  ggtitle(expression(y[t+1] == (-a[0] %*% y[t]) +k[0] + (k[1] %*%  t)), 
+          subtitle = expression(list(k[0],k[1]))) +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  scale_colour_discrete("") +
+  scale_x_continuous(breaks = seq(from = 0, to = 20, by = 1)) +
+  scale_y_continuous(breaks = seq(from = -1, to = 20, by = 1))
+```
+
+
+**3.**
+
+$y{t+1} = 0.9 · y_t + X_t$; com $Xt \sim N(0, σ^2)$. Teste para valores diferentes de σ2 e analise o seu efeito sobre a dinâmica da série.
+
+R: Primeiramente, devemos mudar nossa função `orbita`, afim de acomodar o termo $X_t$:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença
+orbita_estoc <- function(m, y0, s2, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  for (i in 1:t) {
+    out[i+1] <- (-m*out[i] + rnorm(n = 1, mean = 0, sd = sqrt(s2)))
+  }
+  
+  return(out[-1])
+  
+}
+```
+
+```{r}
+# Teste Orbita
+orbita_estoc(m = 0.5, y0 = 2, s2 = 2, t = 20)
+```
+
+```{r}
+# Teste plot
+autoplot(ts(orbita_estoc(m = 0.5, y0 = 2, s2 = 2, t = 20)))
+```
+
+
+Agora, voltando a questão, vamos testar para diversos valores de $s^2$
+
+
+```{r}
+s21 <- ts(orbita_estoc(m = 0.5, y0 = 2, s2 = 0, t = 20))
+s22 <- ts(orbita_estoc(m = 0.5, y0 = 2, s2 = 2, t = 20))
+s23 <- ts(orbita_estoc(m = 0.5, y0 = 2, s2 = 4, t = 20))
+s24 <- ts(orbita_estoc(m = 0.5, y0 = 2, s2 = 6, t = 20))
+
+seriess2 <- cbind(s21, s22, s23, s24)
+colnames(seriess2) <- c(paste0(rep("s2: ", 4), seq(0, 6, 2)))
+```
+
+
+```{r}
+autoplot(object = seriess2, facets = F) +
+  ggtitle(expression(y[t+1] == (-a[0] %*% y[t]) + X[t])) +
+  xlab("t") +
+  ylab("Y") +
+  theme_hc() +
+  theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  scale_colour_discrete("") +
+  scale_x_continuous(breaks = seq(from = 0, to = 20, by = 1)) +
+  scale_y_continuous(breaks = seq(from = -10, to = 10, by = 1))
+```
+
 
 
 

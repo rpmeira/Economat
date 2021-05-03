@@ -7,10 +7,18 @@ navbar:
   logo:
     image: chalkboard-icon-18.jpg
   right:
-    - text: "Inicio"
-      href: index.html
-    - text: "Algelin"
-      href: about.html
-    - text: "Eq. Diff"
-      href: eqdiff.html
+      - text: "Jogo da Vida"
+        href: jdv.html
+      - text: "Aulas"
+        menu:
+        - text: "Algelin"
+          href: about.html
+        - text: "Eq. Diff"
+          href: eqdiff.html
+        - text: "Cobweb"
+          href: cobweb.html
+        - text: "Eq. Ordem 2"
+          href: ordem2.html
+        - text: "Ordem Superior"
+          href: ordemsup.html          
 output: distill::distill_article

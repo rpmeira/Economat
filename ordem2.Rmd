@@ -1,0 +1,530 @@
+---
+title: "Eq. Ordem 2"
+description: |
+  Essa aula estuda Equações em Diferença de ordem 2.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 04-19-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+library(ggfortify)
+library(ggthemes)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+```
+
+## Equações Homogêneas
+
+Uma equação em diferença de ordem 2 traz alguns elementos familiares das equações de ordem 1. No entanto, tendo em vista que agora as raízes do polinômio característico associado podem ser números complexos, temos neste caso, a presença de oscilações e ciclos. Seja a equação em diferença:
+
+$$
+y_t + a_1 \times y_{t-1} + a_0 \times y_{t-2} = g(t)
+$$
+
+onde g(t) é o termo independente (de y). A solução particular se determina seguindo o mesmo procedimento visto para o caso das equações de ordem 1.
+
+Para determinar a solução homogênea, precisamos antes identificar as raízes do polinômio característico. Se λ é raíz desse polinômio, temos que:
+
+$$
+p(\lambda) = \lambda^2 + a_1 \lambda + a_0 = 0
+$$
+
+Logo, dado que o polinômio é de grau 2, ele terá duas soluções possíveis:
+
+$$
+\lambda = - \frac{a_1}{2} \pm \frac{\sqrt{a_1^2 - 4 a_0}}{2}
+$$
+
+Se $\small \Delta = a_1^2 - 4 a_0$, temos 3 casos passiveis:
+
+1. Duas raízes reais e diferentes, no caso em que $\small \Delta > 0$.
+2. Duas raízes reais e iguais, se $\small \Delta = 0$;
+3. Duas raízes complexas, quando $\small \Delta < 0$.
+
+Analisemos cada caso.
+
+## Raízes reais e diferentes
+
+Seja a equação em diferenças:
+
+$$
+y_t - 3y_{t-1} + 2y_{t-2} = 0
+$$
+
+com $\small y_1 = 1$ e $\small y_2 = -2$
+
+1. Determine o polinômio característico e as suas raízes;
+2. Determine as constantes arbitrárias;
+3. Determine a trajetória temporal.
+
+### Solução
+
+Para o primeiro item, precisamos usar a função `polyroot` do pacote `base`. Note que, dado que para gerar o valor da série em t + 2, precisamos dos valores em t + 1 e em t. Logo, para calcular y2, precisamos de dois valores iniciais: y1 e y0.
+
+Utilizando a mesma notação das outras aulas:
+
+$$
+a_2 \times y_{t+2} = -a_1 \times y_{t+1} - a_0 \times y_t
+$$
+
+Primeiramente, vamos criar a função da órbita para uma equação de ordem 2:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença de ordem 2
+orbita_2o <- function(a0, y0, a1, y1, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  out[2] <- y1
+  for (i in 1:(t-2)) {
+    out[i+2] <- -a1*out[i+1] -a0*out[i]
+  }
+  
+  return(out)
+  
+}
+```
+
+```{r}
+# Exemplo
+orbita_2o(a0 = -0.9, y0 = 1, a1 = -0.4, y1 = -2, t = 15) %>%
+  ts() %>%
+  autoplot()
+```
+
+Vejamos um exemplo com os seguintes parâmetros:
+
+```{r}
+a0 <- 2
+y0 <- 1
+a1 <- -3
+y1 <- -2
+t <- 10
+```
+
+```{r}
+# Plot
+orbita_2o(a0 = a0, y0 = y0, a1 = a1, y1 = y1, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Note que a série se afasta do steady state $\small y^∗ = 0$ (é uma equação homogênea, certo?). E não há nem oscilações nem ciclos. Logo, o comportamento da série nos leva a inferir que a equação tem duas raízes reais e positivas; e pelo menos uma delas (sendo diferentes) possui módulo maior que um. Para confirmar, podemos primeiro calcular o discriminante ($\small \Delta$) do polinômio característico:
+
+$$
+p(\lambda) = \lambda^2 - 3 \lambda + 2
+$$
+
+Pela definiçao:
+
+```{r}
+a2 <- 1
+a1 <- -3
+a0 <- 2
+# calculando o discriminante
+delta = a1^2 -4*a2*a0
+delta
+```
+
+Veja que $\small \Delta = 1> 0$. Logo, as raízes são reais e diferentes (caso 1). Agora, precisamos calcular as raízes do polinômio. Para isso, usamos a função `polyroots()` do pacote base (instalado e carregado automaticamente):
+
+```{r}
+# vetor de coeficientes do polinomio - veja que a ordem deles no vetor
+# vai do menor ao maior grau
+coefs <- c(a0, a1, a2)
+# raizes
+roots <- polyroot(coefs)
+roots
+```
+
+Note que a função nos dá as raízes no formato mais geral que é o formato dos números complexos. Contudo, a parte imaginária das raízes é zero. Logo, temos duas raízes reais (e no caso, positivas), com $\small (λ1, λ2) = Re(roots)$.
+
+```{r}
+lambda = Re(roots) # a parte real das raizes
+lambda
+```
+
+Com isso, temos uma raíz de módulo unitário e outra com módulo maior que dois: a série temporal resultante será explosiva. 
+
+A solução analítica será dada por:
+
+$$
+y_t = A_1 \lambda_1^t + A_2 \lambda_2^t
+$$
+
+com $\small λ1 = 1$ e $\small λ2 = 2$. Dado que as condições iniciais são $\small y_0=1$ e $\small y_1 =-2$, temos que
+
+$$
+\begin{cases}
+& 1 = A_1(1)^0 + A_2(2)^0 \\
+& -2= A_1(1)^1 + A_2(2)^1
+\end{cases}
+$$
+
+que define um sistema linear e determinado. Logo:
+
+```{r}
+A <- matrix(data = c(1, lambda[1], 1, lambda[2]), nrow = 2)
+B <- c(y0, y1)
+X <- solve(A, B)
+X 
+```
+
+Finalmente, a solução analítica da equação é dada por:
+
+$$
+y_t = 4(1)^t - 3(2)^t
+$$
+
+Veja que essa solução é composta por duas parcelas, a parcela da primeira e da segunda raíz. Podemos analisar a contribuição de cada parcela na solução geral:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença de ordem 2
+orbita_parc <- function(X, lambda, t) {
+  
+  raiz1 <- vector(mode = "numeric", length = t)
+  raiz2 <- vector(mode = "numeric", length = t)
+  soma <- vector(mode = "numeric", length = t)
+  for (i in 1:t) {
+    raiz1[i] <- X[1]*lambda[1]^i
+    raiz2[i] <- X[2]*lambda[2]^i
+    soma[i] <- raiz1[i] + raiz2[i]
+  }
+  
+  out <- cbind(raiz1, raiz2, soma)
+  colnames(out) <- c("Raiz 1", "Raiz 2", "y")
+  
+  return(out)
+  
+}
+```
+
+```{r}
+# Plot
+orbita_parc(X = X, lambda = lambda, t = t) %>%
+  ts() %>%
+  autoplot(facets = F)
+```
+
+Para rodar essa função aqui foi necessário já possuir os valores de `lambda` e `X`, que foram assim encontrados: $\small a_2 \times y_{t+2} = -a_1 \times y_{t+1} - a_0 \times y_t$. `y0` e `y1` foram dados: $\small y_0 = 1$ e $\small y_1 = -2$
+
+```{r}
+# Vetor de coeficientes do polinomio 
+coefs <- c(a0, a1, a2)
+# Raizes
+roots <- polyroot(coefs)
+# A parte real das raizes
+lambda = Re(roots)
+# Para achar A1 e A2
+A <- matrix(data = c(1, lambda[1], 1, lambda[2]), nrow = 2)
+B <- c(y0, y1)
+X <- solve(A, B)
+```
+
+Veja que o primeiro componente é estável, porém se mantém a uma distância constante do steady state $\small y^∗ = 0$. Logo, por esse componente ser constante, não podemos dizer que a série é estável. Ainda, o segundo componente explode a medida que t aumenta, e a grandeza dos valores tende a ser muito maior que a contribuição do primeiro componente, o que acaba gerando o comportamento da série $\small y_t$ no longo prazo.
+
+### Exemplo
+
+Seja a equação, com $\small y_0 = 1$ e $\small y_1 = 3$:
+
+$$
+y_t -0.25y_{t-2} = 0
+$$
+
+ou
+
+$$
+1y_{t+2} + 0y_{t+1} -0.25y_{t+0} = 0
+$$
+
+temos que:
+
+```{r}
+a2 <- 1
+a1 <- 0
+a0 <- -0.25
+y0 <- 1
+y1 <- 3
+t <- 10
+```
+
+Simulando essa série:
+
+```{r}
+orbita_2o(a0 = a0, y0 = y0, a1 = a1, y1 = y1, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Usando a solução analítica:
+
+```{r}
+# Vetor de coeficientes do polinomio 
+coefs <- c(a0, a1, a2)
+# Raizes
+roots <- polyroot(coefs)
+# A parte real das raizes
+lambda = Re(roots)
+# Para achar A1 e A2
+A <- matrix(data = c(1, lambda[1], 1, lambda[2]), nrow = 2)
+B <- c(y0, y1)
+X <- solve(A, B)
+rbind(X, lambda)
+```
+
+Temos que:
+
+$$
+\begin{align}
+& y_t = A_1\lambda_1^t + A_2\lambda_2^t \\
+& y_t = 3.5(0.5)^t - 2.5(-0.5)^t
+\end{align}
+$$
+
+```{r}
+# Plot
+orbita_parc(X = X, lambda = lambda, t = t) %>%
+  ts() %>%
+  autoplot(facets = F)
+```
+
+## Raízes reais e iguais
+
+Seja a equação, com $\small y_0 = 1$ e $\small y_1 = 3$:
+
+$$
+y_t - 6y_{t-1} + 9y_{t-2} = 0
+$$
+
+temos que:
+
+```{r}
+a2 <- 1
+a1 <- -6
+a0 <- 9
+y0 <- 1
+y1 <- 3
+t <- 10
+```
+
+Simulando essa série:
+
+```{r}
+orbita_2o(a0 = a0, y0 = y0, a1 = a1, y1 = y1, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Usando a solução analítica:
+
+```{r}
+# Vetor de coeficientes do polinomio 
+coefs <- c(a0, a1, a2)
+# Raizes
+roots <- polyroot(coefs)
+# A parte real das raizes
+lambda = Re(roots)
+lambda
+# Para achar A1 e A2
+# A <- matrix(data = c(1, lambda[1], 1, lambda[2]), nrow = 2)
+# B <- c(y0, y1)
+# X <- solve(A, B) não pode ser utilizado pois o Delta é igual a zero
+```
+
+Para encontrar a forma analítica da solução, multiplicamos uma das raízes (que são iguais) por `t`, para que haja diferenciação:
+
+$$
+y_t = (A_1 + A_2 \times t)\lambda^t
+$$
+
+Para obter as constantes arbitrárias A1 e A2 a partir das condições inicias, e com isso, analisar os componentes da solução, construimos novamente um sistema linear com duas equações e duas incógnitas:
+
+
+$$
+\begin{cases}
+& y_0 = (A_1 + A_2 \times 0) \times (3)^0 = A_1 \\
+& y_1 = (A_1 + A_2 \times 1) \times (3)^1 = 3A_1 + 3A_2 
+\end{cases}
+$$
+
+Na forma geral, para qualque lambda (qualquer polinômio com raizes iguals):
+
+$$
+\begin{cases}
+& y_0 = A_1 \\
+& y_1 = A_1\lambda + A_2\lambda 
+\end{cases}
+$$
+
+Logo,
+
+$$
+A_2 = \frac{y_1}{\lambda} - A_1
+$$
+
+```{r}
+# identificando as constantes arbitrarias
+X = y0
+X[2] = y1/lambda[1] - X[1]
+```
+
+Como mudamos a forma funcional da solução, precisamos alterar a função que gera essas séries, acrescentando a multipliação de `A2` por `t`:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença de ordem 2
+orbita_parc_delta0 <- function(X, lambda, t) {
+  
+  raiz1 <- vector(mode = "numeric", length = t)
+  raiz2 <- vector(mode = "numeric", length = t)
+  soma <- vector(mode = "numeric", length = t)
+  for (i in 1:t) {
+    raiz1[i] <- X[1]*lambda[1]^i
+    raiz2[i] <- X[2]*i*lambda[2]^i
+    soma[i] <- raiz1[i] + raiz2[i]
+  }
+  
+  out <- cbind(raiz1, raiz2, soma)
+  colnames(out) <- c("Raiz 1", "Raiz 2", "y")
+  
+  return(out)
+  
+}
+```
+
+```{r}
+# Plot
+orbita_parc_delta0(X = X, lambda = lambda, t = t) %>%
+  ts() %>%
+  autoplot(facets = F)
+```
+
+
+## Raízes Complexas
+
+Precisamos utilizar Euler e Moivre para reescrever a solução homogênea. 
+
+Por exemplo, seja a equação, com $\small y_0 = 1$ e $\small y_1 = 3$
+
+$$
+y_t - y_{t-1} + \frac{5}{4}y_{t-2} = 0
+$$
+
+ou
+
+$$
+1y_{t+2} - 1y_{t+1} + \frac{5}{4}y_{t-0} = 0
+$$
+
+temos que:
+
+```{r}
+a2 <- 1
+a1 <- -1
+a0 <- 5/4
+y0 <- 1
+y1 <- 3
+t <- 20
+```
+
+Simulando essa série:
+
+```{r}
+orbita_2o(a0 = a0, y0 = y0, a1 = a1, y1 = y1, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Usando a solução analítica:
+
+$$
+y_t^h = R^t [(A_1+A_2)\times cos(\theta t) + (A_1-A_2) \times i \times sin(\theta t)]
+$$
+
+```{r}
+# Vetor de coeficientes do polinomio 
+coefs <- c(a0, a1, a2)
+# Raizes
+roots <- polyroot(coefs)
+roots
+# A parte real das raizes
+# lambda = Re(roots)
+# lambda
+# Para achar A1 e A2
+# A <- matrix(data = c(1, lambda[1], 1, lambda[2]), nrow = 2)
+# B <- c(y0, y1)
+# X <- solve(A, B) não pode ser utilizado pois o Delta é igual a zero
+```
+
+Como as raízes apresentam componentes imaginários:
+
+#### Primeira Raiz
+
+```{r}
+# Módulo do complexo
+R <- Mod(roots[1]) %>% round(digits = 2)
+# Argumento do complexo
+theta <- Arg(roots[1]) %>% round(digits = 2)
+rbind(R, theta)
+```
+
+
+$$
+y_t = (1.12)^t \times (A_1 cos(1.11t) + A_2 sin(1.11t))
+$$
+
+Como o módulo dessa raiz é maior que a unidade, $\small R = 1.12 > 1$, teremos uma série temporal com ciclos explosivos no longo prazo
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença de ordem 2
+orbita_parc_complx <- function(R, theta, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  out[2] <- y1
+  for (i in 1:t) {
+    out[i+2] <- R^t
+  }
+  
+  return(out)
+  
+}
+```
+
+
+
+**Pq só usou 1 das raízes? Esse último gráfico diz respeito ao comportamento geral da série ou ao comportamento dessa raíz em específico? Pq nao mostrou o gráfico com as duas raizes e a soma delas, igual para os outros casos? cOmo calcular o A1 e o A2?**
+
+
+
+
+
+
+
+
+
+

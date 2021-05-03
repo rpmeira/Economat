@@ -1,0 +1,303 @@
+---
+title: "Cobweb"
+description: |
+  Essa aula estuda o modelo de Cobweb e Expectativas adaptativas.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 04-23-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+library(ggfortify)
+library(ggthemes)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+```
+
+## Cobweb
+
+Se trata de um modelo cássico de oferta e demanda baseado nas seguintes hipóteses:
+
+1. Funções lineares;
+2. A oferta reage ao preço com um atraso de um período: a produção requer de um período fixo de tempo (agricultura);
+3. Os produtores acreditam que o preço se manterá no período seguinte e assim, a nova “safra" de produção será iniciada a partir desse preço:
+
+$$
+S_t = a_1 + b_1 p_{t-1}
+$$
+
+4. A demanda depende do preço atual:
+
+$$
+D_t = a + b p_t
+$$
+
+5. Market clearing: a cada período o mercado determina o preço tal que a demanda absorva o produto ofertado:
+
+$$
+D_t = S_t
+$$
+
+Com isso, substituindo as duas primeiras equações na terceira, chegamos a uma equação emdiferença de primeira ordem em p:
+
+$$
+a + b p_t = a_1 + b_1 p_{t-1}
+$$
+
+Reescrevendo essa equação nos termos que estamos utilizando aqui ($p_t = y_t$):
+
+$$
+y_{t+1} = \frac{b_1}{b} \times y_t + \frac{a_1 - a}{b}
+$$
+
+Essa equação possui a mesma forma que a equação não-homogêna (sem trend) que vimos anteriormente:
+
+$$
+y_{t+1} = - a_0 \times y_t + b
+$$
+
+Utilizaremos, portanto, a função `orbita`:
+
+```{r}
+# Função que calcula a orbita de cada Eq em diferença
+orbita <- function(a0, y0, b, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  for (i in 1:t) {
+    out[i+1] <- ((-a0*out[i]) + b)
+  }
+  
+  return(out[-1])
+  
+}
+```
+
+```{r}
+# Exemplo
+orbita(a0 = 0.8, y0 = 1, b = 2, t = 20) %>%
+  ts() %>%
+  autoplot()
+```
+
+Voltando ao modelo de Cobweb, vejamos um exemplo com os seguintes parâmetros:
+
+```{r}
+a <- 0.2
+b <- -1
+a1 <- 0.1
+b1 <- 0.5
+p0 <- 1
+t <- 20
+```
+
+```{r}
+# Plot
+orbita(a0 = -(b1/b), y0 = p0, b = (a1 - a)/b, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Lembrando que estamos considerando $p_t = y_t$, portanto esse gráfico diz respeito ao comportamento dos preços. Podemos também analisar o comportamento da oferta e da demanda, incluindo essas na função junto ao preço:
+
+
+```{r}
+cobweb <- function(a, b, a1, b1, p0, t) {
+  
+  p1 <- (b1/b)*p0 + (a1 - a)/b
+  
+  p <- vector(mode = "numeric", length = t)
+  p[1] <- p1
+  D <- vector(mode = "numeric", length = t)
+  D[1] <- a + b*p[1]
+  S <- vector(mode = "numeric", length = t)
+  S[1] <- a1 + b1*p0
+  
+  for (i in 1:t) {
+    p[i+1] <- (b1/b)*p[i] + (a1 - a)/b
+    D[i+1] <- a + b*p[i+1]
+    S[i+1] <- a1 + b1*p[i]
+  }
+  
+  cobweb <- cbind(p, D, S)
+  colnames(cobweb) <- c("Preço", "Demanda", "Oferta")
+  
+  return(cobweb)
+  
+}
+```
+
+```{r}
+# Exemplo
+cobweb(a = a, b = b, a1 = a1, b1 = b1, p0 = p0, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Ajustando o gráfico:
+
+```{r}
+# Exemplo
+cobweb(a = a, b = b, a1 = a1, b1 = b1, p0 = p0, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+    ggtitle("Modelo Cobweb") + 
+    xlab("t") +
+    ylab("") +
+    theme_hc() +
+    theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+          plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+          legend.position = "top") +
+    scale_colour_discrete("") +
+    scale_x_continuous(breaks = seq(from = 0, to = 20, by = 2)) +
+    scale_y_continuous(breaks = seq(from = -1, to = 1, by = 0.2))
+```
+
+No gráfico com as três séries juntas, como a demanda e a oferta são iguais (pressuposto do modelo), elas se sobepõem.
+
+
+## Expectativas Adaptativas
+
+Neste caso, como já visto, realizamos um refinamento do modelo anterior. Os produtores têm uma expectativa de preço $p^e$, a partir da qual determinam os seus níveis de produção:
+
+$$
+S_t = a_1 + b_1 \times p_t^e
+$$
+
+Estas expectativas são ajustadas a cada período de acordo com a discrepância entre o valor observado (realizado) e o valor esperado, com regra de variação dada por:
+
+$$
+p_t^e = \beta p_{t-1} + (1 - \beta) p_{t-1}^e 
+$$
+
+Vimos que a solução analítica para $p^e_t$ não é arbitrária. Mas, podemos analisar a dinâmica o modelo por simulação, contemplando assim, a todas as variáveis na análise numérica.
+
+PAra implementar esse modelo, basta adicionarmos essa equação à função `cobweb` que ja havíamos criado (além de modificar a equação do preço):
+
+```{r}
+expec_adap <- function(a, b, a1, b1, p0, pe0, beta, t) {
+  
+  pe <- vector(mode = "numeric", length = t)
+  pe[1] <- pe0
+  
+  p1 <- (1 + beta*(b1/b - 1))*p0 + (a1 - a)*beta/b
+  
+  p <- vector(mode = "numeric", length = t)
+  p[1] <- p1
+  D <- vector(mode = "numeric", length = t)
+  D[1] <- a + b*p[1]
+  S <- vector(mode = "numeric", length = t)
+  S[1] <- a1 + b1*p0
+  
+  for (i in 1:t) {
+    p[i+1] <- (1 + beta*(b1/b - 1))*p[i] + (a1 - a)*beta/b
+    pe[i+1] <- beta*p[i] + (1-beta)*pe[i]
+    D[i+1] <- a + b*p[i+1]
+    S[i+1] <- a1 + b1*pe[i+1]
+  }
+  
+  expec_adap <- cbind(p, pe, D, S)
+  colnames(expec_adap) <- c("Preço", "Exp Preço", "Demanda", "Oferta")
+  
+  return(expec_adap)
+  
+}
+```
+
+
+Vejamos um exemplo com os seguintes parâmetros:
+
+```{r}
+a <- 0.2
+b <- -1
+a1 <- 0.1
+b1 <- 0.5
+p0 <- 2
+t <- 10
+pe0 <- 3
+beta <- 0.6
+```
+
+```{r}
+# Exemplo
+expec_adap(a = a, b = b, a1 = a1, b1 = b1, p0 = p0, pe0 = pe0, beta = beta, t = t) %>%
+  ts() %>%
+  autoplot()
+```
+
+Ajustando o gráfico:
+
+```{r}
+expec_adap(a = a, b = b, a1 = a1, b1 = b1, p0 = p0, pe0 = pe0, beta = beta, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+    ggtitle("Exepctativas Adaptativas") + 
+    xlab("t") +
+    ylab("") +
+    theme_hc() +
+    theme(plot.title = element_text(size = 15, hjust = 0.5, colour = "black"),
+          plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+          legend.position = "top") +
+    scale_colour_discrete("") +
+    scale_x_continuous(breaks = seq(from = 0, to = t, by = 1)) +
+    scale_y_continuous(breaks = seq(from = -1, to = 3, by = 0.5))
+```
+
+## Exercícios
+
+**1.**
+
+Simule o modelo Cobweb considerando o preço normal. Pode por exemplo, testar os valores dos exercícios numéricos do Shone e do Gandolfo.
+
+
+Como, nesse modelo, o $a_0$ é representado por $- \frac{b_1}{b}$, essa fração precisa ser menor, em módulo, que 1, para que o sistema não seja explosivo:
+
+```{r}
+cobweb(a = 2, b = -2, a1 = 1, b1 = 1.8, p0 = 4, t = 50) %>%
+  ts() %>%
+  autoplot(facets = F)
+```
+
+```{r}
+cobweb(a = 2, b = -2, a1 = 1, b1 = 2, p0 = 4, t = 50) %>%
+  ts() %>%
+  autoplot(facets = F)
+```
+
+```{r}
+cobweb(a = 2, b = -2, a1 = 1, b1 = 2.2, p0 = 4, t = 50) %>%
+  ts() %>%
+  autoplot(facets = F)
+```
+
+**2.**
+
+Se sugere analisar as simulações com outros conjuntos de parâmetros e inicializações.
+
+
+
+

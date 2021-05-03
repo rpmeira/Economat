@@ -2073,9 +2073,21 @@ code span.wa { color: #da4453; } /* Warning */
 <a href="index.html" class="title">Economat</a>
 </div>
 <div class="nav-right">
-<a href="index.html">Inicio</a>
+<a href="jdv.html">Jogo da Vida</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Aulas
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
 <a href="about.html">Algelin</a>
 <a href="eqdiff.html">Eq. Diff</a>
+<a href="cobweb.html">Cobweb</a>
+<a href="ordem2.html">Eq. Ordem 2</a>
+<a href="ordemsup.html">Ordem Superior</a>
+</div>
+</div>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2195,7 +2207,7 @@ d-article div.sourceCode {
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>vetor2</span>
 </code></pre>
 </div>
-<pre><code>[1]  9.320453 10.097157 14.757383  7.184516  7.767044  8.543748</code></pre>
+<pre><code>[1] 10.550049 11.429220 16.704245  8.132330  8.791708  9.670879</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -3007,54 +3019,54 @@ row: 3
 <span class='va'>A</span> <span class='op'>*</span> <span class='va'>B</span>
 </code></pre>
 </div>
-<pre><code>             [,1]       [,2]         [,3]       [,4]         [,5]
- [1,]  0.39831263  1.7798120  0.092843792 -1.2563811  0.043976992
- [2,] -1.53021070 -0.9788685  3.601725096 -1.5358201 -0.462123996
- [3,]  0.01848743  1.5531496 -0.237410958  0.3825196 -0.086815112
- [4,] -2.19057717 -0.3017758 -0.268826573 -1.8618520  1.150089367
- [5,] -0.39750301  1.6456487  0.834745426 -0.4904471  0.695074470
- [6,]  0.58798671  0.9529728  0.733224058  1.4249163  2.379604172
- [7,] -0.10809096  0.9087442  0.243718451  2.0177178  0.002188265
- [8,]  1.88721248  1.9123628  0.238953378 -0.2289470 -1.367161450
- [9,] -0.37531843 -2.1389797  1.574300738 -3.0068767 -1.839605990
-[10,]  2.21851333 -0.1707133 -0.001016078 -1.9710285 -0.005661734
-            [,6]        [,7]       [,8]       [,9]       [,10]
- [1,]  0.7991707 -0.32899323  0.3309628 -1.8568167 -0.31681375
- [2,]  0.1587375  0.67267357 -0.7255012  0.1107379 -1.47895205
- [3,]  1.3990216 -0.04301500  2.4446202 -0.2631944  2.25700613
- [4,] -2.1539200  1.06151263 -0.3678820  0.4411630 -0.43073626
- [5,]  0.1383386 -0.61626106 -0.1426254  1.2093622  0.06210132
- [6,]  0.0191145 -0.03534108  1.1885916  2.2404155 -0.16310513
- [7,] -2.3012246  0.10557369 -0.5116712  0.2094723  0.24056896
- [8,]  0.3794164  0.12919783 -0.8692364 -1.2313721  2.96512730
- [9,]  0.6358050 -2.77817583 -0.7134866  0.9981540  2.21934857
-[10,]  2.3554203  2.68917705  0.8253227 -1.4261646  0.09084630</code></pre>
+<pre><code>             [,1]         [,2]       [,3]        [,4]       [,5]
+ [1,]  1.97685095  2.637793067 -0.1709097  0.77949438 -0.1697666
+ [2,] -0.27957421  0.163442634  2.3056332  0.39816074  0.8622028
+ [3,]  2.32782828 -0.001585787 -0.7693069 -1.48674814  1.4287202
+ [4,]  0.01319151 -0.924124477  0.8347153 -0.05427304 -0.3990050
+ [5,] -2.58068636 -3.156491718  1.8824704  0.39304926  0.9149455
+ [6,] -0.06542615  1.136464062  1.2023916 -2.39086291 -0.4302586
+ [7,] -0.41334401 -0.140952416 -0.1938012 -0.14818355 -0.1502110
+ [8,]  2.59133145  1.129510073 -1.1600341 -2.03264067  0.5551561
+ [9,] -0.19974760 -2.491981271  1.3681220 -1.81997923  1.0540119
+[10,] -1.68804556  0.142704016  0.1503112  2.59047668  1.9495745
+             [,6]        [,7]        [,8]        [,9]       [,10]
+ [1,]  0.35726527  0.54479195  0.71045144  0.12093579 -0.50527050
+ [2,] -1.70212893  0.87925324 -0.11567527 -2.30056025  0.08120681
+ [3,]  0.61579454 -1.40885920  0.37523183 -2.04403695 -1.86772383
+ [4,]  0.13935082 -0.49236688  0.24843597  1.10264483  3.58891104
+ [5,]  2.56047043 -0.04537879  0.94609823  0.84502330 -1.97346292
+ [6,] -1.61439864  0.02736107  1.18698717 -0.26236584 -2.35061698
+ [7,]  1.38535557 -1.47917011  0.03604596 -0.58221675 -1.91172208
+ [8,] -2.43197108  2.27754031  0.79457889 -1.92111865 -0.20142443
+ [9,] -2.74954715 -2.20195595  0.97673882 -0.06741577  0.84320441
+[10,] -0.02845352  2.05010340 -0.04993779 -0.76210496  0.68938646</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A</span> <span class='op'>%*%</span> <span class='va'>B</span>
 </code></pre>
 </div>
-<pre><code>             [,1]       [,2]      [,3]        [,4]       [,5]
- [1,] -3.52842225 -0.9133331 -5.320028 -13.3210657  1.3403246
- [2,] -6.87658150 -8.6912923 -2.646651   6.9346613 -1.3861076
- [3,] -7.51446126 -2.2222545 -7.005367  -1.7961486 -4.5311159
- [4,] -0.01434075 -4.0536313  2.326817  -4.9087545  2.8171919
- [5,]  2.17858125 -3.3051049 -1.528834   3.3045668 -1.5863339
- [6,] -3.90553895 -1.5657043 -3.497143  -4.6598571  0.6603700
- [7,]  4.07344891  2.7544587  6.638743  -0.5207372  4.5047730
- [8,] -2.94698864  3.9818123 -7.550529   6.2471058 -3.0298718
- [9,]  4.30581669 -2.8805128  6.180285  10.7981045 -0.8008744
-[10,]  4.15282395 -7.6771348  8.867502   1.3770958  8.3349323
-            [,6]       [,7]       [,8]        [,9]      [,10]
- [1,]  0.3545271  0.7551179  8.4665937   3.1761579 -6.1654832
- [2,]  6.5645010  7.0779181  5.1304388 -13.5394422  0.8717081
- [3,]  7.1187340  4.8491998  6.4144212  -8.7451109 -0.1470304
- [4,] -5.1939230 -1.3056269  0.1871272   3.4293164  0.4617634
- [5,] -0.9206974 -4.8905252  1.0994509  -0.4897312  1.4542101
- [6,]  0.9566147 -1.4260500  4.9730991   0.7632391  0.3334091
- [7,] -3.9371246  1.9626560 -1.7753653   3.9940700  1.3558968
- [8,]  2.1585656  2.4712673 -8.4290507  -5.1708361 -1.3056229
- [9,] -2.3797791 -0.8410147 -4.5704480 -10.4570262  5.2900346
-[10,] -5.5069507  6.2269903  2.7194325   4.5565011 -0.6117880</code></pre>
+<pre><code>            [,1]       [,2]       [,3]        [,4]       [,5]
+ [1,]  0.9938655 -3.7309864  4.5522411  1.42000159  3.7608506
+ [2,] -1.4184994  0.7751247 -1.3288096 -2.52155881 -0.8933873
+ [3,]  1.0392495  4.1453159  2.6158826 -4.92927853 -6.7984345
+ [4,]  1.4520863 -2.1428715  2.0579063  0.10890153  8.4537281
+ [5,] -6.0320999  7.9910496 -0.3209918  0.08380835  0.7225981
+ [6,] -5.1239885  1.1136269  1.9894389 -3.21518739  0.0225107
+ [7,] -2.7391669  3.2879656 -0.4839578 -2.77454947 -5.6744185
+ [8,]  7.9646920 -0.5860431  2.7216186  6.98664010 -7.1396897
+ [9,] -3.0590553  2.9376885  1.2365207 -4.94641999 -1.4093955
+[10,]  3.2322680 -3.6443159 -1.7754987  5.30872208  4.9346859
+             [,6]       [,7]       [,8]       [,9]      [,10]
+ [1,]  5.95629065  3.5948044 -4.3321155  0.4266339 -0.7405074
+ [2,]  5.12318341  1.7659080  2.1793587  3.0943642  3.3751705
+ [3,] -0.03959789  6.7095507  0.9329672  8.2343062  0.8640957
+ [4,]  3.18427174 -0.4438895 -1.3685704 -4.6234702 -3.4690237
+ [5,]  0.70768109 -1.8240165 -9.4876407 -8.2360025 -2.6058889
+ [6,]  2.76104601  4.2737939 -3.4401771 -2.5917601 -5.1458223
+ [7,]  1.53290217  5.1794165 -2.9718640  3.0624102  1.1503788
+ [8,] -3.32543937  2.7871569 -2.6589193  8.6706184  8.9524173
+ [9,]  3.46481964  8.3290385 -3.5026001  0.3530313 -1.2923100
+[10,]  0.80393092 -4.6363067 -0.8109415 -3.4473722  1.6077858</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>C</span> <span class='op'>=</span> <span class='va'>A</span> <span class='op'>%*%</span> <span class='va'>B</span>
 <span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>C</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>A</span> <span class='op'>%*%</span> <span class='va'>B</span><span class='op'>)</span>
@@ -3223,33 +3235,33 @@ $vectors
 <span class='va'>notas</span>
 </code></pre>
 </div>
-<pre><code>  [1] 508.5161 512.4819 462.5406 493.3440 540.5563 489.1314 492.4846
-  [8] 513.3362 478.9894 511.3907 533.0762 526.6487 474.3280 498.0020
- [15] 543.7234 453.9966 480.2205 505.1516 488.1915 492.3320 492.9752
- [22] 476.9968 546.0724 491.3769 477.1136 502.3489 478.4946 475.9336
- [29] 526.5553 560.5395 499.4660 472.1483 469.4766 493.2332 497.7766
- [36] 453.9527 483.3606 490.2269 491.9194 511.2450 481.5268 534.2467
- [43] 524.0561 507.3827 494.7971 506.4502 507.7488 484.8842 520.0724
- [50] 496.9047 534.6462 503.7906 521.2470 497.7723 487.4163 477.8998
- [57] 515.0203 492.8200 504.3510 495.5463 516.2180 500.0520 480.2098
- [64] 467.2513 499.8623 524.7926 506.6221 472.2973 491.8054 515.2148
- [71] 489.5778 510.6856 488.8224 518.3622 491.3570 501.7972 503.7050
- [78] 493.3520 493.2637 494.4771 523.4170 498.2444 502.8270 501.2262
- [85] 526.6827 484.3219 498.0222 505.9754 515.2530 526.0936 514.0274
- [92] 526.7409 481.5296 470.6381 516.9061 503.3089 534.7859 499.5337
- [99] 457.7609 521.3797</code></pre>
+<pre><code>  [1] 498.0368 496.8187 517.4338 498.9388 507.2851 475.8379 536.3180
+  [8] 535.7041 508.4909 508.5773 500.7933 519.3354 490.1823 489.2373
+ [15] 497.9161 526.6797 515.1088 498.1005 473.6683 501.9816 482.8166
+ [22] 498.9245 512.4836 520.1285 488.6387 460.8951 503.7758 505.5996
+ [29] 514.9753 482.9350 491.8421 469.1067 479.1165 487.6381 511.1203
+ [36] 495.5932 531.2411 497.6885 502.3628 534.7925 524.8541 506.6856
+ [43] 498.4812 515.7652 565.1426 484.7626 531.6333 501.9248 491.7815
+ [50] 519.5835 522.5611 468.5922 488.2129 516.9791 485.5881 505.5929
+ [57] 475.3099 516.3805 478.3660 487.5648 512.2753 486.6493 499.8239
+ [64] 508.3172 506.8702 515.0624 481.8286 506.2760 505.7845 475.9142
+ [71] 490.6238 499.0099 511.6090 533.3013 534.9954 483.0735 521.0264
+ [78] 495.8033 491.5243 473.0262 511.4558 483.6711 482.6113 537.2641
+ [85] 496.8289 486.4473 487.5622 508.8091 492.1757 502.8958 496.8729
+ [92] 465.0350 496.9658 501.3405 519.1321 467.6980 509.8034 482.6991
+ [99] 512.4218 526.3270</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span>test <span class='op'>=</span> <span class='va'>notas</span> <span class='op'>&gt;</span> <span class='fl'>500</span>, yes <span class='op'>=</span> <span class='st'>"A"</span>, no <span class='op'>=</span> <span class='st'>"R"</span><span class='op'>)</span>
 <span class='va'>resultado</span>
 </code></pre>
 </div>
-<pre><code>  [1] &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot;
- [17] &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot;
- [33] &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot;
- [49] &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot;
- [65] &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot;
- [81] &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot;
- [97] &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot;</code></pre>
+<pre><code>  [1] &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot;
+ [17] &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot;
+ [33] &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot;
+ [49] &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot;
+ [65] &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot;
+ [81] &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot; &quot;R&quot;
+ [97] &quot;A&quot; &quot;R&quot; &quot;A&quot; &quot;A&quot;</code></pre>
 </div>
 <h4 id="exercício-3">Exercício 3</h4>
 <p>Elabore uma função que calcule o cofator Aij de uma matriz A de ordem n.</p>
@@ -3399,17 +3411,17 @@ Sim. Pois <span class="math inline">\(det(A) \ne 0\)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>[1] 9404234994</code></pre>
+<pre><code>[1] 30536081138</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>B</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>[1] 12540850890</code></pre>
+<pre><code>[1] -19352573558</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>A</span> <span class='op'>+</span> <span class='va'>B</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>[1] 250703837462</code></pre>
+<pre><code>[1] -5.874197e+12</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>A</span> <span class='op'>+</span> <span class='va'>B</span><span class='op'>)</span> <span class='op'>==</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/det.html'>det</a></span><span class='op'>(</span><span class='va'>B</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
