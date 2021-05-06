@@ -515,9 +515,9 @@ orbita_parc_complx <- function(R, theta, t) {
 }
 ```
 
+Porque não mostrar o gráfico com as duas raízes e a soma delas, igual para os outros casos? Porque para isso seria necessário entrar no campo do complexos, o que foge do campo de interesse das análises econômicas.
 
 
-**Pq só usou 1 das raízes? Esse último gráfico diz respeito ao comportamento geral da série ou ao comportamento dessa raíz em específico? Pq nao mostrou o gráfico com as duas raizes e a soma delas, igual para os outros casos? cOmo calcular o A1 e o A2?**
 
 
 

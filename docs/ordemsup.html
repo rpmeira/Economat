@@ -2116,7 +2116,17 @@ Aulas
 <ul>
 <li><a href="#equações-de-ordem-superior">Equações de Ordem Superior</a>
 <ul>
-<li><a href="#equação-de-ordem-3">Equação de Ordem 3</a></li>
+<li><a href="#exercício-1">Exercício 1</a></li>
+<li><a href="#exercício-2">Exercício 2</a></li>
+</ul></li>
+<li><a href="#o-modelo-de-hansen-samuelson">O Modelo de Hansen-Samuelson</a>
+<ul>
+<li><a href="#análise-das-raízes">Análise das raízes</a></li>
+<li><a href="#análise-qualitativa">Análise qualitativa</a></li>
+</ul></li>
+<li><a href="#o-modelo-de-hicks">O modelo de Hicks</a>
+<ul>
+<li><a href="#análise-de-estabilidade">Análise de estabilidade</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2135,11 +2145,12 @@ d-article p code {
 d-article div.sourceCode {
   overflow: auto !important;
 }
+
 </style>
 </div>
 <h2 id="equações-de-ordem-superior">Equações de Ordem Superior</h2>
 <p>Como já vimos, a equação linear em diferença de ordem <em>n</em> terá a sua solução analítica e estabilidade dependentes das <em>n</em> raízes do seu polinômio característico. Ainda, a condição do módulo de todas as raízes ser menor que a unidade continua a ser necessária para garantir a estabilidade da série no longo prazo.</p>
-<h3 id="equação-de-ordem-3">Equação de Ordem 3</h3>
+<h3 id="exercício-1">Exercício 1</h3>
 <p>Seja a equação de ordem 3, com <span class="math inline">\(\small y_0 = 400\)</span>, <span class="math inline">\(\small y_1 = 420\)</span>, <span class="math inline">\(\small y_2 = 450\)</span>:</p>
 <p><span class="math display">\[
 1y_{t+3} -4y_{t+2} +4.8y_{t+1} -1.6y_{t+0} = 100
@@ -2160,10 +2171,10 @@ d-article div.sourceCode {
 </code></pre>
 </div>
 </div>
-<p>Para simular essa série vamos, antes, construir a função de órtiba de terceira ordem:</p>
+<p>Para simular essa série vamos, antes, construir a função de órbita de terceira ordem:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita de cada Eq em diferença de ordem 2</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita de cada Eq em diferença de ordem 3</span>
 <span class='va'>orbita_3o</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>a2</span>, <span class='va'>a1</span>, <span class='va'>a0</span>, <span class='va'>y0</span>, <span class='va'>y1</span>, <span class='va'>y2</span>, <span class='va'>g</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
   
   <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
@@ -2193,7 +2204,7 @@ d-article div.sourceCode {
 </div>
 <p><img src="ordemsup_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
-<p>Analisando as raízes:</p>
+<p>Analisando as raízes (do polinômio característico):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Vetor de coeficientes do polinomio </span>
@@ -2206,7 +2217,7 @@ d-article div.sourceCode {
 <pre><code>[1] 0.553+0i 1.447+0i 2.000+0i</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># A parte real das raizes</span>
-<span class='va'>lambda</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Re</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>lambda</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Re</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>)</span>
 <span class='va'>lambda</span>
 </code></pre>
 </div>
@@ -2215,7 +2226,7 @@ d-article div.sourceCode {
 <p>O <em>steady state</em> é dado por:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yp</span> <span class='op'>&lt;-</span> <span class='va'>g</span><span class='op'>/</span><span class='op'>(</span><span class='va'>a0</span><span class='op'>+</span><span class='va'>a1</span><span class='op'>+</span><span class='va'>a2</span><span class='op'>+</span><span class='va'>a3</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>yp</span> <span class='op'>&lt;-</span> <span class='va'>g</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>a0</span> <span class='op'>+</span> <span class='va'>a1</span> <span class='op'>+</span> <span class='va'>a2</span> <span class='op'>+</span> <span class='va'>a3</span><span class='op'>)</span>
 <span class='va'>yp</span>
 </code></pre>
 </div>
@@ -2229,21 +2240,69 @@ d-article div.sourceCode {
 &amp; y_t = A_1(0.553)^t + A_2(1.447)^t + A_3(2.000)^t + 500
 \end{align}
 \]</span></p>
-<p>e com as três condições iniciais, determinamos as constantes arbitrárias A1, A2 e A3, por meio do sistema determinado resultante da substituição de y0, y1, y2 para t = 0, 1, 2 na solução explícita:</p>
+<p>onde os <span class="math inline">\(\small \lambda_i\)</span> são as raízes. Com as três condições iniciais, determinamos as constantes arbitrárias A1, A2 e A3, por meio do sistema determinado resultante da substituição de y0, y1, y2 para t = 0, 1, 2 na solução explícita:</p>
+<p><span class="math display">\[
+\begin{cases}
+y_0 = A_1(0.553)^0+A_2(1.447)^0+A_3(2.000)^0 + 500 \\
+y_1 = A_1(0.553)^1+A_2(1.447)^1+A_3(2.000)^1 + 500 \\
+y_2 = A_1(0.553)^2+A_2(1.447)^2+A_3(2.000)^2 + 500 \\
+\end{cases}
+\]</span></p>
+<p>ou</p>
+<p><span class="math display">\[
+\begin{equation}
+  \begin{bmatrix}
+    y_0 \\
+    y_1 \\
+    y_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    A_3
+  \end{bmatrix}
+  \cdot
+ \begin{bmatrix}
+    \lambda_1^0 &amp; \lambda_2^0 &amp; \lambda_3^0  \\
+    \lambda_1^1 &amp; \lambda_2^1 &amp; \lambda_3^1  \\
+    \lambda_1^2 &amp; \lambda_2^2 &amp; \lambda_3^2  \\
+  \end{bmatrix}
+\end{equation}
+\]</span></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Para achar A1, A2 e A3</span>
 <span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>lambda</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>0</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>1</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>2</span>, 
        <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>0</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>1</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>2</span>,
        <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>0</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>1</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>v</span>, ncol <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='co'># L: matrix com os lambdas</span>
+<span class='va'>L</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>v</span>, ncol <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='co'># B: vetor com as condições inicias</span>
 <span class='va'>B</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>y0</span>, <span class='va'>y1</span>, <span class='va'>y2</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>yp</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>B</span><span class='op'>)</span>
+<span class='co'># X: Vetor com os A_i </span>
+<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span><span class='op'>(</span><span class='va'>L</span>, <span class='va'>B</span><span class='op'>)</span>
 <span class='va'>X</span>
 </code></pre>
 </div>
 <pre><code>[1] -49.19536 -88.27182  37.46718</code></pre>
 </div>
+<p>Portanto:</p>
+<p><span class="math display">\[
+\begin{equation}
+  \begin{bmatrix}
+    A_1 \\
+    A_2 \\
+    A_3
+  \end{bmatrix}
+    =
+  \begin{bmatrix}
+    -49.19 \\
+    -88.27 \\
+    37.46
+  \end{bmatrix}
+\end{equation}
+\]</span></p>
 <p>Simulando os três componentes de forma independente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2277,12 +2336,691 @@ d-article div.sourceCode {
   <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5000</span>, <span class='fl'>40000</span>, <span class='fl'>5000</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5000</span>, <span class='fl'>40000</span>, <span class='fl'>5000</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
 </code></pre>
 </div>
 <p><img src="ordemsup_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="exercício-2">Exercício 2</h3>
+<p>Seja a seguinte equação em diferença (também de ordem 3), com <span class="math inline">\(\small y_0 = 0\)</span>, <span class="math inline">\(\small y_1 = 2\)</span>, <span class="math inline">\(\small y_2 = 4\)</span>:</p>
+<p><span class="math display">\[
+1y_{t+3} - 1y_{t+2} - 2y_{t+1} +2y_{t+0} = 0 
+\]</span></p>
+<p>Temos que:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>a3</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>a2</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>1</span>
+<span class='va'>a1</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>2</span>
+<span class='va'>a0</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
+<span class='va'>y0</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='va'>y1</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
+<span class='va'>y2</span> <span class='op'>&lt;-</span> <span class='fl'>4</span>
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+</code></pre>
+</div>
+</div>
+<p>Como já possuímos a função de órbita de terceira ordem, basta usá-la:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_3o</span><span class='op'>(</span>a2 <span class='op'>=</span> <span class='va'>a2</span>, a1 <span class='op'>=</span> <span class='va'>a1</span>, a0 <span class='op'>=</span> <span class='va'>a0</span>, y0 <span class='op'>=</span> <span class='va'>y0</span>, y1 <span class='op'>=</span> <span class='va'>y1</span>, y2 <span class='op'>=</span> <span class='va'>y2</span>, g <span class='op'>=</span> <span class='va'>g</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+</div>
+<p>O gráfico nos leva a inferir que temos novamente uma série explosiva e sem oscilações nem ciclos, o que indica a presença de raízes reais; e ao menos uma raíz unitária (maior que 1).</p>
+<p>Analisando as raízes (do polinômio característico):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Vetor de coeficientes do polinomio </span>
+<span class='va'>coefs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>a0</span>, <span class='va'>a1</span>, <span class='va'>a2</span>, <span class='va'>a3</span><span class='op'>)</span>
+<span class='co'># Raizes</span>
+<span class='va'>roots</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/polyroot.html'>polyroot</a></span><span class='op'>(</span><span class='va'>coefs</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>roots</span>
+</code></pre>
+</div>
+<pre><code>[1]  1.000+0i -1.414+0i  1.414+0i</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># A parte real das raizes</span>
+<span class='va'>lambda</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Re</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>)</span>
+<span class='va'>lambda</span>
+</code></pre>
+</div>
+<pre><code>[1]  1.000 -1.414  1.414</code></pre>
+</div>
+<p>Note que temos uma raiz com módulo unitário e outras duas com módulo maior que a unidade. Além disso, temos uma raiz negativa, o que produziria oscilações (e explosivas). Mas esas oscilações não aparecem no gráfico. Haveria uma explicação?</p>
+<p>Como a equação é homogêna (<span class="math inline">\(\small g(t) = 0\)</span>), o <em>steady state</em> é 0, portanto:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Para achar A1, A2 e A3</span>
+<span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>lambda</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>0</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>1</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>2</span>, 
+       <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>0</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>1</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>2</span>,
+       <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>0</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>1</span>, <span class='va'>lambda</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='co'># L: matrix com os lambdas</span>
+<span class='va'>L</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>v</span>, ncol <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='co'># B: vetor com as condições inicias</span>
+<span class='va'>B</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>y0</span>, <span class='va'>y1</span>, <span class='va'>y2</span><span class='op'>)</span> <span class='co'># yp = 0 (steady state)</span>
+<span class='co'># X: Vetor com os A_i </span>
+<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span><span class='op'>(</span><span class='va'>L</span>, <span class='va'>B</span><span class='op'>)</span>
+<span class='va'>X</span>
+</code></pre>
+</div>
+<pre><code>[1] -4.0024175 -0.1212868  4.1237043</code></pre>
+</div>
+<p>Para simular os três componentes de forma independente, usamos a função <code>orbita_parc_3</code>, que construimos anteriormente:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_parc_3</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, lambda <span class='op'>=</span> <span class='va'>lambda</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>20</span>, <span class='fl'>130</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<p>Vemos que a raíz 2 de fato oscila. Contudo, como a série é explosiva, esse comportamento é pouco identificável no comportamento da série.</p>
+<h2 id="o-modelo-de-hansen-samuelson">O Modelo de Hansen-Samuelson</h2>
+<p>O Modelo econômico de Hansen-Samuelson é dado pelas equações:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp; C_t = bY_{t-1} \\
+&amp; I_t = k(C_t-C_{t-1}) \\
+&amp; G_t = G&gt;0 \\
+&amp; Y_t = C_t + I_t + G_t
+\end{align}
+\]</span></p>
+<p>onde,</p>
+<ul>
+<li><span class="math inline">\(\small b \in (0,1)\)</span>: propensão marginal a consumir</li>
+<li><span class="math inline">\(\small k\)</span>: coeficiente de aceleração do investimento</li>
+<li><span class="math inline">\(\small G\)</span>: gastos públicos (consumo autônomo)</li>
+</ul>
+<p>Podemos analisar o comportamento da renda nacional e por substituição, do consumo das famílias <span class="math inline">\(\small C_t\)</span> e dos investimentos <span class="math inline">\(\small I_t\)</span> nessa economia hipotética.</p>
+<p>Primeiramente, definimos os parâmetros (como dentre as equações acima aparece um termo <span class="math inline">\(\small Y_{t-1}\)</span> e um <span class="math inline">\(\small C_{t-1}\)</span>, esses devem ser fornecidos para a inicialização do modelo):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>0.9</span>
+<span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fl'>0.7</span>
+<span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
+<span class='va'>Y0</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>C0</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
+</code></pre>
+</div>
+</div>
+<p>Sabemos que esses são os parâmetros que servem de <code>input</code> para a função que vamos construir para analisar esse modelo que, por sua vez, retorna os valores das séries para <span class="math inline">\(\small C_t\)</span>, <span class="math inline">\(\small I_t\)</span> e <span class="math inline">\(\small Y_t\)</span>. Adicionalmente, construiremos, também, uma série para os valores de <span class="math inline">\(\small I = I_{ind} + G\)</span> (na função a seguir, <code>Iind</code> corresponde ao <span class="math inline">\(\small I_t\)</span> nas equações do modelo acima):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita do modelo de Hansen-Samuelson</span>
+<span class='va'>orbita_HS</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>b</span>, <span class='va'>k</span>, <span class='va'>G</span>, <span class='va'>Y0</span>, <span class='va'>C0</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>C</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>I</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Iind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  
+  <span class='va'>C</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>Y0</span>
+  <span class='va'>Iind</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>k</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>C</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>C0</span><span class='op'>)</span>
+  <span class='va'>Y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>C</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>Iind</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>G</span>
+
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>2</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>C</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>Y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>
+    <span class='va'>Iind</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>k</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>C</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>C</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+    <span class='va'>Y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>C</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>Iind</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>G</span>
+    <span class='va'>I</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>Iind</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>G</span>
+  <span class='op'>}</span>
+  
+  <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>C</span>, <span class='va'>I</span>, <span class='va'>Iind</span>, <span class='va'>Y</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_HS</span><span class='op'>(</span>b <span class='op'>=</span> <span class='va'>b</span>, k <span class='op'>=</span> <span class='va'>k</span>, G <span class='op'>=</span> <span class='va'>G</span>, Y0 <span class='op'>=</span> <span class='va'>Y0</span>, C0 <span class='op'>=</span> <span class='va'>C0</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>110</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+</div>
+<p>Observando o gráfico e a evolução as séries podemos inferir um padrão estável. Para validar tal inferência, podemos analisar o estado estacionário, em que <span class="math inline">\(\small Y_t = Y_{t−1}\)</span> e portanto, se espera que que <span class="math inline">\(\small C_t = C_{t−1}\)</span>, <span class="math inline">\(\small I_t = I_{t−1}\)</span> etc. Olhando novamente as equações do sistema no longo prazo:</p>
+<p><span class="math display">\[
+\begin{cases}
+C^* = b\cdot Y^* \\
+I_{ind}^* = 0 \\
+I^* = G \\
+Y^* = C^* + I^*
+\end{cases}
+\]</span></p>
+<p>Substituindo <span class="math inline">\(\small C^*\)</span> e <span class="math inline">\(\small I^*\)</span> em <span class="math inline">\(\small Y^*\)</span>:</p>
+<p><span class="math display">\[
+Y^* = b \cdot Y^* + G
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+Y^* = \frac{G}{1-b}
+\]</span></p>
+<p>Substituindo os valores atribuídos aos parâmetros na simulação, temos que:</p>
+<p><span class="math display">\[
+\begin{cases}
+Y^* = 100 \\
+I^* = 10 \\
+C^* = 90
+\end{cases}
+\]</span></p>
+<p>que são justamente os valores para os quais as séries convergiram. Portanto, podemos afirmar que se trata de um modelo estável.</p>
+<h3 id="análise-das-raízes">Análise das raízes</h3>
+<p>Manipulando as equações que definem o modelo de Hansen-Samuelson, obtemos uma equação em diferença de ordem 2 em <span class="math inline">\(\small Y_t\)</span>, que como já vimos, deve produzir uma série com comportamento convergente no longo prazo a <span class="math inline">\(\small Y^∗ = 100\)</span> (o atrator):</p>
+<p><span class="math display">\[
+Y_t - b\cdot (k+1)\cdot Y_{t-1} + b \cdot k \cdot Y_{t-2} = G
+\]</span></p>
+<p>Para realizar a análise dinâmica, precisamos avaliar as raízes do polinômio característico:</p>
+<p><span class="math display">\[
+p(\lambda) = \lambda^2 + a_1\lambda + a_0 = 0
+\]</span></p>
+<p>onde,</p>
+<p><span class="math display">\[
+\begin{cases}
+a_2 = 1 \\
+a_1 = -b(k+1) \\
+a_0 = bk
+\end{cases}
+\]</span></p>
+<p>A análise qualitativa a partir dos coeficientes considera as três restrições (para que o sistema seja estável) a seguir:</p>
+<p><span class="math display">\[
+\begin{cases}
+ a_0 + a_1 +  1 &amp; &gt; 0 \\
+ a_0 - a_1 + 1 &amp; &gt; 0 \\
+ a_0 &amp; &lt; 1
+\end{cases}
+\]</span></p>
+<p>Antes de fazer essa análise qualitativa, entretanto, vamos analisar essas raízes de forma quantitativa, igual feito nos exercícios anteriores:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>a2</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>a1</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='va'>b</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>k</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>a0</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>k</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Vetor de coeficientes do polinomio </span>
+<span class='va'>coefs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>a0</span>, <span class='va'>a1</span>, <span class='va'>a2</span><span class='op'>)</span>
+<span class='va'>coefs</span>
+</code></pre>
+</div>
+<pre><code>[1]  0.63 -1.53  1.00</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Raizes</span>
+<span class='va'>roots</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/polyroot.html'>polyroot</a></span><span class='op'>(</span><span class='va'>coefs</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>roots</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.765+0.212i 0.765-0.212i</code></pre>
+</div>
+<p>Como as raízes apresentam componentes complexos, vamos calcular o módulo e o ângulo (só é preciso usar uma das raízes pois as raízes complexas sempre aparecem em conjuntos de 2 e essas possuem o mesmo módulo):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>R</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Mod</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>theta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Arg</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>R</span>, <span class='va'>theta</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>       [,1]
+R     0.794
+theta 0.270</code></pre>
+</div>
+<p>Como o módulo é menor que a unidade, as séries apresentam ciclos amortecidos (não explosivos).</p>
+<h3 id="análise-qualitativa">Análise qualitativa</h3>
+<p>Voltando, agora, à análise qualitativa das raízes, vamos ver se satisfazem as restrições apontadas. Relembrando que:</p>
+<ul>
+<li><span class="math inline">\(\small \Delta &gt; 0\)</span>: Raízes reais e diferentes</li>
+<li><span class="math inline">\(\small \Delta = 0\)</span>: Raízes reais e iguais</li>
+<li><span class="math inline">\(\small \Delta &lt; 0\)</span>: Raízes complexas</li>
+</ul>
+<p>Independente da natureza das raízes, a estabilidade é garantida quando as raízes não são maiores que a unidade.</p>
+<p>Porém, a partir do polinômio característico, é possível estabelecer condições de estabilidade para o caso de raízes reais a partir da análise dos coeficientes:</p>
+<ul>
+<li><span class="math inline">\(\small \Delta = 0 \implies a_0 &lt; 1\)</span></li>
+<li><span class="math inline">\(\small \Delta &gt; 0 \implies a_1-2 &lt; \pm \sqrt{\Delta} &lt; a_1+2\)</span>:
+<ul>
+<li><span class="math inline">\(a_0 &gt; a_1 -1\)</span></li>
+<li><span class="math inline">\(a_0 &gt; -a_1 -1\)</span></li>
+</ul></li>
+<li><span class="math inline">\(\small \Delta &lt; 0 \implies a_0 &lt; 1\)</span></li>
+</ul>
+<p>Juntando:</p>
+<p><span class="math display">\[
+\begin{equation}
+\begin{cases}
+ a_0 + a_1 +  1 &amp; &gt; 0 \\
+ a_0 - a_1 + 1 &amp; &gt; 0 \\
+ a_0 &amp; &lt; 1
+\end{cases}
+\end{equation}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>rest1</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='va'>a1</span> <span class='op'>+</span> <span class='va'>a0</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
+<span class='va'>rest2</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>-</span> <span class='va'>a1</span> <span class='op'>+</span> <span class='va'>a0</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
+<span class='va'>rest3</span> <span class='op'>&lt;-</span> <span class='va'>a0</span> <span class='op'>&lt;</span> <span class='fl'>1</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>rest1</span>, <span class='va'>rest2</span>, <span class='va'>rest3</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>     rest1 rest2 rest3
+[1,]  TRUE  TRUE  TRUE</code></pre>
+</div>
+<p>Como podemos ver, as três condições são atendidas.</p>
+<p>Porém, esse é o caso para os <code>b</code> e <code>k</code> definidos no início do exercício. Podemos analisar essas condições de forma geral, para quaisquer <code>b</code> e <code>k</code>. Como já mostrado:</p>
+<p><span class="math display">\[
+\begin{cases}
+a_2 = 1 \\
+a_1 = -b(k+1) \\
+a_0 = bk
+\end{cases}
+\]</span></p>
+<p>Juntando essas restrições e condições, temos que para o sistema ser estável:</p>
+<p><span class="math display">\[
+b &lt; \frac{1}{k}
+\]</span></p>
+<p>Do polinômio característico, temos que as raízes são tais que:</p>
+<p><span class="math display">\[
+\lambda_1, \lambda_2 = \frac{b(k+1)}{2} \pm \frac{\sqrt{\Delta}}{2}
+\]</span></p>
+<p>onde <span class="math inline">\(\small \Delta = b^2(k+1)^2 - 4bk\)</span>.</p>
+<p>Para identificar a características dinâmicas da renda, precisamos analisar <span class="math inline">\(\small \Delta\)</span>:</p>
+<p><span class="math display">\[
+\Delta = b^2(k+1)^2 - 4bk \gtreqqless 0
+\]</span></p>
+<p>isolando <code>b</code>:</p>
+<p><span class="math display">\[
+b \gtreqqless \frac{4k}{(k+1)^2}
+\]</span></p>
+<p>Assim, para analisar essas condições sobre <code>b</code>, podemos plotar as seguintes equações:</p>
+<p><span class="math display">\[
+\begin{cases}
+b = \frac{1}{k} \\
+b = \frac{4k}{(k+1)^2}
+\end{cases}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>func1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='va'>x</span>
+<span class='va'>func2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>(</span><span class='fl'>4</span> <span class='op'>*</span> <span class='va'>x</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>x</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.window.html'>xlim</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>4</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>xlab</span><span class='op'>(</span><span class='st'>"k"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.window.html'>ylim</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1.6</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ylab</span><span class='op'>(</span><span class='st'>"b"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Localização das raízes"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>stat_function</span><span class='op'>(</span>fun <span class='op'>=</span> <span class='va'>func1</span>, <span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"func1"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>stat_function</span><span class='op'>(</span>fun <span class='op'>=</span> <span class='va'>func2</span>, <span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='st'>"func2"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>1</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_vline</span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='fl'>1</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x <span class='op'>=</span> <span class='fl'>0</span>, y <span class='op'>=</span> <span class='fl'>0.9</span>, label <span class='op'>=</span> <span class='st'>"A"</span>, size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x <span class='op'>=</span> <span class='fl'>1.2</span>, y <span class='op'>=</span> <span class='fl'>0.5</span>, label <span class='op'>=</span> <span class='st'>"B"</span>, size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x <span class='op'>=</span> <span class='fl'>2.4</span>, y <span class='op'>=</span> <span class='fl'>0.7</span>, label <span class='op'>=</span> <span class='st'>"C"</span>, size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>annotate</span><span class='op'>(</span><span class='st'>"text"</span>, x <span class='op'>=</span> <span class='fl'>3.2</span>, y <span class='op'>=</span> <span class='fl'>0.9</span>, label <span class='op'>=</span> <span class='st'>"D"</span>, size <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1.6</span>, <span class='fl'>0.2</span><span class='op'>)</span>, limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1.6</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_manual</span><span class='op'>(</span><span class='st'>""</span>, values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>, <span class='st'>"blue"</span><span class='op'>)</span>, 
+                     labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/grDevices/plotmath.html'>frac</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='va'>k</span><span class='op'>)</span>,<span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/grDevices/plotmath.html'>frac</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>*</span><span class='va'>k</span>,<span class='op'>(</span><span class='va'>k</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>18</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span>, colour <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>,
+        legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> 
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-24-1.png" width="624" /></p>
+</div>
+<p>Como apontado no gráfico, há 4 regiões possíveis:</p>
+<ul>
+<li>A: <span class="math inline">\(\small b &lt; \frac{1}{k}\)</span> e <span class="math inline">\(\small b &gt; \frac{4k}{(1+k)^2}\)</span></li>
+<li>B: <span class="math inline">\(\small b &lt; \frac{1}{k}\)</span> e <span class="math inline">\(\small b &lt; \frac{4k}{(1+k)^2}\)</span></li>
+<li>C: <span class="math inline">\(\small b &gt; \frac{1}{k}\)</span> e <span class="math inline">\(\small b &lt; \frac{4k}{(1+k)^2}\)</span></li>
+<li>D: <span class="math inline">\(\small b &gt; \frac{1}{k}\)</span> e <span class="math inline">\(\small b &gt; \frac{4k}{(1+k)^2}\)</span></li>
+</ul>
+<p>Como havíamos dito, a primeira restrição para a estabilidade do sistema é que <span class="math inline">\(\small b &lt; \frac{1}{k}\)</span>, critério que apenas as regiões A e B atendem. Na região A, em que <span class="math inline">\(\small \Delta &gt; 0\)</span>, as condições de estabilidade são que <span class="math inline">\(\small a_0 &gt; a_1 - 1\)</span> e <span class="math inline">\(\small a_0 &gt; -a_1 - 1\)</span>. Na região B, em que <span class="math inline">\(\small \Delta &lt; 0\)</span>, a condição de estabilidade é que <span class="math inline">\(\small a_0 &lt; 1\)</span>.</p>
+<h2 id="o-modelo-de-hicks">O modelo de Hicks</h2>
+<p>O modelo de Hicks é uma alteração do modelo de Hansen-Samuelson (HS), e é dado pelas seguintes equações:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp; Y_t = C_t + I_t  \\
+&amp; C_t = bY_{t-1} \\
+&amp; I_t = I&#39;_t + I&#39;&#39;_t \\
+&amp; I&#39;_t = k(Y_{t-1}-Y_{t-2}) \\
+&amp; I&#39;&#39;_t = A_0(1+g)^2 \\
+\end{align}
+\]</span></p>
+<p>onde,</p>
+<ul>
+<li><span class="math inline">\(\small I&#39;&#39;\)</span>: Investimento autônomo, que cresce a uma taxa exógena <span class="math inline">\(\small g\)</span></li>
+<li><span class="math inline">\(\small I&#39;\)</span>: Investimento induzido pelo acelerador e dependente da demanda agregada.</li>
+<li><span class="math inline">\(\small k &lt; 1\)</span>: condição de estabilidade</li>
+</ul>
+<p>Assim como para o modelo de HS, primeiramente definimos os parâmetros de inicialização da simulação:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span>  <span class='co'># propensão marginal a consumir</span>
+<span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fl'>0.2</span>  <span class='co'># acelerador do investimento</span>
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fl'>0.05</span> <span class='co'># taxa de investimento autônomo</span>
+<span class='va'>A0</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>Y0</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+<span class='va'>Y1</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>80</span>
+</code></pre>
+</div>
+</div>
+<p>Sabemos que esses são os parâmetros que servem de <code>input</code> para a função que vamos construir para analisar esse modelo que, por sua vez, retorna os valores das séries para <span class="math inline">\(\small C_t\)</span>, <span class="math inline">\(\small I_t\)</span> e <span class="math inline">\(\small Y_t\)</span>. Adicionalmente, construiremos, também, séries para os valores de <span class="math inline">\(\small I&#39; = I_{ind}\)</span> e <span class="math inline">\(\small I&#39;&#39; = I_{aut}\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita do modelo de Hicks</span>
+<span class='va'>orbita_hicks</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>b</span>, <span class='va'>k</span>, <span class='va'>g</span>, <span class='va'>A0</span>, <span class='va'>Y0</span>, <span class='va'>Y1</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>C</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Iind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Iaut</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>I</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  
+  <span class='va'>C</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>Y0</span>
+  <span class='va'>Iind</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>k</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>Y1</span> <span class='op'>-</span> <span class='va'>Y0</span><span class='op'>)</span>
+  <span class='va'>Iaut</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>A0</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>1</span>
+  <span class='va'>I</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>Iind</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>Iaut</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+  <span class='va'>Y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>C</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>I</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+  
+  <span class='va'>C</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>Y1</span>
+  <span class='va'>Iind</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>k</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>Y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>Y1</span><span class='op'>)</span>
+  <span class='va'>Iaut</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>A0</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>
+  <span class='va'>I</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>Iind</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>Iaut</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
+  <span class='va'>Y</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>C</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>I</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>3</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>C</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>Y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>
+    <span class='va'>Iind</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>k</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>Y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>Y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
+    <span class='va'>Iaut</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>A0</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>^</span><span class='va'>i</span>
+    <span class='va'>I</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>Iind</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>Iaut</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+    <span class='va'>Y</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>C</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>I</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+  <span class='op'>}</span>
+  
+  <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>C</span>, <span class='va'>I</span>, <span class='va'>Iind</span>, <span class='va'>Iaut</span>, <span class='va'>Y</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_hicks</span><span class='op'>(</span>b <span class='op'>=</span> <span class='va'>b</span>, k <span class='op'>=</span> <span class='va'>k</span>, g <span class='op'>=</span> <span class='va'>g</span>, A0 <span class='op'>=</span> <span class='va'>A0</span>, Y0 <span class='op'>=</span> <span class='va'>Y0</span>, Y1 <span class='op'>=</span> <span class='va'>Y1</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
+</div>
+<p>Note que as séries parecem explodir. Contudo, devemos considerar que <span class="math inline">\(\small I_t = A0 \cdot (1 + g)^t\)</span> cresce exponencialmente a uma taxa <code>g</code> constante. Logo, havendo um padrão de convergência, não podemos esperar que o equilíbrio seja fixo, pois todas as variáveis interagem entre si.</p>
+<h3 id="análise-de-estabilidade">Análise de estabilidade</h3>
+<p>Por substituição, obtemos a equação em diferenças de ordem 2 em <span class="math inline">\(\small Y_t\)</span>:</p>
+<p><span class="math display">\[
+1Y_t − (b + k)Y_{t−1} + kY_{t−2} = A_0(1 + g)^t
+\]</span></p>
+<p>cujo polinômio característico é dado por:</p>
+<p><span class="math display">\[
+\lambda^2 - (b+k)\lambda + k = 0
+\]</span></p>
+<p>Assim:</p>
+<p><span class="math display">\[
+\begin{cases}
+a_2 = 1 \\
+a_1 = -(b+k) \\
+a_0 = k
+\end{cases}
+\]</span></p>
+<p>Sejam as condições de estabilidade:</p>
+<p><span class="math display">\[
+\begin{equation}
+\begin{cases}
+ a_0 + a_1 +  1 &amp; &gt; 0 \\
+ a_0 - a_1 + 1 &amp; &gt; 0 \\
+ a_0 &amp; &lt; 1
+\end{cases}
+\end{equation}
+\]</span></p>
+<p>Aplicando os valores do exercícios:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>a2</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>a1</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='op'>(</span><span class='va'>b</span><span class='op'>+</span><span class='va'>k</span><span class='op'>)</span>
+<span class='va'>a0</span> <span class='op'>&lt;-</span> <span class='va'>k</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>rest1</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='va'>a1</span> <span class='op'>+</span> <span class='va'>a0</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
+<span class='va'>rest2</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>-</span> <span class='va'>a1</span> <span class='op'>+</span> <span class='va'>a0</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
+<span class='va'>rest3</span> <span class='op'>&lt;-</span> <span class='va'>a0</span> <span class='op'>&lt;</span> <span class='fl'>1</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>rest1</span>, <span class='va'>rest2</span>, <span class='va'>rest3</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>     rest1 rest2 rest3
+[1,]  TRUE  TRUE  TRUE</code></pre>
+</div>
+<p>Logo, para o conjunto de valores dos parâmetros usados na simulação, teremos um sistema estável, com um equilíbrio móvel, dada a forma de <span class="math inline">\(\small g(t)=A_0(1+g)^t\)</span>.</p>
+<p>Calculando o discriminante e as raízes temos que:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Vetor de coeficientes do polinomio </span>
+<span class='va'>coefs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>a0</span>, <span class='va'>a1</span>, <span class='va'>a2</span><span class='op'>)</span>
+<span class='va'>coefs</span>
+</code></pre>
+</div>
+<pre><code>[1]  0.2 -0.7  1.0</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Raizes</span>
+<span class='va'>roots</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/polyroot.html'>polyroot</a></span><span class='op'>(</span><span class='va'>coefs</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>roots</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.35+0.278i 0.35-0.278i</code></pre>
+</div>
+<p>Como as raízes apresentam componentes complexos, vamos calcular o módulo e o ângulo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>R</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Mod</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>theta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/complex.html'>Arg</a></span><span class='op'>(</span><span class='va'>roots</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>R</span>, <span class='va'>theta</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>       [,1]
+R     0.447
+theta 0.671</code></pre>
+</div>
+<p>Como o módulo é menor que a unidade, as séries apresentam ciclos amortecidos (não explosivos)</p>
+<p>A solução particular será dada por:</p>
+<p><span class="math display">\[
+Y^p_t = K(1 + g)^t
+\]</span></p>
+<p>Substituindo <span class="math inline">\(\small Y^p_t\)</span>, <span class="math inline">\(\small Y^p_{t−1}\)</span> e <span class="math inline">\(\small Y^p_{t−2}\)</span> na eq. em diferenças, temos que:</p>
+<p><span class="math display">\[
+K = \frac{A_0(1+g)^2}{(1 + g)^2 − (b + k)(1 + g) + k}
+\]</span></p>
+<p>condicionado a um denominador positivo <span class="math inline">\(\small \forall t\)</span>. Assim, neste caso, temos a solução homogênea e particular dadas por:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculando K</span>
+<span class='va'>K</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>A0</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>-</span> <span class='op'>(</span><span class='va'>b</span> <span class='op'>+</span> <span class='va'>k</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>k</span><span class='op'>)</span>
+<span class='va'>K</span>
+</code></pre>
+</div>
+<pre><code>[1] 1.942731</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Talvez usar Y[1] e Y[2] mesmo</span>
+<span class='va'>A3</span> <span class='op'>&lt;-</span> <span class='va'>Y0</span> <span class='op'>-</span> <span class='va'>K</span>
+<span class='va'>A4</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>theta</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='op'>(</span><span class='va'>Y1</span> <span class='op'>-</span> <span class='va'>K</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>R</span> <span class='op'>-</span> <span class='va'>A3</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='va'>theta</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>A3</span>, <span class='va'>A4</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>        [,1]
+A3  18.05727
+A4 -12.08601</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>orbita_hicks_analitica</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>A3</span>, <span class='va'>A4</span>, <span class='va'>R</span>, <span class='va'>theta</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    
+  <span class='va'>Yh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Yp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Y2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"numeric"</span>, length <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>Yh</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>R</span><span class='op'>^</span><span class='va'>i</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>A3</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='va'>theta</span> <span class='op'>*</span> <span class='va'>i</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>A4</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>theta</span> <span class='op'>*</span> <span class='va'>i</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='va'>Yp</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>K</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>^</span><span class='va'>i</span>
+    <span class='va'>Y2</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>Yh</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>Yp</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+  <span class='op'>}</span>
+  
+  <span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>Yh</span>, <span class='va'>Yp</span>, <span class='va'>Y2</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>out</span><span class='op'>)</span>
+<span class='op'>}</span> 
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_hicks_analitica</span><span class='op'>(</span>A3 <span class='op'>=</span> <span class='va'>A3</span>, A4 <span class='op'>=</span> <span class='va'>A4</span>, R <span class='op'>=</span> <span class='va'>R</span>, theta <span class='op'>=</span> <span class='va'>theta</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-36-1.png" width="624" /></p>
+</div>
+<p>Comparando os dois resultados (simulação e analítico) para Y:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='fu'>orbita_hicks</span><span class='op'>(</span>b <span class='op'>=</span> <span class='va'>b</span>, k <span class='op'>=</span> <span class='va'>k</span>, g <span class='op'>=</span> <span class='va'>g</span>, A0 <span class='op'>=</span> <span class='va'>A0</span>, Y0 <span class='op'>=</span> <span class='va'>Y0</span>, Y1 <span class='op'>=</span> <span class='va'>Y1</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>5</span><span class='op'>]</span>
+<span class='va'>analit</span> <span class='op'>&lt;-</span> <span class='fu'>orbita_hicks_analitica</span><span class='op'>(</span>A3 <span class='op'>=</span> <span class='va'>A3</span>, A4 <span class='op'>=</span> <span class='va'>A4</span>, R <span class='op'>=</span> <span class='va'>R</span>, theta <span class='op'>=</span> <span class='va'>theta</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+
+<span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>analit</span>, <span class='va'>Y</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>result</span>, n <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>                Yh       Yp        Y2        Y
+ [1,]  2.960132159 2.039868 5.0000000 8.050000
+ [2,] -1.535460863 2.141861 0.6064004 4.212500
+ [3,] -1.666209648 2.248954 0.5827446 2.496375
+ [4,] -0.859586240 2.361402 1.5018158 2.120469
+ [5,] -0.268828340 2.479472 2.2106438 2.261335
+ [6,] -0.016448261 2.603446 2.5869975 2.498936
+ [7,]  0.042193819 2.733618 2.7758118 2.704089
+ [8,]  0.032821772 2.870299 2.9031207 2.870530
+ [9,]  0.014545591 3.013814 3.0283594 3.019882
+[10,]  0.003624649 3.164505 3.1681292 3.168706</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>result</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-37-1.png" width="624" /></p>
+</div>
+<p>Utilizando <code>Y[1]</code> e <code>Y[2]</code> ao invés de <code>Y0</code> e <code>Y1</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='fu'>orbita_hicks</span><span class='op'>(</span>b <span class='op'>=</span> <span class='va'>b</span>, k <span class='op'>=</span> <span class='va'>k</span>, g <span class='op'>=</span> <span class='va'>g</span>, A0 <span class='op'>=</span> <span class='va'>A0</span>, Y0 <span class='op'>=</span> <span class='va'>Y0</span>, Y1 <span class='op'>=</span> <span class='va'>Y1</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>5</span><span class='op'>]</span>
+
+<span class='va'>A3</span> <span class='op'>&lt;-</span> <span class='va'>Y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>K</span>
+<span class='va'>A4</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>theta</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='op'>(</span><span class='va'>Y</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>K</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='va'>g</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>R</span> <span class='op'>-</span> <span class='va'>A3</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='va'>theta</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>A3</span>, <span class='va'>A4</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>        [,1]
+A3 6.1072687
+A4 0.1262162</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>analit</span> <span class='op'>&lt;-</span> <span class='fu'>orbita_hicks_analitica</span><span class='op'>(</span>A3 <span class='op'>=</span> <span class='va'>A3</span>, A4 <span class='op'>=</span> <span class='va'>A4</span>, R <span class='op'>=</span> <span class='va'>R</span>, theta <span class='op'>=</span> <span class='va'>theta</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+
+<span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>analit</span>, <span class='va'>Y</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>result</span>, n <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>                 Yh       Yp       Y2        Y
+ [1,]  2.1726321586 2.039868 4.212500 8.050000
+ [2,]  0.3007079366 2.141861 2.442569 4.212500
+ [3,] -0.2235615876 2.248954 2.025393 2.496375
+ [4,] -0.2165697457 2.361402 2.144832 2.120469
+ [5,] -0.1069347938 2.479472 2.372537 2.261335
+ [6,] -0.0315871856 2.603446 2.571859 2.498936
+ [7,] -0.0007471691 2.733618 2.732871 2.704089
+ [8,]  0.0057875959 2.870299 2.876086 2.870530
+ [9,]  0.0042005896 3.013814 3.018014 3.019882
+[10,]  0.0017841436 3.164505 3.166289 3.168706</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>result</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ordemsup_files/figure-html5/unnamed-chunk-39-1.png" width="624" /></p>
+</div>
+<p>Em ambos os casos, a séries de <code>Y</code> da simulação e da forma analítica se sobrepôem, mesmo que apresente valoris inicias divergentes.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
