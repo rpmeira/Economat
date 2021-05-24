@@ -1,0 +1,712 @@
+---
+title: "Sistema de Ordem 1"
+description: |
+  Essa aula estuda sistemas de Equações em Diferença de ordem 1.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 04-30-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+library(ggfortify)
+library(ggthemes)
+library(ggrepel)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(236, 236, 236, 0.8);
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+
+```
+
+## Autovalores e Autovetores
+
+Seja a matriz:
+
+$$
+\begin{equation}
+  A = 
+  \begin{bmatrix}
+    2 & 1 \\
+    1 & 2
+  \end{bmatrix}
+\end{equation}
+$$
+
+Para identificarmos seus autovalores e autovetores:
+
+```{r}
+# Criando Matriz A
+A <- matrix(c(2, 1, 1, 2), ncol = 2)
+
+# objeto contendo os autovalres e autovetores de A
+r <- eigen(A)
+r
+```
+
+```{r}
+lambda <- r$values
+P <- r$vectors
+```
+
+Para verificar a independência dos autovetores, basta observar que P é uma matriz quadrada de ordem $\small n = 2$. Logo, havendo independência linear entre as suas colunas (ou linhas) , o seu determinante deverá ser diferente de zero (matriz não singular). E esse ponto é importante pois para obter a solução analítica de um sistema de ordem `n`, precisamos da matriz `P` e da sua inversa:
+
+```{r}
+det(P)
+```
+
+Como o determinante é diferente de 0, podemos calcular a inversa da matriz. Com $\small P$ e $\small P^{-1}$, podemos calcular a matriz diagonal D:
+
+```{r}
+D <- inv(P) %*% A %*% P
+D
+```
+
+Ao transformar a matriz A via $\small P^{−1}AP$, obtemos a a matriz diagonal D, cuja diagonal principal é composta pelos autovalores de A. Dai o nome do processo de diagonalização de matrizes.
+
+Havendo multiplicidade, precisamos verificar se é possível obter a matriz P. Obter a matriz P implica ter uma matriz A diagonalizável. Isto porque o fato de um autovalor ter multiplicidade k não necessariamente anula a possibilidade de, para o mesmo autovalor, obter k autovetores L.I. Tudo dependerá do posto da matriz $\small (A − \lambda I)$.
+
+#### Exemplo 1:
+
+Seja a matriz:
+
+$$
+\begin{equation}
+  A = 
+  \begin{bmatrix}
+    1 & 2 & 3 \\
+    0 & 1 & 2 \\
+    0 & 0 & 1
+  \end{bmatrix}
+\end{equation}
+$$
+
+Analisando os seus autovalores, observamos que a matriz possui três raízes reais e repetidas:
+
+```{r}
+A <- matrix(c(1, 0, 0, 2, 1, 0, 3, 2, 1), ncol = 3)
+r <- eigen(A)
+lambda <- r$values
+P <- r$vectors %>% zapsmall()
+lambda
+```
+
+Ou seja, $\small \lambda = 1$ possui multiplicidade $\small k = 3$. 
+
+Vejamos se P é inversível (possui determinante diferente de zero):
+
+```{r}
+det(P)
+```
+
+P não é inversível, portanto não podemos diagonizar A.
+
+#### Exemplo 2:
+
+Seja a matriz:
+
+$$
+\begin{equation}
+  A = 
+  \begin{bmatrix}
+    1 & 3 & 3 \\
+    0 & 4 & 0 \\
+    -3 & 3 & 1
+  \end{bmatrix}
+\end{equation}
+$$
+
+Calculamos os seus autovalores e autovetores:
+
+```{r}
+A <- matrix( c(1, 0, -3, 3, 4, 3, -3, 0, 1), ncol = 3)
+r <- eigen(A)
+lambda = r$values
+P <- r$vectors %>% zapsmall()
+lambda
+```
+
+De onde temos que $\small \lambda_1 = \lambda_2 = 4$ e $\small \lambda_3 = -2$. Logo, temos um autovalor com multiplicidade $\small k = 2$.
+
+Vejamos se P é inversível (possui determinante diferente de zero):
+
+```{r}
+det(P)
+```
+
+P é inversível, portanto podemos diagonizar A.
+
+
+## Raízes reais e diferentes
+
+Seja o sistema homogêneo:
+
+$$
+\begin{cases}
+x_{t+1} = y_t \\
+y_{t+1} = 0.125x_t + 0.25y_t
+\end{cases}
+$$
+
+Matricialmente, podemos reescrever o sistema tal que
+
+$$
+Z_{t+1} = A \cdot Z_t
+$$
+
+onde:
+
+$$
+\begin{align}
+A = 
+  \begin{bmatrix}
+    0 & 1 \\
+    0.125 & 0.25
+  \end{bmatrix}; \qquad
+Z_t = 
+  \begin{bmatrix}
+    x_t \\
+    y_t
+  \end{bmatrix} 
+\end{align}
+$$
+
+O processo de diagonalização feito a seguir é derivado da seguinte transformação do sistema:
+
+$$
+\bar{Z}_{t+1} = D \cdot \bar{Z}_t
+$$
+
+ou:
+
+$$
+\begin{align}
+  \begin{bmatrix}
+    \bar{x}_{t+1} \\
+    \bar{y}_{t+1}
+  \end{bmatrix}
+ = 
+  \begin{bmatrix}
+    \lambda_1 & 0 \\
+    0 & \lambda_2
+  \end{bmatrix}
+\cdot
+  \begin{bmatrix}
+    \bar{x}_{t} \\
+    \bar{y}_{t}
+  \end{bmatrix}
+\end{align}
+$$
+
+ou seja:
+
+$$
+\bar{x}_{t+1} = \lambda_1 \bar{x}_{t} \quad \Rightarrow \quad \bar{x}_{t} = A_1(\lambda_1)^t \\
+\bar{y}_{t+1} = \lambda_2 \bar{y}_{t} \quad \Rightarrow \quad \bar{y}_{t} = A_2(\lambda_2)^t
+$$
+
+Calculando os autovalores e autovetores da matriz A:
+
+```{r}
+A <- matrix( c(0, 0.125, 1, 0.25), ncol = 2)
+r <- eigen(A)
+lambda = r$values
+P <- r$vectors
+r
+```
+
+temos o caso de um sistema com autovalores reais e diferentes. Logo, é possível diagonalizar A e determinar a seguir a sua forma analítica, a partir dos seus autovetores L. I.:
+
+```{r}
+det(P)
+```
+
+P é inversível, portanto podemos diagonalizar A. 
+
+Para fins de análise de estabilidade, veja que como $\small |\lambda_1| = 0.5 < 1$ e $\small |\lambda_2| = −0.25 < 1$, logo, esperamos uma trajetória estável; e como $\small |\lambda_2| < 0$ esperamos observar oscilações amortecidas nas tarjetórias de $\small x_y$ e $\small y_t$. Para validar a análise, podemos simular o sistema, dada uma condição inicial:
+
+$$
+\begin{align}
+Z_0 =
+  \begin{bmatrix}
+    x_0 \\
+    y_0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 \\
+    0.1
+  \end{bmatrix}
+\end{align}
+$$
+
+Assim, temos que:
+
+```{r}
+Z0 <- c(1, 0.1)
+t <- 20
+```
+
+Para simular essa série vamos, antes, construir a função de órbita de um sistema de ordem 1:
+
+```{r}
+# Função que calcula a orbita de um sistema de Eq em diferença de ordem 1
+orbita_sis_1 <- function(A, Z0, t) {
+  
+  Z <- matrix(data = 0, nrow = 2, ncol = t)
+  Z[, 1] <- Z0
+  
+  for (i in 1:(t-1)) {
+    Z[, i+1] <- A %*% Z[, i]
+  }
+  
+  Z <- t(Z)
+  colnames(Z) <- c("x", "y")
+  
+  return(Z)
+  
+}
+```
+
+```{r}
+orbita_sis_1(A = A, Z0 = Z0, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 2)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.1)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+Lembre do efeito da condição inicial e da janela de tempo considerada na simulação. Observe também que a raíz negativa possui um módulo pequeno (−0.25), que é atenuado rapidamente a medida que `t` aumenta. Analisando cada componente (referente à parte de cada autovalor e autovetor), podemos ter uma melhor compreensão da dinâmica observada neste caso. Primeiro, identificamos os valores das constantes arbitrárias, $\small A_1$ e $\small A_2$, considerando que $\small Z_0 = A_1v_1 + A_2v_2 = P \cdot X$. Logo, $\small X = (A_1, A_2) = P^{−1} \cdot Z_0$.
+
+Vamos construir a função de órbita dos componentes:
+
+```{r}
+# Função que calcula a orbita dos componentes um sistema de Eq em diferença de ordem 1
+orbita_sis_comp_1 <- function(A, Z0, t) {
+  
+  Z1 <- matrix(data = 0, nrow = 2, ncol = t)
+  Z2 <- matrix(data = 0, nrow = 2, ncol = t)
+  
+  r <- eigen(A)
+  lambda = r$values
+  P <- r$vectors
+  X <- inv(P) %*% Z0
+  
+  A1 <- X[1]
+  A2 <- X[2]
+  v1 <- P[, 1]
+  v2 <- P[, 2]
+  
+  for (i in 0:(t-1)) {
+    Z1[, i+1] <- A1 * v1 * lambda[1]^i
+    Z2[, i+1] <- A2 * v2 * lambda[2]^i
+  }
+  
+  out <- rbind(Z1, Z2) %>% 
+    t()
+  colnames(out) <- c("X-Comp.1", "Y-Comp.1", "X-Comp.2", "Y-Comp.2")
+
+  return(out)
+  
+}
+```
+
+```{r}
+orbita_sis_comp_1(A = A, Z0 = Z0, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 2)) +
+  scale_y_continuous(breaks = seq(-1, 1, 0.1)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+## Raízes reais e Iguais
+
+Seja a matriz:
+
+$$
+\begin{equation}
+  A = 
+  \begin{bmatrix}
+    4 & 1 \\
+    -1 & 2  
+  \end{bmatrix}
+\end{equation}
+$$
+
+Calculamos os seus autovalores e autovetores:
+
+```{r}
+A <- matrix(c(4, -1, 1, 2), nrow=2)
+r <- eigen(A)
+P <- r$vectors %>% zapsmall()
+lambda <- r$values
+r
+```
+
+A simulação do sistema sai da mesma forma como antes:
+
+```{r}
+A <- matrix(c(4, -1, 1, 2), nrow=2)
+Z0 <- c(2, -1)
+t <- 10
+```
+
+```{r}
+orbita_sis_1(A = A, Z0 = Z0, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 10, 1)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+### Solução Analítica
+
+Vamos agora para a forma analítica.
+
+Vejamos se P é inversível (determinante diferente de zero):
+
+```{r}
+det(P)
+```
+
+Como P não é inversível, não podemos diagonalizar A. Assim, não temos como transformar o sistema original a um sistema desacoplado, mas ainda é possível transforma-lo a um sistema quase desacoplado.
+
+Dada que A não é diagonalizável, Precisamos fazer uso de uma matriz de transformação $\small \Lambda$ quase diagonal, dada por:
+
+$$
+\begin{align}
+  \Lambda = 
+    \begin{bmatrix}
+      \lambda & 1 \\
+      0 & \lambda
+    \end{bmatrix}
+\end{align}
+$$
+
+tal que:
+
+$$
+P^{-1}AP = \Lambda
+$$
+
+Multiplicando P à equerda em ambos os lados:
+
+$$
+AP = P \Lambda
+$$
+
+onde $\small P = [c_1 | c_2]$ é inversível.
+
+Assim,
+
+$$
+A \cdot [c_1|c_2] = [c_1|c_2] \cdot 
+  \begin{bmatrix}
+    \lambda & 1 \\
+    0 & \lambda
+  \end{bmatrix}
+$$
+
+Realizando os produtos matriciais, temos:
+
+$$
+[Ac_1|Ac_2] = [\lambda c_1|c_1 + \lambda c_2]
+$$
+
+Portanto:
+
+$$
+\begin{align}
+  \cases{
+    Ac_1 = \lambda c_1 \\
+    Ac_2 = c_1 + \lambda c_2
+  } \quad \to \quad
+  \cases{
+    (A-\lambda I)c_1 &=  0 \\
+    (A-\lambda I)^2c_2 &=  0
+  }
+\end{align}
+$$
+
+Portanto, $\small c_2$ é autovetor generalizado de $\small A$ associado a $\small \lambda$!!
+
+Assim, precisamos do autovetor generalizado, c2. Que por definição:
+
+$$
+(A - \lambda I)c_2 = v_1
+$$
+Onde $\small v_1$ é o único autovetor L.I associado a $\small \lambda$.
+
+Voltando ao exercício (queremos achar $\small P=[v_1|c_2]$):
+
+```{r}
+P
+det(P)
+```
+```{r}
+v1 <- P[, 1]
+v1
+```
+
+Logo, resolvendo o sistema indeterminado:
+
+```{r}
+M <- A - diag(lambda[1], 2)
+M
+```
+
+```{r}
+B <- matrix(data = v1, nrow = 2)
+B
+```
+
+```{r}
+Mhat <- cbind(M, B)
+Mhat
+```
+
+```{r}
+Mhat_esc <- echelon(Mhat)
+Mhat_esc
+```
+
+Temos portanto, um S.I., com o posto sendo igual a 1. Se $\small c2 = (a, b)$, da única linha não nula temos que:
+
+$$
+a + b = 0.707168
+$$
+
+Logo, se `b` é a nossa variável livre ($\small n − p = 2 − 1 = 1$ grau de liberdade), temos que:
+
+$$
+a = 0.707168 - b
+$$
+
+Note que a medida que b aumenta, a diminui. E vice versa. Logo, plotando todos os pares possíveis de `a` e `b` no espaço bidimensional, teríamos como resultado uma reta com inclinação negativa igual a −1. Uma solução possível seria, por exemplo, para o caso de $\small b = 0$. Com isso, $\small a = 0.707168$ e por tanto
+
+$$
+c_2 = (0.707168, 0)
+$$
+
+que poderia ser utilizado para a formulação da solução analítica.
+
+## Raízes Complexas
+
+Seja o sistema (Shone, ex. 12, cap. 5):
+
+$$
+\begin{align}
+  &\cases{
+    x_{t+1} = -5 + x_t - 2y_t \\
+    y_{t+1} = 4 + x_t - y_t
+  } \\[5pt]
+  &\cases{
+    x_0 = 1 \\
+    y_0 = 2
+  }
+\end{align}
+$$
+
+A Matriz A é
+
+$$
+\begin{align}
+  A =
+    \begin{bmatrix}
+      1 & -2 \\
+      1 & -1
+    \end{bmatrix}
+\end{align}
+$$
+
+E o termo independente é
+
+$$
+\begin{align}
+  B =
+    \begin{bmatrix}
+      -5 \\
+      4
+    \end{bmatrix}
+\end{align}
+$$
+
+Simulando esse sistema:
+
+```{r}
+A <- matrix(c(1, 1, -2, -1), nrow=2)
+B <- matrix(c(-5, 4), nrow=2)
+Z0 <- c(1, 2)
+t <- 20
+```
+
+```{r}
+orbita_sis_1(A = A, Z0 = Z0, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_y_continuous(breaks = seq(-4, 4, 1)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+Essa, entretanto, é a órbita para o sistema homogêneo. Para a órbita que considera a solução particular, precisamos modificar a função, incluindo o termo independente:
+
+```{r}
+# Função que calcula a orbita de um sistema de Eq em diferença de ordem 1
+orbita_sis_1_termind <- function(A, B, Z0, t) {
+  
+  Z <- matrix(data = 0, nrow = 2, ncol = t)
+  Z[, 1] <- Z0
+  
+  for (i in 1:(t-1)) {
+    Z[, i+1] <- A %*% Z[, i] + B
+  }
+  
+  Z <- t(Z)
+  colnames(Z) <- c("x", "y")
+  
+  return(Z)
+  
+}
+```
+
+```{r}
+orbita_sis_1_termind(A = A, B = B, Z0 = Z0, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_y_continuous(breaks = seq(-20, 4, 2)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+A partir da simulação, já sabemos que o sistema apresenta ciclo regulares, que não explodem e nem convergem, portanto, possui raízes complexas e com $\small R = 1$.
+
+### Solução Analítica
+
+Como o sistema não é homogêneo, a solução geral será dada pela soma da solução homogênea com a solução particular $Z_t = Z^h_t + Z^p_t$.
+
+Relembrando que
+
+$$
+\begin{align}
+  A =
+    \begin{bmatrix}
+      1 & -2 \\
+      1 & -1
+    \end{bmatrix} ; \qquad
+  B =
+    \begin{bmatrix}
+      -5 \\
+      4
+    \end{bmatrix}
+\end{align}
+$$
+
+Primeiro, obtemos os autovalores:
+
+```{r}
+A <- matrix(c(1, 1, -2, -1), nrow = 2)
+r <- eigen(A)
+lambda <- r$values
+P <- r$vectors
+r
+```
+
+Ao ser autovalores complexos, sabemos que a estabilidade incide sobre o módulo:
+
+```{r}
+R <- abs(lambda[1])
+theta <- round(Arg(lambda[1]), 2)
+R
+theta
+```
+
+Sendo $\small R = 1$, esperamos observar ciclos regulares nas séries temporais, como já apontando como gráfico.
+
+A parcela real e imaginâria dos autovetores nos permitem a construção da forma analítica da série:
+
+```{r}
+u <- round(Re(P[, 1]), 2)
+v <- round(Im(P[, 1]), 2)
+u
+v
+```
+
+Assim, a solução homogênea será dada por:
+
+$$
+\small
+\begin{align}
+  \begin{bmatrix}
+    x^h_t \\
+    y^h_t
+  \end{bmatrix}
+  = (1)^t \cdot 
+  \begin{bmatrix}
+    \begin{pmatrix}
+      0.82 \\
+      0.41
+    \end{pmatrix}
+  (A_1 cos(1.57t) + A_2 sin(1.57t)) + 
+    \begin{pmatrix}
+      0 \\
+      -0.41
+    \end{pmatrix}
+  (A_2 cos(1.57t) - A_1 sin(1.57t))
+  \end{bmatrix}
+\end{align}
+$$
+
+
+Vejamos agora a solução particular.
+
+No estado estacionário, sabemos que $\small Z_{t+1} \to Z_t \approx Z^∗$. Substituindo na equação matricial do sistema:
+
+$$
+Z^∗ = A \cdot Z^∗ + B = (I − A)^{−1} \cdot B
+$$
+
+```{r}
+B <- matrix(c(-5, 4), nrow = 2)
+Zeq <- inv(diag(1, nrow(A)) - A ) %*% B
+Zeq # Zeq é o Z*, ou seja, o Z de equilíbrio
+```
+
+Por tanto temos o ponto fixo $\small (x^∗, y^∗) = (−9, − 2.5)$ que não é nem atrator, nem repulsor.
+
+## Modelo de Cournot
+
+
