@@ -2125,7 +2125,11 @@ Aulas
 <ul>
 <li><a href="#solução-analítica-1">Solução Analítica</a></li>
 </ul></li>
-<li><a href="#modelo-de-cournot">Modelo de Cournot</a></li>
+<li><a href="#modelo-de-cournot">Modelo de Cournot</a>
+<ul>
+<li><a href="#duas-firmas">Duas Firmas</a></li>
+<li><a href="#mais-de-duas-firmas">Mais de duas firmas</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -2137,7 +2141,12 @@ d-article p {
 }
 
 d-article p code {
-  background: rgba(236, 236, 236, 0.8);
+  background: rgba(230, 230, 230, 1);
+}
+
+span.math.inline {
+  background: rgba(230, 230, 230, 1);
+  font-size: 15px;
 }
 
 d-article div.sourceCode {
@@ -2856,7 +2865,342 @@ Z^∗ = A \cdot Z^∗ + B = (I − A)^{−1} \cdot B
 </div>
 <p>Por tanto temos o ponto fixo <span class="math inline">\(\small (x^∗, y^∗) = (−9, − 2.5)\)</span> que não é nem atrator, nem repulsor.</p>
 <h2 id="modelo-de-cournot">Modelo de Cournot</h2>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Analisaremos a versão dinâmica do modelo (sec. 10.1 do Gandolfo). O modelo contempla <code>n</code> firmas, que ajustam as suas decisões a partir da observação do comportamento das suas concorrentes. Pragmaticamente, para cada período de tempo <code>t</code>, a firma <code>i</code> observa o comportamento das outras <code>n−1</code> firmas (o produto) e assume que essas quantidades se manterão em <code>t+1</code>. Logo, dada a demanda, a firma <code>i</code> decidirá a quantidade a produzir visando a maximização dos seus lucros. Simularemos dois casos: quando <code>n=2</code> e quando <code>n&gt;2</code>. Seja então o mercado oligopolístico com <code>n</code> firmas produzindo um bem homogêneo. Assumindo uma curva de demanda linear, temos que:</p>
+<p><span class="math display">\[
+p_t = a - b \sum^n_{i=1}x_{i,t}
+\]</span></p>
+<p>com <code>a&gt;0</code>, <code>b&gt;0</code> e com <span class="math inline">\(x_{i,t}\)</span> representando a produção atual da <code>i−ésima</code> firma no período <code>t</code>. Visando simplificar a representação, adotaremos também curvas lineares para as funções custo, <span class="math inline">\(C_i\)</span>, para cada firma. Com isto, garantimos que os custos marginais <span class="math inline">\(c_i\)</span> sejam constantes:</p>
+<p><span class="math display">\[
+C_{i,t} = d + c_i \cdot x_{i,t}
+\]</span></p>
+<p>Considerando que as firmas maximizam os lucros e após algumas manipulações algébricas:</p>
+<p><span class="math display">\[
+x_{i,t+1} = - \dfrac{1}{2} \sum^n_{j \ne i} x_{j,t} + \dfrac{a-c_i}{2b}
+\]</span></p>
+<h3 id="duas-firmas">Duas Firmas</h3>
+<p>Nesse caso, as equações do sistema dinâmico são:</p>
+<p><span class="math display">\[
+\begin{align}
+  \cases{
+    x_{1,t+1} = - \dfrac{1}{2} x_{2,t} + \dfrac{a-c_1}{2b} \\[7pt]
+    x_{2,t+1} = - \dfrac{1}{2} x_{1,t} + \dfrac{a-c_2}{2b}
+  }
+\end{align}
+\]</span></p>
+<p>A matriz de coeficientes do sistema não homogêneo é dada por:</p>
+<p><span class="math display">\[
+\begin{align}
+  A = 
+    \begin{bmatrix}
+      0 &amp; -\dfrac{1}{2} \\[7pt]
+      -\dfrac{1}{2} &amp; 0
+    \end{bmatrix}
+\end{align}
+\]</span></p>
+<p>com o termo independente sendo igual a</p>
+<p><span class="math display">\[
+\begin{align}
+  B = 
+    \begin{bmatrix}
+      \dfrac{a-c_1}{2b} \\[7pt]
+      \dfrac{a-c_2}{2b}
+    \end{bmatrix}
+\end{align}
+\]</span></p>
+<p>Dados os seguintes valores para os parâmetros:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span> <span class='co'># valor arbitrario</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># valores arbitrarios</span>
+<span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, nrow <span class='op'>=</span> <span class='va'>n</span>, ncol <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>B</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>a</span> <span class='op'>-</span> <span class='va'>c</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>b</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>Z0</span> <span class='op'>&lt;-</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># condicoes iniciais para cada uma das n firmas</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"A"</span> <span class='op'>=</span> <span class='va'>A</span>, <span class='st'>"B"</span> <span class='op'>=</span> <span class='va'>B</span>, <span class='st'>"Z0"</span> <span class='op'>=</span> <span class='va'>Z0</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>$A
+     [,1] [,2]
+[1,]  0.0 -0.5
+[2,] -0.5  0.0
+
+$B
+         [,1]
+[1,] 9.734491
+[2,] 9.627876
+
+$Z0
+[1] 57.28534 90.82078</code></pre>
+</div>
+<p>Simulando:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_sis_1_termind</span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>A</span>, B <span class='op'>=</span> <span class='va'>B</span>, Z0 <span class='op'>=</span> <span class='va'>Z0</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sist1_files/figure-html5/unnamed-chunk-36-1.png" width="624" /></p>
+</div>
+<p>Analisando os autovalores de A:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>r</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/eigen.html'>eigen</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span>
+<span class='va'>lambda</span> <span class='op'>=</span> <span class='va'>r</span><span class='op'>$</span><span class='va'>values</span>
+<span class='va'>lambda</span>
+</code></pre>
+</div>
+<pre><code>[1]  0.5 -0.5</code></pre>
+</div>
+<p>Vemos que ambos os autovalores são menores que um em módulo, havendo um autovalor negativo. Logo, ao simular as séries, esperaríamos observar (como de fato observamos) trajetórias amortecidas com oscilações transitórias. O estado estacionário será dado por (atrator):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Xeq</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/matlib/man/Inverse.html'>inv</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>A</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%*%</span> <span class='va'>B</span>
+<span class='va'>Xeq</span> 
+</code></pre>
+</div>
+<pre><code>         [,1]
+[1,] 6.560738
+[2,] 6.347507</code></pre>
+</div>
+<p>Colocando no gráfico os valores de equilíbrio:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_sis_1_termind</span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>A</span>, B <span class='op'>=</span> <span class='va'>B</span>, Z0 <span class='op'>=</span> <span class='va'>Z0</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='va'>Xeq</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, linetype <span class='op'>=</span> <span class='st'>"dashed"</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='va'>Xeq</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>, linetype <span class='op'>=</span> <span class='st'>"dotted"</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sist1_files/figure-html5/unnamed-chunk-39-1.png" width="624" /></p>
+</div>
+<h3 id="mais-de-duas-firmas">Mais de duas firmas</h3>
+<p>Antes de analisar esse caso, vamos reescrever a função de órbita para admitir mais de 2 equações (basta acrescentar o parâmetro <code>n</code>):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Função que calcula a orbita de um sistema de Eq em diferença de ordem 1</span>
+<span class='va'>orbita_sis_neqs</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>A</span>, <span class='va'>B</span>, <span class='va'>Z0</span>, <span class='va'>n</span>, <span class='va'>t</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>Z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fl'>0</span>, nrow <span class='op'>=</span> <span class='va'>n</span>, ncol <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span>
+  <span class='va'>Z</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>Z0</span>
+  
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='op'>(</span><span class='va'>t</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>Z</span><span class='op'>[</span>, <span class='va'>i</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>A</span> <span class='op'>%*%</span> <span class='va'>Z</span><span class='op'>[</span>, <span class='va'>i</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>B</span>
+  <span class='op'>}</span>
+  
+  <span class='va'>Z</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"X."</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>:</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>6</span>
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span> <span class='co'># valor arbitrario</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># valores arbitrarios</span>
+<span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, nrow <span class='op'>=</span> <span class='va'>n</span>, ncol <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>B</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>a</span> <span class='op'>-</span> <span class='va'>c</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>b</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>Z0</span> <span class='op'>&lt;-</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># condicoes iniciais para cada uma das n firmas</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"A"</span> <span class='op'>=</span> <span class='va'>A</span>, <span class='st'>"B"</span> <span class='op'>=</span> <span class='va'>B</span>, <span class='st'>"Z0"</span> <span class='op'>=</span> <span class='va'>Z0</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>$A
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]  0.0 -0.5 -0.5 -0.5 -0.5 -0.5
+[2,] -0.5  0.0 -0.5 -0.5 -0.5 -0.5
+[3,] -0.5 -0.5  0.0 -0.5 -0.5 -0.5
+[4,] -0.5 -0.5 -0.5  0.0 -0.5 -0.5
+[5,] -0.5 -0.5 -0.5 -0.5  0.0 -0.5
+[6,] -0.5 -0.5 -0.5 -0.5 -0.5  0.0
+
+$B
+         [,1]
+[1,] 9.734491
+[2,] 9.627876
+[3,] 9.427147
+[4,] 9.091792
+[5,] 9.798318
+[6,] 9.101610
+
+$Z0
+[1] 94.467527 66.079779 62.911404  6.178627 20.597457 17.655675</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_sis_neqs</span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>A</span>, B <span class='op'>=</span> <span class='va'>B</span>, Z0 <span class='op'>=</span> <span class='va'>Z0</span>, n <span class='op'>=</span> <span class='va'>n</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sist1_files/figure-html5/unnamed-chunk-42-1.png" width="624" /></p>
+</div>
+<p>Voltando ao exercício, para <span class="math inline">\(n = 3\)</span>, as equações do sistema serão:</p>
+<p><span class="math display">\[
+\begin{align}
+  \cases{
+    x_{1,t+1} = - \dfrac{1}{2} x_{2,t} - \dfrac{1}{2} x_{3,t} + \dfrac{a-c_1}{2b} \\[7pt]
+    x_{2,t+1} = - \dfrac{1}{2} x_{1,t} - \dfrac{1}{2} x_{3,t} + \dfrac{a-c_2}{2b} \\[7pt]
+    x_{3,t+1} = - \dfrac{1}{2} x_{1,t} - \dfrac{1}{2} x_{2,t} + \dfrac{a-c_3}{2b} \\
+  }
+\end{align}
+\]</span></p>
+<p>Logo, a matriz A será dada por</p>
+<p><span class="math display">\[
+\begin{align}
+  A = 
+    \begin{bmatrix}
+      0 &amp; -\dfrac{1}{2} &amp; -\dfrac{1}{2} \\[7pt]
+      -\dfrac{1}{2} &amp; 0 &amp; -\dfrac{1}{2} \\[7pt]
+      -\dfrac{1}{2} &amp; -\dfrac{1}{2} &amp; 0
+    \end{bmatrix}
+\end{align}
+\]</span></p>
+<p>Simulando:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span> <span class='co'># valor arbitrario</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># valores arbitrarios</span>
+<span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, nrow <span class='op'>=</span> <span class='va'>n</span>, ncol <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>B</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>a</span> <span class='op'>-</span> <span class='va'>c</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>b</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>Z0</span> <span class='op'>&lt;-</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># condicoes iniciais para cada uma das n firmas</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"A"</span> <span class='op'>=</span> <span class='va'>A</span>, <span class='st'>"B"</span> <span class='op'>=</span> <span class='va'>B</span>, <span class='st'>"Z0"</span> <span class='op'>=</span> <span class='va'>Z0</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>$A
+     [,1] [,2] [,3]
+[1,]  0.0 -0.5 -0.5
+[2,] -0.5  0.0 -0.5
+[3,] -0.5 -0.5  0.0
+
+$B
+         [,1]
+[1,] 9.734491
+[2,] 9.627876
+[3,] 9.427147
+
+$Z0
+[1] 90.82078 20.16819 89.83897</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_sis_neqs</span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>A</span>, B <span class='op'>=</span> <span class='va'>B</span>, Z0 <span class='op'>=</span> <span class='va'>Z0</span>, n <span class='op'>=</span> <span class='va'>n</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sist1_files/figure-html5/unnamed-chunk-44-1.png" width="624" /></p>
+</div>
+<p>e analisando os seus autovalores:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>r</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/eigen.html'>eigen</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span>
+<span class='va'>lambda</span> <span class='op'>=</span> <span class='va'>r</span><span class='op'>$</span><span class='va'>values</span>
+<span class='va'>lambda</span>
+</code></pre>
+</div>
+<pre><code>[1]  0.5  0.5 -1.0</code></pre>
+</div>
+<p>observamos a presenção de um autovalor com módulo unitário e oscilações regulares. Logo, o sistema não é estável no longo prazo.</p>
+<p>Para n = 4:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>4</span>
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span> <span class='co'># valor arbitrario</span>
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fl'>10</span> <span class='co'># valor arbitrario</span>
+<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># valores arbitrarios</span>
+<span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, nrow <span class='op'>=</span> <span class='va'>n</span>, ncol <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>B</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>a</span> <span class='op'>-</span> <span class='va'>c</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='va'>b</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span>
+<span class='va'>Z0</span> <span class='op'>&lt;-</span> <span class='fl'>100</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='co'># condicoes iniciais para cada uma das n firmas</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"A"</span> <span class='op'>=</span> <span class='va'>A</span>, <span class='st'>"B"</span> <span class='op'>=</span> <span class='va'>B</span>, <span class='st'>"Z0"</span> <span class='op'>=</span> <span class='va'>Z0</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>$A
+     [,1] [,2] [,3] [,4]
+[1,]  0.0 -0.5 -0.5 -0.5
+[2,] -0.5  0.0 -0.5 -0.5
+[3,] -0.5 -0.5  0.0 -0.5
+[4,] -0.5 -0.5 -0.5  0.0
+
+$B
+         [,1]
+[1,] 9.734491
+[2,] 9.627876
+[3,] 9.427147
+[4,] 9.091792
+
+$Z0
+[1] 20.16819 89.83897 94.46753 66.07978</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>orbita_sis_neqs</span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>A</span>, B <span class='op'>=</span> <span class='va'>B</span>, Z0 <span class='op'>=</span> <span class='va'>Z0</span>, n <span class='op'>=</span> <span class='va'>n</span>, t <span class='op'>=</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sist1_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
+</div>
+<p>e os seus autovalores são</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>r</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/eigen.html'>eigen</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span>
+<span class='va'>lambda</span> <span class='op'>=</span> <span class='va'>r</span><span class='op'>$</span><span class='va'>values</span>
+<span class='va'>lambda</span>
+</code></pre>
+</div>
+<pre><code>[1]  0.5  0.5  0.5 -1.5</code></pre>
+</div>
+<p>teremos um autovalor com módulo maior que um e por tanto, obteremos trajetórias instáveis com oscilações explosivas, como o gráfico deixa claro.</p>
+<p>De forma geral, para <span class="math inline">\(n &gt; 3\)</span> teremos trajetórias não convergentes, pois podemos demonstrar (ver o livro) que nesses casos, teremos sempre um autovalor <span class="math inline">\(\lambda = -(n-1)/2\)</span>, que possui módulo maior que a unidade para o caso de três firmas em diante.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

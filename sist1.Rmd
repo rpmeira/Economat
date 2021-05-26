@@ -31,7 +31,12 @@ d-article p {
 }
 
 d-article p code {
-  background: rgba(236, 236, 236, 0.8);
+  background: rgba(230, 230, 230, 1);
+}
+
+span.math.inline {
+  background: rgba(230, 230, 230, 1);
+  font-size: 15px;
 }
 
 d-article div.sourceCode {
@@ -709,4 +714,271 @@ Por tanto temos o ponto fixo $\small (x^∗, y^∗) = (−9, − 2.5)$ que não 
 
 ## Modelo de Cournot
 
+Analisaremos a versão dinâmica do modelo (sec. 10.1 do Gandolfo). O modelo contempla `n` firmas, que ajustam as suas decisões a partir da observação do comportamento das suas concorrentes. Pragmaticamente, para cada período de tempo `t`, a firma `i` observa o comportamento das outras `n−1` firmas (o produto) e assume que essas quantidades se manterão em `t+1`. Logo, dada a demanda, a firma `i` decidirá a quantidade a produzir visando a maximização dos seus lucros. Simularemos dois casos: quando `n=2` e quando `n>2`. Seja então o mercado oligopolístico com `n` firmas produzindo um bem homogêneo. Assumindo uma curva de demanda linear, temos que:
 
+$$
+p_t = a - b \sum^n_{i=1}x_{i,t}
+$$
+
+com `a>0`, `b>0` e com $x_{i,t}$ representando a produção atual da `i−ésima` firma no período `t`.
+Visando simplificar a representação, adotaremos também curvas lineares para as funções custo, $C_i$, para cada firma. Com isto, garantimos que os custos marginais $c_i$ sejam constantes:
+
+$$
+C_{i,t} = d + c_i \cdot x_{i,t}
+$$
+
+Considerando que as firmas maximizam os lucros e após algumas manipulações algébricas:
+
+$$
+x_{i,t+1} = - \dfrac{1}{2} \sum^n_{j \ne i} x_{j,t} + \dfrac{a-c_i}{2b}
+$$
+
+### Duas Firmas
+
+Nesse caso, as equações do sistema dinâmico são:
+
+$$
+\begin{align}
+  \cases{
+    x_{1,t+1} = - \dfrac{1}{2} x_{2,t} + \dfrac{a-c_1}{2b} \\[7pt]
+    x_{2,t+1} = - \dfrac{1}{2} x_{1,t} + \dfrac{a-c_2}{2b}
+  }
+\end{align}
+$$
+
+A matriz de coeficientes do sistema não homogêneo é dada por:
+
+$$
+\begin{align}
+  A = 
+    \begin{bmatrix}
+      0 & -\dfrac{1}{2} \\[7pt]
+      -\dfrac{1}{2} & 0
+    \end{bmatrix}
+\end{align}
+$$
+
+com o termo independente sendo igual a
+
+$$
+\begin{align}
+  B = 
+    \begin{bmatrix}
+      \dfrac{a-c_1}{2b} \\[7pt]
+      \dfrac{a-c_2}{2b}
+    \end{bmatrix}
+\end{align}
+$$
+
+Dados os seguintes valores para os parâmetros:
+
+```{r}
+set.seed(1)
+n <- 2
+a <- 10 # valor arbitrario
+b <- 0.5 # valor arbitrario
+d <- 10 # valor arbitrario
+c <- runif(n) # valores arbitrarios
+A <- matrix(-1/2, nrow = n, ncol = n) + diag(1/2, n)
+B <- matrix((a - c) / (2 * b), nrow = n)
+Z0 <- 100 * runif(n) # condicoes iniciais para cada uma das n firmas
+t <- 20
+
+list("A" = A, "B" = B, "Z0" = Z0)
+```
+
+Simulando:
+
+```{r}
+orbita_sis_1_termind(A = A, B = B, Z0 = Z0, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_y_continuous(breaks = seq(-50, 100, 10)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+Analisando os autovalores de A:
+
+```{r}
+r <- eigen(A)
+lambda = r$values
+lambda
+```
+
+Vemos que ambos os autovalores são menores que um em módulo, havendo um autovalor negativo. Logo, ao simular as séries, esperaríamos observar (como de fato observamos) trajetórias amortecidas com oscilações transitórias. O estado estacionário será dado por (atrator):
+
+```{r}
+Xeq = inv((diag(1, n) - A)) %*% B
+Xeq 
+```
+
+Colocando no gráfico os valores de equilíbrio:
+
+```{r}
+orbita_sis_1_termind(A = A, B = B, Z0 = Z0, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_y_continuous(breaks = seq(-50, 100, 10)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top") +
+  geom_hline(yintercept = Xeq[1], linetype = "dashed", color = "red") +
+  geom_hline(yintercept = Xeq[2], linetype = "dotted", color = "blue")
+```
+
+
+### Mais de duas firmas
+
+Antes de analisar esse caso, vamos reescrever a função de órbita para admitir mais de 2 equações (basta acrescentar o parâmetro `n`):
+
+```{r}
+# Função que calcula a orbita de um sistema de Eq em diferença de ordem 1
+orbita_sis_neqs <- function(A, B, Z0, n, t) {
+  
+  Z <- matrix(data = 0, nrow = n, ncol = t)
+  Z[, 1] <- Z0
+  
+  for (i in 1:(t-1)) {
+    Z[, i+1] <- A %*% Z[, i] + B
+  }
+  
+  Z <- t(Z)
+  colnames(Z) <- c(paste0(rep("X."), 1:n))
+  
+  return(Z)
+  
+}
+```
+
+```{r}
+set.seed(1)
+n <- 6
+a <- 10 # valor arbitrario
+b <- 0.5 # valor arbitrario
+d <- 10 # valor arbitrario
+c <- runif(n) # valores arbitrarios
+A <- matrix(-1/2, nrow = n, ncol = n) + diag(1/2, n)
+B <- matrix((a - c) / (2 * b), nrow = n)
+Z0 <- 100 * runif(n) # condicoes iniciais para cada uma das n firmas
+t <- 20
+
+list("A" = A, "B" = B, "Z0" = Z0)
+```
+
+```{r}
+orbita_sis_neqs(A = A, B = B, Z0 = Z0, n = n, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+Voltando ao exercício, para $n = 3$, as equações do sistema serão:
+
+$$
+\begin{align}
+  \cases{
+    x_{1,t+1} = - \dfrac{1}{2} x_{2,t} - \dfrac{1}{2} x_{3,t} + \dfrac{a-c_1}{2b} \\[7pt]
+    x_{2,t+1} = - \dfrac{1}{2} x_{1,t} - \dfrac{1}{2} x_{3,t} + \dfrac{a-c_2}{2b} \\[7pt]
+    x_{3,t+1} = - \dfrac{1}{2} x_{1,t} - \dfrac{1}{2} x_{2,t} + \dfrac{a-c_3}{2b} \\
+  }
+\end{align}
+$$
+
+Logo, a matriz A será dada por
+
+$$
+\begin{align}
+  A = 
+    \begin{bmatrix}
+      0 & -\dfrac{1}{2} & -\dfrac{1}{2} \\[7pt]
+      -\dfrac{1}{2} & 0 & -\dfrac{1}{2} \\[7pt]
+      -\dfrac{1}{2} & -\dfrac{1}{2} & 0
+    \end{bmatrix}
+\end{align}
+$$
+
+Simulando:
+
+```{r}
+set.seed(1)
+n <- 3
+a <- 10 # valor arbitrario
+b <- 0.5 # valor arbitrario
+d <- 10 # valor arbitrario
+c <- runif(n) # valores arbitrarios
+A <- matrix(-1/2, nrow = n, ncol = n) + diag(1/2, n)
+B <- matrix((a - c) / (2 * b), nrow = n)
+Z0 <- 100 * runif(n) # condicoes iniciais para cada uma das n firmas
+t <- 20
+
+list("A" = A, "B" = B, "Z0" = Z0)
+```
+
+```{r}
+orbita_sis_neqs(A = A, B = B, Z0 = Z0, n = n, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_y_continuous(breaks = seq(-50, 100, 10)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+e analisando os seus autovalores:
+
+```{r}
+r = eigen(A)
+lambda = r$values
+lambda
+```
+
+observamos a presenção de um autovalor com módulo unitário e oscilações regulares. Logo, o sistema não é
+estável no longo prazo.
+
+Para n = 4:
+
+```{r}
+set.seed(1)
+n <- 4
+a <- 10 # valor arbitrario
+b <- 0.5 # valor arbitrario
+d <- 10 # valor arbitrario
+c <- runif(n) # valores arbitrarios
+A <- matrix(-1/2, nrow = n, ncol = n) + diag(1/2, n)
+B <- matrix((a - c) / (2 * b), nrow = n)
+Z0 <- 100 * runif(n) # condicoes iniciais para cada uma das n firmas
+t <- 20
+
+list("A" = A, "B" = B, "Z0" = Z0)
+```
+
+```{r}
+orbita_sis_neqs(A = A, B = B, Z0 = Z0, n = n, t = t) %>% 
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 20, 1)) +
+  scale_color_discrete("") +
+  theme(legend.position = "top")
+```
+
+e os seus autovalores são
+
+```{r}
+r = eigen(A)
+lambda = r$values
+lambda
+```
+
+teremos um autovalor com módulo maior que um e por tanto, obteremos trajetórias instáveis com oscilações
+explosivas, como o gráfico deixa claro.
+
+De forma geral, para $n > 3$ teremos trajetórias não convergentes, pois podemos demonstrar (ver o livro) que nesses casos, teremos sempre um autovalor $\lambda = -(n-1)/2$, que possui módulo maior que a unidade para o caso de três firmas em diante. 
