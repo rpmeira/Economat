@@ -1,0 +1,352 @@
+---
+title: "Equações Diferenciais"
+description: |
+  Essa aula estuda Equações Diferenciais.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 04-30-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+library(ggfortify)
+library(ggthemes)
+library(ggrepel)
+library(deSolve)
+library(plotly)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(230, 230, 230, 1);
+}
+
+span.math.inline {
+  background: rgba(230, 230, 230, 1);
+  font-size: 15px;
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+
+```
+
+## Equação de Bernoulli
+
+Seja a equação diferencial:
+
+$$
+\frac{dy}{dt} = r \cdot y(1- \frac{y}{k})
+$$
+
+Como se observa, se trata de uma equação diferencial não linear. Contudo, equações de Bernoulli possuem uma forma analítica que se presta para uma transformação de variáveis, visando a obtenção de uma equação linear (veremos mais adiante). 
+
+A solução explícita é dada por:
+
+\begin{equation}
+  y = \dfrac{K \cdot y_0e^{rt}}{K+y_0(e^{rt}-1)}
+\end{equation}
+
+Podemos criar uma função para essa equação:
+
+```{r}
+model <- function(t, r, K, y0) {
+  
+  y <- K * y0 * exp(r * t) / (K + y0 * (exp(r * t) - 1))
+  
+  return(y)
+  
+}
+```
+
+Dados os parâmetros e condições inicias:
+
+```{r}
+t <- seq(0, 150, 1)
+r <- 0.1
+K <- 10
+y0 <- 0.1
+```
+
+Podemos simular:
+
+```{r}
+model(t = t, r = r, K = K, y0 = y0) %>%
+  ts() %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 150, 10)) +
+  scale_y_continuous(breaks = seq(0, 10, 2))
+```
+
+Implementaremos primeiro a solução numérica para analisar o comportamento da série ao longo do tempo. A função `ode` do pacote `deSolve` exige os seguintes parâmetros, que precisamos fornecer:
+
+```{r}
+args(ode)
+```
+
+Vamos começar criando uma função para a equação diferencial. Como a funcção `ode` trabalha com listas, vamos retornar sempre listas.
+
+```{r}
+model <- function(t, y, params) {
+  
+  r <- params["r"]
+  k <- params["k"]
+  
+  dy <- r * y * (1 - y / k)
+  
+  return(list(dy))
+  
+}
+```
+
+Parâmetros e condições inicias:
+
+```{r}
+params <- c(r = 0.1, k = 10)
+y <- c(y = 0.1)
+t <- seq(0, 150, 1)
+```
+
+Aplicando a `ode`:
+
+```{r}
+ode(y = y, times = t, func = model, parms = params) %>%
+  head() 
+```
+
+
+```{r}
+ode(y = y, times = t, func = model, parms = params)[,2] %>%
+  ts() %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 150, 10)) +
+  scale_y_continuous(breaks = seq(0, 10, 2))
+```
+
+## Equação de Ordem 1
+
+A simulação de uma equação diferencial de ordem 1 também faz uso da função `ode` pois não tempos como ter o cálculo exato das derivadas, mesmo sendo contínuas.
+
+Seja a equação:
+
+$$
+y' -3y = 9
+$$
+
+Assim como no caso anterior, optamos pelos seguintes passos:
+
+1. Especificamos o modelo (a equação que define a primeira derivada: $y' = 3y + 9$);
+2. Identificamos os parâmetros e condições iniciais;
+3. Resolvemos a equação com a função `ode`.
+
+**(1)**
+
+```{r}
+model <- function(t, y, params) {
+  
+  a0 <- params["a0"]
+  g <- params["g"]
+  
+  dy <- -a0 * y + g
+  
+  return(list(dy))
+  
+}
+```
+
+**(2)**
+
+```{r}
+params <- c(a0 = -3, g = 9)
+y <- c(y = 0.1)
+t <- seq(0, 10, 0.1)
+```
+
+**(3)**
+
+```{r}
+ode(y = y, times = t, func = model, parms = params)[,2] %>%
+  ts(frequency = 10) %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, 10, 1))
+```
+
+Vemos que a série apresenta uma trajetória explosiva. Analisando o seu coeficiente, sabemos que, ao $a0 = −3 < 0$, a solução homogênea $y^h(t) = A \cdot exp^{3t}$ apresenta um comportamento explosivo/instável no longo prazo. O estado estacionário se dá quando $y_0 = 0$. Logo, $0 − 3y^∗ = 9$. Portanto $y^∗= −3$ será um repulsor.
+
+## Equação de Ordem 2
+
+Os sistemas lineares (ou não lineares) segue o mesmo formato adotado para o caso de equações diferenciais. Temos duas alternativas:
+
+* A solução analítica (ou matemática);
+* A resolução numérica por métodos numéricos: neste caso, usamos o pacote deSolve, que requer que sigamos os passos seguintes:
+
+  1. Definimos uma função que especifique as equações para cada taxa de variação;
+  2. Inicializamos os parâmetros da simulação e demais vetores, incluindo o período de tempo;
+  3. Fazemos uso do comando ode para a resolução numérica.
+  
+### Sistema linear de 2 × 2
+
+Seja o sistema homogêneo de duas variáveis $Z' = A \cdot Z$, cuja a matriz de coeficientes é dada por:
+
+$$
+A = 
+  \begin{bmatrix}
+    1 & -1 \\
+    5 & -3
+  \end{bmatrix};
+  \qquad
+Z(0) = 
+  \begin{bmatrix}
+    x(0) \\
+    y(0)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 \\
+    2
+  \end{bmatrix}
+$$
+
+Assim como no caso anterior, optamos pelos seguintes passos:
+
+1. Especificamos o modelo;
+2. Identificamos os parâmetros e condições iniciais;
+3. Resolvemos a equação com a função ode.
+
+**(1)**
+
+```{r}
+model <- function(t, y, params) {
+  
+  a <- params["a"]
+  b <- params["b"]
+  c <- params["c"]
+  d <- params["d"]
+  
+  dy1 <- a * y[1] + b * y[2]
+  dy2 <- c * y[1] + d * y[2]
+  
+  return(list(c(dy1, dy2)))
+  
+}
+```
+
+**(2)**
+
+```{r}
+params <- c(a = 1, b = -1, c = 5, d = -3)
+y <- c(y1 = 1, y2 = 2)
+t <- seq(0, 20, 0.01)
+```
+
+**(3)**
+
+```{r}
+ode(y = y, times = t, func = model, parms = params)[,-1] %>%
+  ts(frequency = 100) %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_colour_discrete("") +
+  theme(legend.position = "top") +
+  scale_x_continuous(breaks = seq(0, 20, 2)) +
+  scale_y_continuous(breaks = seq(-1, 2, 0.2), limits = c(-0.2,2))
+```
+
+Como observamos, tudo indica que o sistema é estável pois converge para o steady state $(y^∗_1, y^∗_2) = (0, 0)$. Para confirmar a conjetura, podemos analisar os autovalores da matriz de coeficientes:
+
+```{r}
+A <- matrix(data = params, nrow = 2)
+r <- eigen(A)
+lambda <- r$values
+lambda
+```
+
+Temos no caso, dois autovalores complexos, com uma parte real igual a $h = −1$. Por $h < 0$, temos que as tratejórias das variáveis $y_1$ e $y_2$ serão convergentes no longo prazo. A presença de raízes complexas explica também o comportamento cíclico na primeira parte da solução numérica. Veja que, sendo o sistema não homogêneo, nada muda quanto aos passos a seguir para a obtenção da solução numérica. Basta continuar a implementar a função das derivadas considerando na especificação os termos independentes. Contudo, é importante considerar a natureza do $g(t)$ para estarmos alertas quanto à forma do estado estaciónario (fixo ou móvel).
+
+### Sistema não linear de 3 × 3
+
+Como exemplo, podemos usar o sistema de Rossler, que é dado pelas seguintes equações:
+
+$$
+\begin{align}
+& y'_1 = −y_2 − y_3 \\
+& y'_2 = y_1 + a ∗ y_2 \\
+& y'_3 = b + y_3 ∗ (y_1 − c)
+\end{align}
+$$
+
+Para a condição inicial $y_1(0) = y_2(0) = y_3(0) = 1$; com parâmetros $a = −0.2$, $b = 0.2$, $c = 5$ e $t ∈ [0, 100]$. Seguindo a nossa receita:
+
+**(1)**
+
+```{r}
+model <- function(t, y, params) {
+  
+  a <- params["a"]
+  b <- params["b"]
+  c <- params["c"]
+
+  dy1 <- -y[2] -y[3]
+  dy2 <- y[1] + a * y[2]
+  dy3 <- b + y[3] * (y[1] - c)
+  
+  return(list(c(dy1, dy2, dy3)))
+  
+}
+```
+
+**(2)**
+
+```{r}
+params <- c(a = 0.2, b = 0.2, c = 5)
+y <- c(y1 = 1, y2 = 1.5, y3 = 1)
+t <- seq(0, 100, 0.1)
+```
+
+**(3)**
+
+```{r}
+ode(y = y, times = t, func = model, parms = params)[,-1] %>%
+  ts(frequency = 10) %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_colour_discrete("") +
+  theme(legend.position = "top") +
+  scale_x_continuous(breaks = seq(0, 100, 10)) +
+  scale_y_continuous(breaks = seq(-10, 20, 5))
+```
+
+No momento, podemos apenas analisar as características observáveis do sistema, que nos aponta para ciclos nas variáveis. Mas por se tratar de um sistema não linear, não temos mais condição de analisar as raízes (ou autovalores) de uma matriz de coeficientes. Futuramente, poderemos fazer algo similar a partir de análises locais via aproximação linear. Adicionalmente, um gráfico comum elaborado neste caso é o gráfico em 3 dimensões.
+
+```{r}
+plot_ly(data = data.frame(ode(y = y, times = t, func = model, parms = params)[,-1]), 
+        x = ~y1, y = ~y2, z = ~y3, 
+        type = 'scatter3d', mode = 'lines')
+```
+
+
+
+
+
+
+
+

@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Economat: Equações Diferenciais</title>
+
+  <meta property="description" itemprop="description" content="Essa aula estuda Equações Diferenciais."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-04-30"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-30"/>
+  <meta name="article:author" content="Rafael Peixoto"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Economat: Equações Diferenciais"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Essa aula estuda Equações Diferenciais."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="Economat"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Economat: Equações Diferenciais"/>
+  <meta property="twitter:description" content="Essa aula estuda Equações Diferenciais."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Equações Diferenciais"]},{"type":"character","attributes":{},"value":["Essa aula estuda Equações Diferenciais.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","url"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["04-30-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","highlight"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["breezedark"]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
+
+  <script type="application/javascript">
+
+    window.headroom_prevent_pin = false;
+
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        tolerance: 5,
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+
+  <style type="text/css">
+
+  /* Theme (user-documented overrideables for nav appearance) */
+
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #0F2E3D;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .distill-site-nav a:hover {
+    color: white;
+  }
+
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+
+  .distill-site-header {
+
+  }
+
+  .distill-site-footer {
+
+  }
+
+
+  /* Site Header */
+
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+
+
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+
+  .distill-site-header .title {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .distill-site-header .logo {
+    padding: 0;
+  }
+
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+
+
+
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+
+
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-dropdown-active {
+    display: block;
+  }
+
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  /* Site Footer */
+
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  /* Headroom */
+
+  d-title {
+    padding-top: 6rem;
+  }
+
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+
+  .headroom--unpinned {
+    top: -100px;
+  }
+
+  .headroom--pinned {
+    top: 0;
+  }
+
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+
+  </style>
+
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+  <script type="application/javascript">
+
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+
+  function createFuseIndex() {
+
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+
+    createFuseIndex()
+      .then(function(fuse) {
+
+        // make search box visible
+        searchEl.classList.remove('hidden');
+
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+  });
+
+  </script>
+
+  <style type="text/css">
+
+  .nav-search {
+    font-size: x-small;
+  }
+
+  /* Algolioa Autocomplete */
+
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  </style>
+
+
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+  <script src="site_libs/plotly-binding-4.9.2.2/plotly.js"></script>
+  <script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+  <script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Equações Diferenciais","description":"Essa aula estuda Equações Diferenciais.","authors":[{"author":"Rafael Peixoto","authorURL":{},"affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-30T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a class="logo">
+<img src="chalkboard-icon-18.jpg" alt="Logo"/>
+</a>
+<a href="index.html" class="title">Economat</a>
+</div>
+<div class="nav-right">
+<a href="jdv.html">Jogo da Vida</a>
+<a href="prova.html">Prova</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Aulas
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="about.html">Algelin</a>
+<a href="eqdiff.html">Eq. em Diff</a>
+<a href="cobweb.html">Cobweb</a>
+<a href="ordem2.html">Eq. Ordem 2</a>
+<a href="ordemsup.html">Ordem Superior</a>
+<a href="sist1.html">Sistema Ordem 1</a>
+<a href="diferencial.html">Eq. Diferencial</a>
+</div>
+</div>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Equações Diferenciais</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>Essa aula estuda Equações Diferenciais.</p></p>
+</div>
+
+<div class="d-byline">
+  Rafael Peixoto true (Universidade Estadual de Campinas)
+  
+<br/>04-30-2021
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#equação-de-bernoulli">Equação de Bernoulli</a></li>
+<li><a href="#equação-de-ordem-1">Equação de Ordem 1</a></li>
+<li><a href="#equação-de-ordem-2">Equação de Ordem 2</a>
+<ul>
+<li><a href="#sistema-linear-de-2-2">Sistema linear de 2 × 2</a></li>
+<li><a href="#sistema-não-linear-de-3-3">Sistema não linear de 3 × 3</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<style type="text/css">
+d-article p {
+  text-align: justify;
+  font-size: 16px;
+}
+
+d-article p code {
+  background: rgba(230, 230, 230, 1);
+}
+
+span.math.inline {
+  background: rgba(230, 230, 230, 1);
+  font-size: 15px;
+}
+
+d-article div.sourceCode {
+  overflow: auto !important;
+}
+
+</style>
+</div>
+<h2 id="equação-de-bernoulli">Equação de Bernoulli</h2>
+<p>Seja a equação diferencial:</p>
+<p><span class="math display">\[
+\frac{dy}{dt} = r \cdot y(1- \frac{y}{k})
+\]</span></p>
+<p>Como se observa, se trata de uma equação diferencial não linear. Contudo, equações de Bernoulli possuem uma forma analítica que se presta para uma transformação de variáveis, visando a obtenção de uma equação linear (veremos mais adiante).</p>
+<p>A solução explícita é dada por:</p>
+<p><span class="math display">\[\begin{equation}
+  y = \dfrac{K \cdot y_0e^{rt}}{K+y_0(e^{rt}-1)}
+\end{equation}\]</span></p>
+<p>Podemos criar uma função para essa equação:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>r</span>, <span class='va'>K</span>, <span class='va'>y0</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>y</span> <span class='op'>&lt;-</span> <span class='va'>K</span> <span class='op'>*</span> <span class='va'>y0</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>r</span> <span class='op'>*</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>K</span> <span class='op'>+</span> <span class='va'>y0</span> <span class='op'>*</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='va'>r</span> <span class='op'>*</span> <span class='va'>t</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>Dados os parâmetros e condições inicias:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>150</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>r</span> <span class='op'>&lt;-</span> <span class='fl'>0.1</span>
+<span class='va'>K</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>y0</span> <span class='op'>&lt;-</span> <span class='fl'>0.1</span>
+</code></pre>
+</div>
+</div>
+<p>Podemos simular:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>model</span><span class='op'>(</span>t <span class='op'>=</span> <span class='va'>t</span>, r <span class='op'>=</span> <span class='va'>r</span>, K <span class='op'>=</span> <span class='va'>K</span>, y0 <span class='op'>=</span> <span class='va'>y0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>150</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="difecencial_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>Implementaremos primeiro a solução numérica para analisar o comportamento da série ao longo do tempo. A função <code>ode</code> do pacote <code>deSolve</code> exige os seguintes parâmetros, que precisamos fornecer:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/args.html'>args</a></span><span class='op'>(</span><span class='va'>ode</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>function (y, times, func, parms, method = c(&quot;lsoda&quot;, &quot;lsode&quot;, 
+    &quot;lsodes&quot;, &quot;lsodar&quot;, &quot;vode&quot;, &quot;daspk&quot;, &quot;euler&quot;, &quot;rk4&quot;, &quot;ode23&quot;, 
+    &quot;ode45&quot;, &quot;radau&quot;, &quot;bdf&quot;, &quot;bdf_d&quot;, &quot;adams&quot;, &quot;impAdams&quot;, &quot;impAdams_d&quot;, 
+    &quot;iteration&quot;), ...) 
+NULL</code></pre>
+</div>
+<p>Vamos começar criando uma função para a equação diferencial. Como a funcção <code>ode</code> trabalha com listas, vamos retornar sempre listas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>y</span>, <span class='va'>params</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>r</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"r"</span><span class='op'>]</span>
+  <span class='va'>k</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"k"</span><span class='op'>]</span>
+  
+  <span class='va'>dy</span> <span class='op'>&lt;-</span> <span class='va'>r</span> <span class='op'>*</span> <span class='va'>y</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='va'>y</span> <span class='op'>/</span> <span class='va'>k</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dy</span><span class='op'>)</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>Parâmetros e condições inicias:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>params</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>r <span class='op'>=</span> <span class='fl'>0.1</span>, k <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>150</span>, <span class='fl'>1</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Aplicando a <code>ode</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>y</span>, times <span class='op'>=</span> <span class='va'>t</span>, func <span class='op'>=</span> <span class='va'>model</span>, parms <span class='op'>=</span> <span class='va'>params</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span> 
+</code></pre>
+</div>
+<pre><code>     time         y
+[1,]    0 0.1000000
+[2,]    1 0.1104022
+[3,]    2 0.1218708
+[4,]    3 0.1345160
+[5,]    4 0.1484538
+[6,]    5 0.1638111</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>y</span>, times <span class='op'>=</span> <span class='va'>t</span>, func <span class='op'>=</span> <span class='va'>model</span>, parms <span class='op'>=</span> <span class='va'>params</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>150</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="difecencial_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<h2 id="equação-de-ordem-1">Equação de Ordem 1</h2>
+<p>A simulação de uma equação diferencial de ordem 1 também faz uso da função <code>ode</code> pois não tempos como ter o cálculo exato das derivadas, mesmo sendo contínuas.</p>
+<p>Seja a equação:</p>
+<p><span class="math display">\[
+y&#39; -3y = 9
+\]</span></p>
+<p>Assim como no caso anterior, optamos pelos seguintes passos:</p>
+<ol type="1">
+<li>Especificamos o modelo (a equação que define a primeira derivada: <span class="math inline">\(y&#39; = 3y + 9\)</span>);</li>
+<li>Identificamos os parâmetros e condições iniciais;</li>
+<li>Resolvemos a equação com a função <code>ode</code>.</li>
+</ol>
+<p><strong>(1)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>y</span>, <span class='va'>params</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>a0</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"a0"</span><span class='op'>]</span>
+  <span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"g"</span><span class='op'>]</span>
+  
+  <span class='va'>dy</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='va'>a0</span> <span class='op'>*</span> <span class='va'>y</span> <span class='op'>+</span> <span class='va'>g</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>dy</span><span class='op'>)</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p><strong>(2)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>params</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>a0 <span class='op'>=</span> <span class='op'>-</span><span class='fl'>3</span>, g <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span>, <span class='fl'>0.1</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>(3)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>y</span>, times <span class='op'>=</span> <span class='va'>t</span>, func <span class='op'>=</span> <span class='va'>model</span>, parms <span class='op'>=</span> <span class='va'>params</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span>frequency <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="difecencial_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+</div>
+<p>Vemos que a série apresenta uma trajetória explosiva. Analisando o seu coeficiente, sabemos que, ao <span class="math inline">\(a0 = −3 &lt; 0\)</span>, a solução homogênea <span class="math inline">\(y^h(t) = A \cdot exp^{3t}\)</span> apresenta um comportamento explosivo/instável no longo prazo. O estado estacionário se dá quando <span class="math inline">\(y_0 = 0\)</span>. Logo, <span class="math inline">\(0 − 3y^∗ = 9\)</span>. Portanto <span class="math inline">\(y^∗= −3\)</span> será um repulsor.</p>
+<h2 id="equação-de-ordem-2">Equação de Ordem 2</h2>
+<p>Os sistemas lineares (ou não lineares) segue o mesmo formato adotado para o caso de equações diferenciais. Temos duas alternativas:</p>
+<ul>
+<li><p>A solução analítica (ou matemática);</p></li>
+<li><p>A resolução numérica por métodos numéricos: neste caso, usamos o pacote deSolve, que requer que sigamos os passos seguintes:</p>
+<ol type="1">
+<li>Definimos uma função que especifique as equações para cada taxa de variação;</li>
+<li>Inicializamos os parâmetros da simulação e demais vetores, incluindo o período de tempo;</li>
+<li>Fazemos uso do comando ode para a resolução numérica.</li>
+</ol></li>
+</ul>
+<h3 id="sistema-linear-de-2-2">Sistema linear de 2 × 2</h3>
+<p>Seja o sistema homogêneo de duas variáveis <span class="math inline">\(Z&#39; = A \cdot Z\)</span>, cuja a matriz de coeficientes é dada por:</p>
+<p><span class="math display">\[
+A = 
+  \begin{bmatrix}
+    1 &amp; -1 \\
+    5 &amp; -3
+  \end{bmatrix};
+  \qquad
+Z(0) = 
+  \begin{bmatrix}
+    x(0) \\
+    y(0)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 \\
+    2
+  \end{bmatrix}
+\]</span></p>
+<p>Assim como no caso anterior, optamos pelos seguintes passos:</p>
+<ol type="1">
+<li>Especificamos o modelo;</li>
+<li>Identificamos os parâmetros e condições iniciais;</li>
+<li>Resolvemos a equação com a função ode.</li>
+</ol>
+<p><strong>(1)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>y</span>, <span class='va'>params</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"a"</span><span class='op'>]</span>
+  <span class='va'>b</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"b"</span><span class='op'>]</span>
+  <span class='va'>c</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"c"</span><span class='op'>]</span>
+  <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"d"</span><span class='op'>]</span>
+  
+  <span class='va'>dy1</span> <span class='op'>&lt;-</span> <span class='va'>a</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>b</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
+  <span class='va'>dy2</span> <span class='op'>&lt;-</span> <span class='va'>c</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>d</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>dy1</span>, <span class='va'>dy2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p><strong>(2)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>params</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>1</span>, b <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>, c <span class='op'>=</span> <span class='fl'>5</span>, d <span class='op'>=</span> <span class='op'>-</span><span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>y1 <span class='op'>=</span> <span class='fl'>1</span>, y2 <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>0.01</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>(3)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>y</span>, times <span class='op'>=</span> <span class='va'>t</span>, func <span class='op'>=</span> <span class='va'>model</span>, parms <span class='op'>=</span> <span class='va'>params</span><span class='op'>)</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span>frequency <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>0.2</span><span class='op'>)</span>, limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="difecencial_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<p>Como observamos, tudo indica que o sistema é estável pois converge para o steady state <span class="math inline">\((y^∗_1, y^∗_2) = (0, 0)\)</span>. Para confirmar a conjetura, podemos analisar os autovalores da matriz de coeficientes:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>A</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>params</span>, nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>r</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/eigen.html'>eigen</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span>
+<span class='va'>lambda</span> <span class='op'>&lt;-</span> <span class='va'>r</span><span class='op'>$</span><span class='va'>values</span>
+<span class='va'>lambda</span>
+</code></pre>
+</div>
+<pre><code>[1] -1+1i -1-1i</code></pre>
+</div>
+<p>Temos no caso, dois autovalores complexos, com uma parte real igual a <span class="math inline">\(h = −1\)</span>. Por <span class="math inline">\(h &lt; 0\)</span>, temos que as tratejórias das variáveis <span class="math inline">\(y_1\)</span> e <span class="math inline">\(y_2\)</span> serão convergentes no longo prazo. A presença de raízes complexas explica também o comportamento cíclico na primeira parte da solução numérica. Veja que, sendo o sistema não homogêneo, nada muda quanto aos passos a seguir para a obtenção da solução numérica. Basta continuar a implementar a função das derivadas considerando na especificação os termos independentes. Contudo, é importante considerar a natureza do <span class="math inline">\(g(t)\)</span> para estarmos alertas quanto à forma do estado estaciónario (fixo ou móvel).</p>
+<h3 id="sistema-não-linear-de-3-3">Sistema não linear de 3 × 3</h3>
+<p>Como exemplo, podemos usar o sistema de Rossler, que é dado pelas seguintes equações:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp; y&#39;_1 = −y_2 − y_3 \\
+&amp; y&#39;_2 = y_1 + a ∗ y_2 \\
+&amp; y&#39;_3 = b + y_3 ∗ (y_1 − c)
+\end{align}
+\]</span></p>
+<p>Para a condição inicial <span class="math inline">\(y_1(0) = y_2(0) = y_3(0) = 1\)</span>; com parâmetros <span class="math inline">\(a = −0.2\)</span>, <span class="math inline">\(b = 0.2\)</span>, <span class="math inline">\(c = 5\)</span> e <span class="math inline">\(t ∈ [0, 100]\)</span>. Seguindo a nossa receita:</p>
+<p><strong>(1)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>y</span>, <span class='va'>params</span><span class='op'>)</span> <span class='op'>{</span>
+  
+  <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"a"</span><span class='op'>]</span>
+  <span class='va'>b</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"b"</span><span class='op'>]</span>
+  <span class='va'>c</span> <span class='op'>&lt;-</span> <span class='va'>params</span><span class='op'>[</span><span class='st'>"c"</span><span class='op'>]</span>
+
+  <span class='va'>dy1</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='va'>y</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>-</span><span class='va'>y</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>
+  <span class='va'>dy2</span> <span class='op'>&lt;-</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>a</span> <span class='op'>*</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>
+  <span class='va'>dy3</span> <span class='op'>&lt;-</span> <span class='va'>b</span> <span class='op'>+</span> <span class='va'>y</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>y</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>c</span><span class='op'>)</span>
+  
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>dy1</span>, <span class='va'>dy2</span>, <span class='va'>dy3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p><strong>(2)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>params</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fl'>0.2</span>, b <span class='op'>=</span> <span class='fl'>0.2</span>, c <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>y1 <span class='op'>=</span> <span class='fl'>1</span>, y2 <span class='op'>=</span> <span class='fl'>1.5</span>, y3 <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>0.1</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>(3)</strong></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>y</span>, times <span class='op'>=</span> <span class='va'>t</span>, func <span class='op'>=</span> <span class='va'>model</span>, parms <span class='op'>=</span> <span class='va'>params</span><span class='op'>)</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span>frequency <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>autoplot</span><span class='op'>(</span>facets <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_discrete</span><span class='op'>(</span><span class='st'>""</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>100</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="difecencial_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+</div>
+<p>No momento, podemos apenas analisar as características observáveis do sistema, que nos aponta para ciclos nas variáveis. Mas por se tratar de um sistema não linear, não temos mais condição de analisar as raízes (ou autovalores) de uma matriz de coeficientes. Futuramente, poderemos fazer algo similar a partir de análises locais via aproximação linear. Adicionalmente, um gráfico comum elaborado neste caso é o gráfico em 3 dimensões.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://docs.ropensci.org/plotly/reference/plot_ly.html'>plot_ly</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/deSolve/man/ode.html'>ode</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>y</span>, times <span class='op'>=</span> <span class='va'>t</span>, func <span class='op'>=</span> <span class='va'>model</span>, parms <span class='op'>=</span> <span class='va'>params</span><span class='op'>)</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>, 
+        x <span class='op'>=</span> <span class='op'>~</span><span class='va'>y1</span>, y <span class='op'>=</span> <span class='op'>~</span><span class='va'>y2</span>, z <span class='op'>=</span> <span class='op'>~</span><span class='va'>y3</span>, 
+        type <span class='op'>=</span> <span class='st'>'scatter3d'</span>, mode <span class='op'>=</span> <span class='st'>'lines'</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-4d4c9e76eef7e11d196c" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4d4c9e76eef7e11d196c">{"x":{"visdat":{"18439f393":["function () ","plotlyVisDat"]},"cur_data":"18439f393","attrs":{"18439f393":{"x":{},"y":{},"z":{},"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"y1"},"yaxis":{"title":"y2"},"zaxis":{"title":"y3"}},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[1,0.760872489252377,0.537886827926226,0.324598096792709,0.116854708776278,-0.0876602964646858,-0.289879180177372,-0.489735552151753,-0.686465207258098,-0.878839938364745,-1.06533768361886,-1.24426643753918,-1.41385358194971,-1.5723107708318,-1.71788199595685,-1.84888038623773,-1.96371756304194,-2.06092798947469,-2.13918966788061,-2.19734251065504,-2.2344043993913,-2.24958528003095,-2.24229940419225,-2.21217553557687,-2.15906503027522,-2.08304858483028,-1.98443926715514,-1.86378467121997,-1.72186607977356,-1.5596953992281,-1.37850968345132,-1.1797633067012,-0.965117725271553,-0.736429022206138,-0.495733180871422,-0.24522924073779,0.0127395153371822,0.275706219704523,0.541102789094459,0.806283856728137,1.06855190395911,1.32518355670845,1.57345676361968,1.81067867484665,2.03421392451785,2.24151309322736,2.43014115449378,2.59780557476548,2.74238384133475,2.86195008964788,2.95480048146067,3.0194769332968,3.05478874301451,3.05983157404655,3.0340032489997,2.97701577700952,2.88890311306733,2.77002429061257,2.62106180649089,2.44301544303907,2.23719204138889,2.00519201984517,1.74889358438887,1.47043554785463,1.17219944899754,0.856791290796606,0.527022797067452,0.185891657058996,-0.163439344593187,-0.517666691518184,-0.873371364268689,-1.22704777020816,-1.57513561536038,-1.91405339010926,-2.24023463422414,-2.55016394170783,-2.84041395216825,-3.10768301782937,-3.34883068644789,-3.56091437136267,-3.74122305623297,-3.88730986084128,-3.99702201286189,-4.06853016947678,-4.10035282069683,-4.09137767375219,-4.04088153551905,-3.94854542543929,-3.81446617692389,-3.63916388845235,-3.42358557128665,-3.16910436078614,-2.87751445787736,-2.55102205668175,-2.1922312146969,-1.80412631334444,-1.39004998025098,-0.953677031654912,-0.49898478236377,-0.0302197670297655,0.448138749911862,0.931418101279051,1.41479404138171,1.89333463645833,2.36204572683662,2.81591753064199,3.24997190223024,3.65930980641969,4.03915868237162,4.38491951297574,4.69221370030139,4.95693025082319,5.17527431548597,5.34381877305803,5.45956114535055,5.51998835964668,5.52315138465819,5.46775035554325,5.35322515409754,5.1798424319755,4.94876253150283,4.66206429249044,4.3227064869785,3.93441355024348,3.50149376201965,3.0286184016703,2.52060864792111,1.98227948460803,1.4183731842203,0.833584789372489,0.232652644797719,-0.379530402718509,-0.997826643752701,-1.61681159591943,-2.23078662006273,-2.83383549093447,-3.41990713997441,-3.98290830887964,-4.51679512315982,-5.01565768754181,-5.47379816202893,-5.88580226005465,-6.24660485899678,-6.55154722822639,-6.79643661434625,-6.97760492282115,-7.09194952221683,-7.13697670843253,-7.11084193237399,-7.01238152649933,-6.84113818731288,-6.59737951311313,-6.28211151830173,-5.89708283599962,-5.44478438245158,-4.92843188424075,-4.35195442253574,-3.71997850896959,-3.03778412449944,-2.31126682718282,-1.54689699356299,-0.751665103981319,0.066972717522259,0.90115749112456,1.74269017496656,2.58309851748856,3.41370056996259,4.22566334481917,5.01005152251655,5.75785221492054,6.45996407194727,7.10712160754488,7.68971061555667,8.19740559746277,8.61851975012555,8.93892323106455,9.14038882699043,9.19838285328879,9.07992912392245,8.74360869568248,8.14613331281924,7.26107639858844,6.10905398207727,4.78044126292209,3.41936426227232,2.16539329386457,1.09812149115765,0.226884561298163,-0.482285260490661,-1.07498428279606,-1.58996216605537,-2.05353952906795,-2.48076422437023,-2.87860039464736,-3.24895068014217,-3.59086474317305,-3.90195428020756,-4.17922754920174,-4.4195554614095,-4.61992572294606,-4.77758283093415,-4.89010983130167,-4.95548074514807,-4.97209806083474,-4.93882122012816,-4.85498898652676,-4.72043656115559,-4.53550750781884,-4.30106120747517,-4.01847473359343,-3.68963941271623,-3.31695273977784,-2.90330472041629,-2.45205889689265,-1.96702878917156,-1.45244901901538,-0.912942030246577,-0.353480417541647,0.22065511626304,0.803919253815706,1.39055343487485,1.97463342390252,2.5501223389154,3.11092356258755,3.65093319255848,4.1640912402123,4.64443023678445,5.08612003117248,5.48350774183007,5.83115239362503,6.12385509479371,6.35668788574618,6.5250291020447,6.62461840704673,6.6516522076808,6.60294651932883,6.47619539245127,6.27033531869775,5.98599278514639,5.62592699312218,5.19531385370543,4.70168771153662,4.15441570889315,3.56373774516275,2.93960740409429,2.29069477115912,1.62386779048548,0.944261658625259,0.255817781483359,-0.437980415280587,-1.1334487635721,-1.82628623006538,-2.51143519869209,-3.18315459123537,-3.8352079574233,-4.46108094910645,-5.05417904917593,-5.60798720232875,-6.11619424726177,-6.57279329708617,-6.97216100257825,-7.30912977982079,-7.57905430077288,-7.77786692978264,-7.90213598087621,-7.94911734246703,-7.91678316290499,-7.8038661654952,-7.6098924907878,-7.33518932411537,-6.98090790218509,-6.549027030019,-6.0423466389592,-5.46448481904744,-4.81985541795433,-4.11363226518377,-3.3517217840126,-2.54071643955796,-1.68784547575276,-0.800916774442842,0.111745611025276,1.04136926578992,1.97880269270606,2.91458538099862,3.83901393183959,4.74219602031153,5.61408166327381,6.4444526336986,7.22283063098397,7.93824097428168,8.57870901304197,9.13027486255012,9.57516039316445,9.88853733196168,10.0332986647294,9.95303222428129,9.56681233104812,8.77801355395704,7.51939748659051,5.8402937475354,3.96511611283147,2.20865400778583,0.7928473569967,-0.238255970147431,-0.957832594187064,-1.4657943389756,-1.84196975652727,-2.13747029300877,-2.38100689432955,-2.58710823004252,-2.76226198758451,-2.90873302003237,-3.02672841631966,-3.11556047455404,-3.17424973995608,-3.20183149806259,-3.19751084721529,-3.16074212590464,-3.09127060122371,-2.98915753298423,-2.85478570138379,-2.68886813482721,-2.49245508882554,-2.26692535167271,-2.01397771333444,-1.7356233716879,-1.43417200066745,-1.11221372589925,-0.772599818341824,-0.418419267592442,-0.0529726491616268,0.320256541860613,0.697632860498831,1.075401698393,1.44972495863532,1.81671669148165,2.17248168243568,2.51315457622801,2.83493784363012,3.13414262500636,3.407228691834,3.65084466341468,3.86186822433357,4.03744632682975,4.1750352600711,4.27244040463118,4.32785522331299,4.33989860671532,4.30764907601385,4.23067361954268,4.10904828017231,3.94336730312669,3.73473803873174,3.48476013361924,3.19548983656527,2.86939308164526,2.5092932618576,2.11832219264436,1.69987931238374,1.25760353840878,0.795357691845225,0.317220767684256,-0.172517926797183,-0.669369626872917,-1.16866623725584,-1.665591598911,-2.15522303274732,-2.63258062238538,-3.09268137109146,-3.53059482447376,-3.94149972607115,-4.32073927114675,-4.66387449586072,-4.96673586227824,-5.22547229697744,-5.43659743270149,-5.59703342302262,-5.70414938483621,-5.75579889009828,-5.75035108692849,-5.68671784532615,-5.56437594365638,-5.38338466569225,-5.14439653790252,-4.84866260946677,-4.49803288602885,-4.09494984483101,-3.64243611330539,-3.14407656922786,-2.60399528144789,-2.02681973308343,-1.41764840097575,-0.782020010328565,-0.125855085996964,0.544590110570077,1.2227740006711,1.90192683567235,2.57510934451246,3.23526695539262,3.87528757144388,4.48805308264511,5.06648411758179,5.60357371782755,6.09240464363374,6.52614390495064,6.89800690964263,7.20118887498924,7.42876241405598,7.57356302654415,7.62811571405621,7.58471239846446,7.43582145520917,7.1750626238014,6.79892374839669,6.30912294021798,5.71495130071562,5.03434759365365,4.29241768080835,3.51713997856659,2.73372202855236,1.96011111370081,1.20548095638307,0.471737205985774,-0.243341814288248,-0.942959361531298,-1.62913868093604,-2.30175926020756,-2.95851020369451,-3.5953358035761,-4.20702306861599,-4.78772933254779,-5.33137800625731,-5.83192728959253,-6.28354679624774,-6.68073697192181,-7.01841867219067,-7.29200030809948,-7.4974407853204,-7.63130182975957,-7.69079312437815,-7.67382576794471,-7.57903711983773,-7.40582116939806,-7.15435167041098,-6.82559563120161,-6.42132053352796,-5.94409280188444,-5.39726860937759,-4.78497642082191,-4.11209125555267,-3.38420187191413,-2.60757003506486,-1.78908252843029,-0.936197353256457,-0.056882816862755,0.840446612747268,1.74699873607946,2.65367095742829,3.55111794116192,4.42980984358717,5.2800742184647,6.09210633987095,6.85592253853615,7.56121056823803,8.1969965241036,8.75098778698231,9.20835900030899,9.54962529989996,9.74719688841783,9.76052818907351,9.53138012150592,8.98511580833151,8.05106623780403,6.71476046665596,5.08234158085263,3.38212640956988,1.85693699359177,0.640092698446282,-0.266738639334309,-0.932651551644827,-1.4361596892008,-1.83733893689036,-2.17409961531126,-2.46740715700713,-2.72743290398072,-2.95816418055147,-3.16032390084852,-3.33305980048582,-3.47486780505902,-3.58407891751833,-3.65911122918744,-3.69860127727762,-3.70147465817119,-3.66698628122097,-3.59474460916423,-3.48473116165144,-3.33730335148048,-3.15320136918199,-2.93355078069509,-2.67986552072318,-2.3940308459322,-2.07829419530394,-1.73525250490983,-1.36783246863283,-0.979267398653358,-0.573072234827421,-0.15301384675337,0.276921303824121,0.712562111636238,1.14959037100901,1.58358024086469,2.0100395798787,2.42445257077443,2.82232335224444,3.19922028442967,3.55082059416924,3.87295520238847,4.1616537014955,4.41318963620174,4.62412645261171,4.79136470051616,4.91219115930493,4.98433044678872,5.00599931244483,4.9759621335959,4.89358479432975,4.75888153195702,4.5725468630596,4.33596337925285,4.05117731667,3.72083820965327,3.34810659177623,2.93654267106521,2.48999577763888,2.01251562913091,1.50830083858483,0.981687254367617,0.437167221286106,-0.120575583892014,-0.68663856337317,-1.25589173069165,-1.82299630936723,-2.38244711927119,-2.92863278421409,-3.45590520277595,-3.95865124267415,-4.43136374414942,-4.86870927664189,-5.26559202889801,-5.61721415835988,-5.91913278931317,-6.16731368763915,-6.35818110988833,-6.48866394612284,-6.55623686868409,-6.55895771352485,-6.49549998105385,-6.3651769815092,-6.16796324989598,-5.90450823016089,-5.57614343179425,-5.18488428109354,-4.73342291437495,-4.22510973583288,-3.66393997937153,-3.05453466878944,-2.40209328604573,-1.7123583868864,-0.991572089175624,-0.246426508366734,0.515992188483734,1.28826593263281,2.06270166536269,2.83139552192954,3.58629336680184,4.31924683942878,5.02205944373731,5.68651617117223,6.30438415688387,6.86736805542393,7.36699492448373,7.79439202900922,8.13991295570279,8.39257049052596,8.53926888712803,8.56397223571585,8.44723505062303,8.16707603453803,7.70277644956237,7.04312518841034,6.19825979221338,5.20923381335585,4.14558475449434,3.08652502764679,2.09531435549116,1.20350682797644,0.412421580573301,-0.294554113079349,-0.939022492833345,-1.53944919258862,-2.10810402899729,-2.65116461954243,-3.17013020974468,-3.66342185100278,-4.12768562464144,-4.55869477738642,-4.95191356997425,-5.30282966774917,-5.60714658709986,-5.86089965087825,-6.06053508211694,-6.20296078932211,-6.28559668209302,-6.30641242606221,-6.26395507403959,-6.15739015770721,-5.98650820727661,-5.75174411388836,-5.45418718578549,-5.09558358465104,-4.67833167401725,-4.20547142696378,-3.68066759708484,-3.10818569874926,-2.49286177315044,-1.84006657089732,-1.15566326027106,-0.445960427139868,0.282340167519067,1.02219966690856,1.76629980508206,2.50710470890853,3.23692102239474,3.94795523010735,4.63236546626641,5.28230333152728,5.88993496713449,6.44743516362719,6.9469359715998,7.38041087227257,7.73946867844743,8.0150351263921,8.19691423831976,8.27330181542486,8.23044466371164,8.0529184660008,7.72530802574241,7.2362160566361,6.58484538380396,5.78831959545187,4.88512704985705,3.92975225005391,2.97853475500367,2.07409447515969,1.23721136818222,0.468886435701094,-0.241571711549982,-0.908169469748511,-1.54274441070725,-2.15271489891711,-2.74101775277951,-3.30706325234085,-3.84790702996442,-4.35924782025024,-4.83614014373545,-5.27345159075159,-5.66613967478714,-6.00941860739783,-6.29886543304294,-6.53049540001846,-6.70082039053838,-6.80689310792786,-6.84635512094514,-6.81747643713738,-6.71917717806068,-6.5510569090573,-6.31341205341862,-6.00724672261535,-5.63427772942588,-5.1969319148516,-4.69833600624212,-4.14230020138849,-3.53329402540668,-2.8764153538638,-2.17735266168969,-1.44234241240366,-0.67811597038611,0.108151941412983,0.90890357128094,1.71626003988871,2.52208620877988,3.31805350959914,4.09569736820694,4.84646844151778,5.56176544975063,6.23293966069893,6.85124924812875,7.40773719209214,7.89298065750208,8.29664768107363,8.60677645722858,8.80870570768474,8.8836969694544,8.80764406071206,8.5510405905919,8.08260979630961,7.37975989986896,6.44656469330028,5.33148921229718,4.12769900918046,2.94511800177508,1.86943955433288,0.938220447114085,0.145951071367134,-0.535348663609694,-1.13735066542565,-1.68540915565465,-2.19589805563966,-2.67731718768351,-3.13254585765666,-3.56095293086536,-3.95995728348161,-4.3260415063789,-4.65535713922608,-4.94406871533512,-5.18854681152244,-5.38548050666086,-5.53194921299096,-5.62547420507621,-5.6640525678149,-5.64619496457922,-5.57095504883223,-5.43794255642141,-5.24734284421331,-4.99992692502194,-4.69705509142176,-4.34067552581557,-3.93331710052015,-3.47807573286426,-2.9785950979214,-2.4390417289105,-1.86407424701113,-1.25880734086603,-0.628770667460852,0.0201365819529001,0.681695236948101,1.34941948698304,2.01661034174559,2.67641600196912,3.3218854241441,3.94602425744171,4.54184623250515,5.10241723143318,5.62088885250199,6.09051662520058,6.50465759224486,6.85674223432112,7.14021884990844,7.34847440700115,7.47475962972394,7.51216950441304,7.45378546708687,7.29313639675828,7.02515970645119,6.64776296657128,6.16381734594216,5.5829527516188,4.92212029178614,4.20398669009149,3.45314671781483,2.69146324915581,1.93451607810658,1.19051849528663,0.461667353317114,-0.253214806521487,-0.956045330517691,-1.64766529459588,-2.32702846755453,-2.99117100468206,-3.63560586615297,-4.25484240989574,-4.84285542812163,-5.39343956646516,-5.90045334832415,-6.35798233086217,-6.7604526179575,-7.10271678580982,-7.38012436880699,-7.58857494674343,-7.72458567926213,-7.78533401950189,-7.76869565771198,-7.67328497353211,-7.49848274485384,-7.2444604679056,-6.91219101583697,-6.50345792578854,-6.02085385782281,-5.46777026050481,-4.84838063494821,-4.16761724626142,-3.43113161040586,-2.64525204267858,-1.81694869891313,-0.953770484749668,-0.0637792348457746,0.844509521716855,1.76219684166115,2.6800690880578,3.5886645566848,4.47833194430867,5.33927096638039,6.16153838033364,6.93499311671596,7.64912912801977,8.29270657749217,8.85302364991851,9.31456329165186,9.65660447446295,9.84932376002238,9.84828954891595,9.58919177832253,8.9900051305174,7.97620095477957,6.54263493394691,4.82312302526997,3.07681395185359,1.55486936006355,0.373951746176966,-0.485986439445947,-1.10686870247926,-1.5709737306272,-1.9376688234704,-2.24303164960211,-2.50647580905876,-2.73721267324266,-2.93877464754798,-3.11176877544601,-3.25542770444346,-3.36844197426969,-3.44939255704154,-3.49697313212005,-3.51010486537066,-3.48799778431728,-3.43018519949066,-3.33654659159906,-3.20731379913855,-3.043079615165,-2.84480629630054,-2.61382118655938,-2.35180498190569,-2.06078751707072,-1.74313367120234,-1.40152611057846,-1.03894501176188,-0.658644738697839,-0.2641267244585,0.140890420206073,0.552503431889027,0.966659205188405,1.37919187569682,1.78586211090309,2.18239615773051,2.56453033592601,2.9280498187249,3.26883321504475,3.58289536471381,3.86643066535634,4.11585653770051,4.32785727747278,4.49942847503226,4.62792229514443,4.71109375518309,4.74714772976741,4.73478561199484,4.67324934424489,4.56235901127848,4.4025387171246,4.19482480143883,3.94085127023318,3.64280807764538,3.30337744067514,2.92565469182824,2.51306590780258,2.06929683457119,1.59824362875565,1.10399067454846,0.590810344665009,0.0631771405890783,-0.474222454911703,-1.0164894814104,-1.55853133202996,-2.09509832298041,-2.62083494350475,-3.13034035365976,-3.61823285274652,-4.07921441507913,-4.50813447095869,-4.90005051933162,-5.25028603490934,-5.5544855388046,-5.80866671999021,-6.00926908286724,-6.15319914578564,-6.23787157597724,-6.2612461011426,-6.22185822645881,-6.11884878360945,-5.95198193309098,-5.72166197645903,-5.42894214152709,-5.07552755526165,-4.66377091527787,-4.19666519424421,-3.67782191018922,-3.11144467273617,-2.50231025386425,-1.85573457251372,-1.17751669821045,-0.473900830061319,0.248474694400778,0.982635274047455,1.72132834303503,2.45708093175936,3.18226188456274,3.88913948859818,4.56993375558517,5.21685898477609,5.82214803041686,6.37805126501759,6.87679397127312,7.31047304278425,7.67087299049228,7.94917787824332,8.13557854873044,8.21882999622218,8.18594186089606,8.02241291897686,7.71370565149925,7.2487942807216,6.62606787795496,5.86010529181489,4.98534417581893,4.05206088224264,3.11404331379517,2.21394372242632,1.37457342799386,0.59957074061221,-0.119627716759301,-0.79580145911568,-1.44032174219864,-2.06058072890349,-2.65965359987149,-3.2370910253706,-3.79002546470262,-4.31416085513689,-4.80450025097409,-5.25582086748109,-5.66296520553087,-6.02101736811153,-6.32541454553859,-6.57202555189405,-6.75721298752474,-6.87787811159515,-6.9315085526891,-6.91622317197679,-6.83079370906769,-6.67467503756826,-6.44802491219129,-6.15171601253786,-5.78734250776123,-5.35721874980207,-4.86437061903663,-4.3125200438921,-3.70606223209011,-3.05003563507026,-2.35008502992267,-1.61241936961029,-0.843760191841137,-0.0512888370527708,0.757412633264322,1.57442430428609,2.39155260998967,3.200393237017,3.99239266494325,4.75889958804083,5.49119863161639,6.18051869925825,6.81799067013555,7.39452684100229,7.90057105339948,8.32564561432424,8.65760065949956,8.88146711439775,8.977914751966,8.92165263549412,8.68094841340589,8.22086115075411,7.51398709871328,6.56036418262491,5.40873233162727],"y":[1.5,1.61910199955128,1.7173345167295,1.79556048307396,1.85412881110631,1.89307228135461,1.9122634544104,1.91153197460875,1.89074758648003,1.8498797219403,1.78903727193212,1.70849449448954,1.60870678124471,1.49031903197734,1.35416853011109,1.20128363420786,1.03287912717741,0.85034874613171,0.655255390908406,0.449319069160025,0.234402856383887,0.0124971288706992,-0.214297966500688,-0.443791431297681,-0.673721169281528,-0.901776822889628,-1.12562051999115,-1.34291071775268,-1.55132566294223,-1.74858727351556,-1.93248504189329,-2.10089976909459,-2.25182686676222,-2.3833989838268,-2.49390770735248,-2.58182412011059,-2.64581796274502,-2.68477519497966,-2.69781376285298,-2.68429723174204,-2.64384634789733,-2.57634821354118,-2.48196289969957,-2.36112741912487,-2.2145569479036,-2.04324321636888,-1.84844995143296,-1.63170546875112,-1.39479218857428,-1.13973323509329,-0.86877615758617,-0.584373827345869,-0.289162661775919,0.0140616640145316,0.322370744386914,0.63273192275809,0.94203834841462,1.24714019448815,1.54487658358367,1.83210776277372,2.10574709498351,2.36279249199186,2.60035699594474,2.81569830629095,3.00624712789709,3.1696342657386,3.3037164011172,3.40660053261471,3.47666637892924,3.51258826465769,3.51335310804174,3.47827714042182,3.40702004381855,3.29959556974174,3.15637919973467,2.978111904623,2.76590057847197,2.52121458303534,2.24587873628339,1.94206222056154,1.61226390507681,1.25929396990136,0.886252292342062,0.496502196341657,0.0936422701850857,-0.318524486675464,-0.736025486730411,-1.15475497921422,-1.57051313451979,-1.97904613522487,-2.37608828360113,-2.75740491176429,-3.11883572460526,-3.45633770195918,-3.7660307468516,-4.04423757544841,-4.28752651728645,-4.49275117046786,-4.657088273125,-4.77807309897475,-4.85363209808622,-4.88211234389364,-4.86230747937877,-4.79347985765091,-4.67537860839031,-4.50825341873784,-4.29286384921083,-4.03048404759181,-3.72290276806955,-3.37241862034985,-2.98183048009438,-2.55442296197241,-2.09394677591285,-1.60459364726231,-1.09096527196407,-0.558035552679875,-0.0111050755797706,0.54425376702178,1.10226114199075,1.65700469004382,2.20252412737135,2.73290223492068,3.24235718836008,3.72532918945713,4.17655327395118,4.59111347076416,4.96447561160052,5.29250143650204,5.5714519444172,5.79798867135593,5.96918118788355,6.08252540323808,6.13597259386264,6.1279658913886,6.0574789946403,5.92405203788002,5.72782099664345,5.46953869300653,5.15058689104117,4.7729796541412,4.33935864189812,3.85298166400645,3.31770248425199,2.73793965053453,2.11864881581501,1.46529121649603,0.783776795761204,0.0804161472903514,-0.63813215546331,-1.36492277686988,-2.09278754021354,-2.81440336678917,-3.52236462129126,-4.2092541992517,-4.8677197476925,-5.49054802246378,-6.07074041351506,-6.60159025596179,-7.07675582980921,-7.49033096121893,-7.83691469544395,-8.11167925823111,-8.3104278963454,-8.42965361718284,-8.46658938675506,-8.41925515537401,-8.28649762175331,-8.06802494055591,-7.76443756866137,-7.37725424031997,-6.90893906136492,-6.36293233237432,-5.74369520520877,-5.05678171901095,-4.30896255249872,-3.50843726576042,-2.66518779071052,-1.79153648459751,-0.902943640445521,-0.0189564735007713,0.836106307926948,1.63369324776177,2.34410544110854,2.9425660566491,3.41598196068146,3.76589605820705,4.00526543494449,4.15169445997553,4.22161381457181,4.22754907460369,4.17792517706103,4.07803959963653,3.93122909001562,3.73981276251222,3.50573022556171,3.23092667394498,2.9175640713191,2.56812486475033,2.1854535786504,1.7727639259056,1.33362674416092,0.871946803417022,0.39193262138242,-0.10193894689067,-0.60496203486663,-1.11224447359491,-1.61875352959529,-2.11936314299905,-2.60890446921018,-3.0822178486197,-3.5342037014825,-3.95987617770299,-4.35441580446672,-4.71322183179426,-5.03196291548432,-5.30662701248617,-5.53356855052075,-5.70955312547152,-5.83179939701384,-5.89801581645149,-5.90643764910441,-5.8558538375476,-5.74563348759696,-5.57574617207857,-5.34677749928189,-5.05993964442688,-4.717077114021,-4.32066787390417,-3.87382022619696,-3.38026584802948,-2.84434943311905,-2.27101519321337,-1.66578983804389,-1.03476102050629,-0.384547742099887,0.277742533910883,0.944578815319667,1.60810402477771,2.26027608375613,2.89305767313233,3.49864824208605,4.0697336171356,4.59971155874676,5.08284598402584,5.51431458061434,5.89014498246527,6.20707142382398,6.46236583545873,6.65369781014481,6.77905865908284,6.83675642565755,6.82546586691417,6.74430734665629,6.59292993389146,6.37158224303922,6.08116360726745,5.72325509386692,5.30013297132457,4.81476812106787,4.27081662418421,3.67259344291907,3.02504571461283,2.33371823860496,1.60470522868,0.844607521034539,0.0604759233583723,-0.740263610445844,-1.54986475961922,-2.36033523564872,-3.16351584405917,-3.9511564451051,-4.71499783848613,-5.44685556720111,-6.13870290281889,-6.78275778321928,-7.37156445086243,-7.89807599070126,-8.35573646001403,-8.73855450115736,-9.04117793936173,-9.25896151159057,-9.38803032073614,-9.42533664725931,-9.36871164156813,-9.21691132582353,-8.96965656217404,-8.62766955508586,-8.19271045743918,-7.66761888781276,-7.05637234666009,-6.36418167333508,-5.59766131336093,-4.76514124092796,-3.87723536889996,-2.94784461757635,-1.99580895600426,-1.04726767967703,-0.138041388539817,0.686457833538788,1.37817441113432,1.90186201791757,2.2501748994989,2.44414444108052,2.51866985158852,2.50707413037576,2.4340048362608,2.31533214110442,2.16064914551792,1.97577996674183,1.76454260547878,1.52981053959072,1.27409664640681,0.999852490766296,0.709610193230493,0.406040712250903,0.0919689387170476,-0.229633373781152,-0.555666242913217,-0.882926285622797,-1.2081352147148,-1.5279714994146,-1.8391015075699,-2.13821268081002,-2.422048814825,-2.68744305803111,-2.93135210086023,-3.15088887320759,-3.34335718903082,-3.50627997344706,-3.63743060691527,-3.73486035812653,-3.79692411125787,-3.82230318221365,-3.81002558953502,-3.75948366389314,-3.67044763271994,-3.54307657898979,-3.377925260854,-3.17594667059206,-2.93849158371745,-2.66730351306333,-2.36450962732717,-2.03260738128913,-1.67444684242581,-1.29320859540506,-0.892377169680634,-0.475709947124901,-0.0472015769784816,0.38895595744082,0.828417284848646,1.26673100388057,1.69938952871037,2.12188016984848,2.52973594744718,2.91858456345842,3.28419417798893,3.6225150178444,3.92971647393833,4.20222067258422,4.43673310068261,4.63027156787228,4.78019474909074,4.88423060330197,4.94050460902487,4.94756701823381,4.90441807471066,4.81053004760501,4.66586508838112,4.47088824450814,4.2265750147419,3.9344136235702,3.59640152193117,3.21503637676819,2.79330153069786,2.33464609576739,1.84295990284669,1.32254288468437,0.778071286975033,0.21455706639198,-0.362695416007964,-0.948136848870684,-1.53602374112461,-2.12047398094421,-2.69552266068046,-3.25517938888935,-3.79348957804107,-4.30459508630105,-4.78279566555078,-5.22260969843918,-5.61883554325064,-5.96660599662068,-6.26144519551962,-6.4993306591842,-6.67673439069525,-6.79067218618093,-6.83874619841588,-6.81918313282964,-6.73086781466858,-6.57336840077725,-6.34696059291837,-6.05264474149252,-5.69215880217101,-5.26798747532724,-4.78336895919187,-4.24230116860603,-3.64955005144379,-3.0106633737553,-2.33199357761599,-1.62073199749409,-0.884954580264708,-0.133668749448995,0.623160930154469,1.37465477440335,2.10919532704646,2.814817518401,3.47985295307109,4.0937712230143,4.64802713568675,5.13662878793652,5.55619656531377,5.90548948858393,6.1846115592888,6.39420747513017,6.5348910124734,6.60699138940087,6.61056732368908,6.5455786238663,6.41210901969337,6.21056994925132,5.94185395948614,5.60743378756438,5.20941661687869,4.75056603257962,4.23430225464824,3.66468759540797,3.04640329073065,2.38471161175937,1.68541822923172,0.95482374636218,0.199668830213542,-0.572915933465656,-1.35548523926007,-2.14034345801374,-2.91961815388904,-3.68533349781454,-4.42949136330865,-5.14415076050292,-5.82150876140686,-6.45398279903333,-7.03429388255726,-7.5555440120903,-8.0112935840923,-8.39563763900949,-8.70327683467156,-8.9295843723108,-9.07066769433807,-9.12342550207368,-9.08559740166462,-8.95580984093667,-8.73361528231132,-8.41952723871853,-8.01505305389249,-7.52272912243358,-6.94616618981873,-6.29011892530527,-5.56060546489259,-4.76512112458702,-3.91302196227054,-3.01619363278852,-2.09015569855252,-1.15569857171893,-0.24080613823267,0.618336861059482,1.37993872701479,2.0055511069666,2.47329140313107,2.78584250828757,2.96566321318012,3.04221099093631,3.04152641148895,2.98234297140355,2.87666455197897,2.73180968610153,2.55232319040329,2.34131393876551,2.10126865159249,1.83450444318395,1.54340188091609,1.23051404879713,0.898608719367366,0.550675254861173,0.18991297357543,-0.180290596125302,-0.556387219678384,-0.934699520731042,-1.31145435232674,-1.68282021849883,-2.0449434369365,-2.39398640288019,-2.72616690066869,-3.03779837995104,-3.325328420272,-3.58537724561563,-3.81477625775982,-4.01060517745192,-4.17022436838072,-4.29130917328135,-4.37187979198685,-4.41032877737804,-4.40544512544927,-4.35643537452209,-4.26294074412162,-4.12505050253742,-3.94331121693238,-3.7187317492301,-3.45278385199969,-3.14739823936008,-2.80495622748961,-2.42827630175297,-2.02059609572478,-1.58554919260303,-1.1271366400125,-0.649692858535476,-0.157845184637915,0.343532536515452,0.849372952407504,1.35447457930641,1.85356636766894,2.34137562868812,2.81269657265792,3.26245596525004,3.68577233105064,4.07800592275239,4.43479829705333,4.75210244272555,5.02620623060902,5.25375364421962,5.43176644769992,5.55766925981138,5.62931869346379,5.64503469827825,5.60363223568304,5.50445038803623,5.34737685872482,5.13286633717131,4.86195198918758,4.53625008149841,4.1579576201033,3.72984325748643,3.25523178517312,2.73798239768551,2.18246084551385,1.59350589787296,0.976390068507829,0.336775813139223,-0.319333829770174,-0.985650284940329,-1.6556549741138,-2.32266163143707,-2.97988013772949,-3.62048334186081,-4.23767517166915,-4.82476031971967,-5.37521229959666,-5.88274347744034,-6.34137661010194,-6.7455088399944,-7.08997633651822,-7.37011780089776,-7.58182984897758,-7.72162231134362,-7.78666981832384,-7.77485194111573,-7.68479379705047,-7.51589916413071,-7.2683785394558,-6.94327239312547,-6.54247134178096,-6.06873454447053,-5.52571111873847,-4.91796927107471,-4.25104304340588,-3.53150951801476,-2.76711465388149,-1.96697005687172,-1.14183530797508,-0.304478529415769,0.529965722819996,1.34385092081881,2.11747123415613,2.83056099032458,3.46498030604308,4.00789572310943,4.45393777575013,4.80502389957446,5.06796260424819,5.25129071232629,5.36282873817377,5.40853381131568,5.39241441576209,5.31699753057863,5.18393722592256,4.99454634637752,4.75018035256841,4.45248018322549,4.10350867008999,3.70581637227802,3.26246443425901,2.7770219565681,2.25354823907934,1.69656672213168,1.11102480530018,0.502258053206515,-0.124056646386581,-0.761953619321647,-1.40522578218269,-2.04749043111535,-2.68224773647738,-3.30294202291823,-3.9030293495588,-4.47604326744212,-5.01566035884656,-5.51576838879372,-5.97053232328136,-6.37445921651222,-6.72246068152615,-7.00991333928176,-7.23271530389113,-7.38733943330644,-7.4708819003908,-7.48110510932602,-7.41647730463798,-7.27620551034654,-7.06026318026163,-6.76941315052251,-6.40522671482774,-5.97009872852047,-5.46726314775319,-4.90081112854265,-4.27571784543078,-3.59788588676649,-2.87421560546069,-2.11271616173389,-1.32266501078186,-0.51481624688778,0.298378684932335,1.10263665412264,1.88198595039062,2.6194506029572,3.29847947458359,3.90499439280179,4.42941389465889,4.86770036895849,5.22084518341586,5.49308829146638,5.68980601041591,5.81591952374266,5.87514189857165,5.86992410206535,5.80178563555361,5.67175828472586,5.48078539076303,5.23001691524904,4.92099896650528,4.55578060459149,4.13696418399651,3.66772028004527,3.15178100992087,2.59341973083485,1.9974220035206,1.36904815658025,0.713986741468462,0.0383120850926722,-0.651569231991892,-1.34898214445197,-2.04704098802742,-2.73871607697063,-3.41689980815228,-4.0744790332743,-4.70440604422463,-5.2997721174368,-5.85387764570273,-6.36030691427577,-6.8129978378542,-7.20631091480919,-7.53509387780383,-7.7947487453612,-7.98128543031043,-8.09137785632244,-8.12241256657856,-8.07253315887558,-7.9406780134821,-7.72661184793458,-7.43095445351092,-7.05520449293601,-6.60176196484894,-6.07395297403154,-5.47606306271468,-4.81338980416455,-4.09233055524641,-3.32053006799524,-2.50712097060219,-1.66309448064022,-0.801818342332078,0.0603526901026717,0.903609209443612,1.70489660854922,2.43958324953148,3.08508018533147,3.62560375700269,4.05564135974018,4.37976668176576,4.60895202194399,4.75587722161278,4.83160527888457,4.8442873468513,4.79931035019251,4.70005978910793,4.54874896677698,4.34707979964097,4.09669010078453,3.7994233231401,3.45747459343014,3.07345910800867,2.65043507972573,2.19190073997764,1.70177626622568,1.18437666416083,0.644377803156031,0.0867738244987632,-0.48316197581788,-1.0599244619675,-1.63783168521771,-2.21107520355404,-2.77377821222848,-3.3200527886907,-3.84405862281776,-4.34006361921916,-4.8025040990686,-5.2260444128803,-5.6056356942667,-5.9365729770539,-6.21455007375126,-6.43571176026774,-6.596702379306,-6.69471083743014,-6.72751155682983,-6.69349934497895,-6.59172300113329,-6.42190877591861,-6.18448212900019,-5.88058362556503,-5.5120802725016,-5.08157309620405,-4.59240225161713,-4.04865137864719,-3.45515355481492,-2.81750149488498,-2.14206508604608,-1.4360171913752,-0.707365456457123,0.0350202966233535,0.781409086170544,1.52128003293197,2.24352220807673,2.93682145054826,3.5902535973199,4.19401833871567,4.74014100075904,5.22291096111153,5.63888651031353,5.98646904479227,6.26522808704492,6.47523224141747,6.61657955096209,6.6891946331809,6.69285001184606,6.62732066646459,6.49258130546565,6.28898637967248,6.01740556765762,5.67931113267032,5.27682520136968,4.81273799378489,4.29050611911504,3.71423709564122,3.08866431230187,2.41911286471256,1.71145141755778,0.972057988095175,0.207758145039825,-0.574237056001334,-1.36639267908407,-2.16091823209813,-2.94984638694408,-3.72510389440393,-4.47859399852429,-5.20227728660665,-5.88825425665009,-6.52884784999702,-7.1166873784613,-7.64478649174739,-8.10661947346668,-8.49620496042494,-8.80817660826514,-9.03784421982341,-9.18126175773673,-9.23528388102447,-9.19761673177835,-9.06686368529269,-8.84256564754712,-8.52523708583582,-8.11639959525659,-7.61861898343514,-7.03555350987109,-6.37202912802066,-5.63416994124553,-4.82963333200802,-3.9680350879899,-3.06169614160163,-2.12688289300174,-1.18564852911652,-0.267964151336578,0.58732487022341,1.33589839679652,1.93861893508518,2.37607614159904,2.6556174156622,2.8039293268987,2.85266684109686,2.8283163710515,2.74926002981534,2.62702551348855,2.46859256937353,2.27833727525561,2.05932346418129,1.81406210377105,1.54492261540269,1.25433953256173,0.944906329115097,0.619409180961829,0.280829519414283,-0.0676698223314894,-0.422767341798202,-0.781010620230714,-1.13884731285653,-1.49265965998863,-1.8387983762208,-2.17361785633819,-2.49351496145223,-2.794965828067,-3.07456258898805,-3.32905032166124,-3.55536420544009,-3.75066351486236,-3.91236467481016,-4.03817345069351,-4.12611419699102,-4.17455658659941,-4.18223930040694,-4.14829092571294,-4.07224735669227,-3.9540650522319,-3.79413196351464,-3.59327172025478,-3.35274618192205,-3.07425244984165,-2.75991579898276,-2.41227795756549,-2.03428080631124,-1.62924527015553,-1.20084526367755,-0.753076483528777,-0.290219856095568,0.183200497029773,0.662464747810657,1.14270997127308,1.61898707636078,2.08632065350543,2.5397697708593,2.97448719224222,3.38577439353745,3.76913041788448,4.12029330082814,4.43527449356882,4.71038819603815,4.94227696242524,5.12793795589174,5.26474883640833,5.35049705154422,5.38340942944017,5.36218181191852,5.28600636240541,5.15459498525749,4.96819752064196,4.72761397108232,4.43420037403944,4.08986843263631,3.69707873049455,3.25882787414987,2.77862967786164,2.26049048468843,1.70887899296358,1.12869066059384,0.525207052561984,-0.0959499681656356,-0.728865998543543,-1.36739191418668,-2.00519737968936,-2.63583267510633,-3.25279126922037,-3.84957442652969,-4.41975699954309,-4.95705482347963,-5.45539000153359,-5.90895446011707,-6.3122772635709,-6.66029075618269,-6.94838294189191,-7.17245760765787,-7.32898616881282,-7.41505824848504,-7.42842430202814,-7.36753183531066,-7.23156071533742,-7.02045059560155,-6.73492373568167,-6.37650347451003,-5.94752936145972,-5.45117176783413,-4.89144854260562,-4.27324935620449,-3.60237461354684,-2.88559908408878,-2.13077111342263,-1.34695712749502,-0.544629182841053,0.264135021554435,1.06552732298838,1.84412878698821,2.58351125596999,3.26751551796059,3.88212375776272,4.41738372439774,4.86852429787736,5.23565959244759,5.52224868782427,5.73311893814127,5.87287837546711,5.94509078229898,5.95213795666688,5.89549116022931,5.77612550302425,5.59491156382917,5.35291372605154,5.05158667409443,4.69288875393557,4.2793370651817,3.81402566685447,3.30062106365623,2.74334336010562,2.14693783740343,1.51663974889356,0.858127087785307,0.177476788883494,-0.518884037470649,-1.22424514127855,-1.9316700230445,-2.63406312009326,-3.32423570190714,-3.99497910280755,-4.63913625341504,-5.24967580619124,-5.81976413320726,-6.34283996241439,-6.81268619273484,-7.22349991866567,-7.56995878713084,-7.84728859516875,-8.05132032360382,-8.17854648013955,-8.22617221659105,-8.19216060643638,-8.07527186039757,-7.87509846665741,-7.59209426675361,-7.22759895727035,-6.78386247637854,-6.26407049130356,-5.6723783361382,-5.01396398180253,-4.29511678495032,-3.52338772260143,-2.70783806187041,-1.85942909979267,-0.991584984387402,-0.120885795348254,0.732333879396398,1.54404774046123,2.28816116696143,2.94037036769767],"z":[1,0.678601606237566,0.455348743056479,0.304361874383542,0.204589340824123,0.139990106940002,0.0988970157714225,0.0731244824706676,0.0571149661498263,0.0471961201411103,0.0410076270970601,0.0370708729603069,0.0344823507448734,0.0327028954278852,0.0314177097593583,0.0304466004185861,0.0296879567369639,0.0290851069773881,0.028606710238528,0.0282351712814952,0.0279607442716149,0.0277780445997494,0.0276842803601478,0.0276783327289234,0.0277603106446951,0.027931285670526,0.028193345990966,0.0285494463939374,0.0290033450967182,0.0295598449584378,0.0302247014818392,0.0310045730877106,0.0319072551889021,0.0329415771038475,0.0341173287892341,0.0354453923793219,0.0369375447866915,0.0386062399029052,0.040464451361466,0.0425251556306019,0.0448007205282058,0.0473021053945403,0.0500376133337783,0.0530114214636283,0.0562216641523975,0.059658053838896,0.0632991881108621,0.0671095495172978,0.0710364329284536,0.0750072078105677,0.0789274021659442,0.0826802827878255,0.0861286911382688,0.0891198737417627,0.0914937964259451,0.0930949996758801,0.0937873342469103,0.0934700713445516,0.0920930711499598,0.0896681894454582,0.0862741840423438,0.0820532138522026,0.0771985492299026,0.0719350041178563,0.0664953207137557,0.0610967215831164,0.0559217336574921,0.0511061974128782,0.0467355449557946,0.0428484987614523,0.0394455935041529,0.0365005044783082,0.0339714948553685,0.031810124196616,0.0299681255228616,0.0284008944939938,0.0270699796151169,0.0259432076124688,0.024994314892872,0.0242023545473153,0.0235506872233235,0.0230263386058755,0.0226194885129288,0.0223227816294259,0.0221311325286345,0.0220416982375078,0.0220532293267557,0.0221661496760087,0.0223832467970866,0.0227086866840183,0.0231489183285602,0.0237126052656215,0.0244109824297846,0.0252582768103247,0.0262723114056,0.0274750555243799,0.0288935292793003,0.0305610444857708,0.0325184420017565,0.0348158298513464,0.0375148550805572,0.0406912364417072,0.0444380005624044,0.0488693813126828,0.0541252009403043,0.0603758012633826,0.0678270746189798,0.0767248359896535,0.0873572528079052,0.100053077124556,0.115172270886721,0.13308416678288,0.154126923061169,0.1785414057314,0.206373980808465,0.237347912938401,0.270713604971675,0.30510420159592,0.338448566254349,0.368005581463396,0.390586022998614,0.402995729786865,0.402660595368888,0.388295286744093,0.360399747317877,0.32138263084983,0.275189950040115,0.226516910983309,0.179842506689003,0.138601061998477,0.104729542206864,0.0786684348743047,0.0597154941215274,0.0465377430353006,0.0376436273212392,0.0317020363939579,0.0276870794412268,0.0248891063242336,0.0228563559379547,0.0213177006777771,0.02011540725755,0.0191581185223652,0.0183913030809081,0.0177810652483385,0.0173050424275895,0.0169491068219734,0.0167022017161213,0.0165564138849452,0.0165110245779642,0.0165649397074597,0.0167169666455627,0.0169756374993414,0.0173458297778689,0.017839812309814,0.0184714937866575,0.0192611468503579,0.0202346198816274,0.0214268534100674,0.0228833461146579,0.0246637304139778,0.0268493920138921,0.0295499494231677,0.0329158695007025,0.0371577039538528,0.0425736641029128,0.0495952019361502,0.0588571147694851,0.0713099411612677,0.0884104069753913,0.112423601253926,0.14694238247361,0.197740115550577,0.27420456432463,0.391665576993877,0.575061713736969,0.864259406289693,1.32054412978797,2.03115778834343,3.10237409891079,4.62117010858702,6.56072753901527,8.64098505192137,10.2685845031037,10.7656596961082,9.85420836220067,7.90933955927925,5.65483236634797,3.67523914650355,2.21385336710502,1.25631247171408,0.681337781123554,0.358746572828767,0.187569405206244,0.100916518041666,0.0587316270028506,0.0387781166291879,0.0294620754222433,0.0250593006923972,0.022877942892482,0.0217042890254111,0.0210103610541518,0.0205726764146981,0.0202983694352878,0.0201491210250124,0.0201097211320457,0.0201750940872055,0.0203452908032894,0.0206236860832804,0.0210163180179796,0.0215320956596223,0.0221832418019974,0.022985130635056,0.0239574575823909,0.0251257604423157,0.0265216380688153,0.0281853503878554,0.0301677620664583,0.0325335390038789,0.0353652883692449,0.0387688701769459,0.0428814067865364,0.0478805752988251,0.053998220193693,0.0615383139738176,0.0709000462955741,0.0826081361522073,0.0973505942221227,0.116023734092947,0.139781326341795,0.170079482204558,0.208699699900124,0.257720367431745,0.319376915869138,0.395755274826261,0.488228896622016,0.596595334338355,0.717957085933282,0.845596163376474,0.968325779546584,1.07101821540801,1.13688656609009,1.15147008016847,1.10725245069954,1.00698760368795,0.86392470388604,0.698436778557274,0.532423329018616,0.383821291025657,0.263298464373658,0.173838629085093,0.112569455738309,0.0735179925565983,0.0500892741101544,0.036630943146079,0.029033087398643,0.02466348393622,0.0220009325939167,0.0202383179512526,0.0189736125565463,0.018012714882995,0.0172609273050645,0.0166705017263266,0.0162139762593889,0.0158746062224459,0.0156420488825083,0.0155099874056979,0.0154739113978177,0.0155350187256934,0.0156941722820872,0.0159568755193722,0.0163312077149428,0.0168288733448661,0.017465854925708,0.0182640088245394,0.0192521337402192,0.0204680869544222,0.0219636179531686,0.0238077663210898,0.0260947072053779,0.0289553378440782,0.0325738482858237,0.0372148213395927,0.0432658580071373,0.0513077629092888,0.0622319344685888,0.0774390156109013,0.0991859015761065,0.131198663726044,0.179778865708885,0.255803161346381,0.378360053212233,0.581268407726763,0.924329275368328,1.51111596436749,2.51162416190433,4.17309913950465,6.76246803189861,10.3270146105238,14.2283488467009,16.9001240597603,16.7614649293478,13.8307047392004,9.73180379690781,6.0661986399039,3.47344818625964,1.87855799280244,0.97945860699714,0.500981301977039,0.256516238137651,0.135384531271769,0.0767701674622549,0.0489064729550195,0.0358121216851965,0.0296862872734163,0.0268161225938444,0.025472129619765,0.0248632391890351,0.0246332734872338,0.0246249550344979,0.0247702331559866,0.0250414034624622,0.0254300346032942,0.0259366999170519,0.0265666934614896,0.0273286487764951,0.0282345450609499,0.0292986252502161,0.0305383075245548,0.0319746388810317,0.0336318642247004,0.0355386382858801,0.0377286238520698,0.0402404449814106,0.0431186152380405,0.0464136663815205,0.0501821982267467,0.0544863666514589,0.0593925706141099,0.064968931469072,0.0712810176727725,0.0783852287846257,0.0863191741793541,0.0950884891326286,0.10464989915754,0.114891034106089,0.125608688931996,0.136488896305977,0.147094135490138,0.1568647319525,0.165142101541916,0.171219819122656,0.17442358687271,0.174212989646807,0.170288045876729,0.162675448197961,0.151767854618025,0.13829491098939,0.123227047984449,0.107628657852135,0.0924952466895185,0.078617602368701,0.0665018685618658,0.056358891523691,0.0481512051539325,0.0416729118362271,0.036635261512196,0.0327365054201841,0.0297064514779463,0.0273262322492703,0.0254315997508438,0.0239041547773018,0.0226610753227119,0.0216448445168199,0.0208154483140289,0.0201446154170133,0.0196121893810981,0.0192037003728508,0.0189090036655101,0.0187211470636888,0.0186360332690091,0.0186522502056549,0.0187705399173199,0.0189939118634242,0.0193283268533233,0.0197823669950272,0.0203671196620951,0.0210983632992909,0.0219965813221504,0.0230873637802006,0.0244041239670071,0.0259898120460962,0.0278998550256362,0.0302067342644428,0.0330047458853231,0.0364190384009441,0.0406164863012849,0.0458222009462586,0.0523432409876807,0.0606015545751697,0.0711838993385434,0.0849124426189805,0.102946769656352,0.126929022080021,0.159184933013627,0.202992362037137,0.26291763382121,0.345178245244132,0.45793206195935,0.611247910000266,0.816294918909469,1.08310627825336,1.41614631426817,1.80748963818805,2.22900315897935,2.62772551376636,2.93088918776231,3.06494672863046,2.98420528992165,2.69388772584787,2.25148464601283,1.74404468074416,1.2558423016857,0.844458569678399,0.53372538252042,0.320271085616762,0.18555636488596,0.1067773175498,0.0636924742350504,0.0413623975130422,0.0301548827564917,0.0245111363250942,0.0215138647146056,0.0197524923094877,0.0185886580534694,0.0177461631764907,0.0171064023058957,0.0166163334767605,0.0162504977231753,0.015994803108699,0.0158413130510009,0.0157859950510042,0.015827613428869,0.0159677749584027,0.0162108798426148,0.0165640570295796,0.0170385900308281,0.0176491858395671,0.0184154010628812,0.0193645854421721,0.0205324337058547,0.0219646753531109,0.0237248206962816,0.0258994630140733,0.0286043640334075,0.0320034387755674,0.0363286088523847,0.0419155162526793,0.0492588863653158,0.0591053164971037,0.0726066660001123,0.0915820871084581,0.11896959807148,0.159619222762363,0.221695400508974,0.319157059718963,0.476099714022985,0.734107107313598,1.16385618813589,1.88058680477224,3.05609840722519,4.90008094985897,7.54848471661803,10.7919430263683,13.7611378998601,15.100412517179,13.9958639467357,11.0239765873695,7.5712765588583,4.68350776515299,2.6861149511695,1.46054005847512,0.76617977449315,0.394430465637352,0.203772348133006,0.109276681821314,0.0637007027133012,0.0421538498071659,0.0320744431671337,0.0273489397715251,0.0250935545172956,0.023985155949786,0.0234303722350914,0.0231684617150254,0.0230873036122511,0.0231397928818767,0.0233080397187594,0.0235871119771422,0.0239787665017104,0.0244886537283412,0.0251256124729216,0.025900847275095,0.0268286670139797,0.0279270592195889,0.0292174845941584,0.0307261820027582,0.0324849975553735,0.0345319445588585,0.0369129940621155,0.0396833815101107,0.0429089785230937,0.046668431540182,0.0510548008703569,0.0561772962127238,0.0621624347769501,0.0691540624254809,0.0773113779730298,0.0868035803863818,0.0977995864343145,0.110450148688366,0.124860526081469,0.141051376324151,0.158907569352066,0.178117595571734,0.198110836467427,0.218008954314396,0.23661225260684,0.252446805526488,0.26389436076261,0.269410440797273,0.267806764433718,0.258539476785647,0.241919133800787,0.2191599151415,0.192223768754681,0.163481491651541,0.135280646192455,0.109548641009371,0.0875286945010804,0.0697217790933091,0.0559966736960878,0.045808613370038,0.0384305983281672,0.0331390180584824,0.0293214026108335,0.0265141028106286,0.0243944619733924,0.0227502130469053,0.0214465045363444,0.0203984392652872,0.019551944439825,0.0188715521376076,0.0183332444770362,0.0179203990721753,0.0176215075797435,0.0174289285948453,0.0173379872432991,0.0173467066489114,0.0174562094173478,0.0176697144744226,0.0179922998547434,0.0184336048866852,0.0190058225366738,0.0197255419620029,0.0206146655307045,0.0217016024711675,0.0230240772722463,0.0246305629353324,0.0265850153016664,0.0289733560066216,0.0319100271743734,0.0355508750237522,0.0401116596187111,0.0458927490136968,0.0533212331263132,0.0630126042946325,0.0758679279371806,0.0932246048489005,0.11709819878399,0.150553015011609,0.198295654577268,0.267568240524328,0.369478471125744,0.520830367089025,0.746323410745155,1.08041943400858,1.56683633265401,2.25145798527804,3.16217225168521,4.27079510518112,5.44587253364919,6.43472347030822,6.93096408226331,6.73237313425274,5.87874930672618,4.6343628131768,3.3289142390674,2.20349498808258,1.35924951763049,0.78999341425023,0.437982371130957,0.235738039232691,0.126760769074283,0.0712169052493655,0.0441514738087484,0.0313287651117573,0.0252529263178427,0.0222468144325498,0.020614944776716,0.0196158625757177,0.0189381808694824,0.0184531182199175,0.0181070255548507,0.0178773360550998,0.0177534254190906,0.0177309643801155,0.0178094763404206,0.017990868864631,0.0182801917320266,0.0186853293163382,0.019216775876528,0.0198897028159485,0.020724212036789,0.021744752589195,0.0229846458696895,0.0244876862115843,0.0263094985586369,0.028524181205196,0.0312301365211808,0.0345594947502718,0.0386918955806434,0.0438744768805408,0.0504522615102436,0.0589134609459714,0.0699579567067097,0.0846010779500253,0.104338427185278,0.131387222086543,0.169062595741475,0.222333865364486,0.298620458749092,0.408866686758675,0.568815418645468,0.80014101168038,1.13044075563944,1.59014949542857,2.20317028147379,2.96816671111246,3.83172702072351,4.66642853059317,5.28111921284043,5.48586537203647,5.19047254756244,4.46433582922238,3.50179250582082,2.52178277981698,1.68110852327741,1.04658687557526,0.61438278572643,0.344396822204461,0.188020811972177,0.103305627270348,0.05998502553409,0.0388017833876145,0.0286817826869143,0.0237870036934281,0.0212664408127297,0.019817414680507,0.0188760471317271,0.0182069445089426,0.0177125956950422,0.0173511794050498,0.0171036273585109,0.0169606881049603,0.0169182843628621,0.0169748707494926,0.0171328886959524,0.0173963935397957,0.0177729602423395,0.0182738783889452,0.0189130588576907,0.0197100168824784,0.0206911953474051,0.0218897927587199,0.0233494413145905,0.0251291479945701,0.0273064780609773,0.0299857248934537,0.0333092720407113,0.0374739988452654,0.0427561083080756,0.049550133693598,0.0584285764776337,0.0702360194777619,0.0862411544465732,0.108380176548103,0.139650291570443,0.184755929459134,0.251129581086199,0.350551881296287,0.501579884278635,0.732896550908217,1.08715769293868,1.62334745144473,2.41232412651814,3.51504683934042,4.93043762826201,6.51469838279595,7.92435077447998,8.69210164665845,8.48205377832404,7.34122493134439,5.67567410455782,3.97308871788484,2.55737059301318,1.53552282793243,0.87122401412317,0.473395330190115,0.250775957896425,0.133236947288626,0.0741966839543909,0.045707758379,0.0323069309030112,0.0260111372767235,0.0229448648083946,0.0213255835068119,0.0203706605871809,0.0197488161538532,0.0193228562206263,0.0190360168958492,0.0188646575343256,0.0187992200449988,0.0188362997201553,0.018976423703491,0.0192230438249783,0.0195819039229933,0.020062408529205,0.0206771589521992,0.0214412554908141,0.022376378239157,0.0235094423653566,0.0248748924061421,0.0265171109253894,0.0284934418838235,0.0308783116239278,0.0337690963985447,0.0372943108113488,0.0416252596177671,0.0469918149342701,0.0537071971408805,0.0622000444314117,0.0730631346276442,0.0871223644580282,0.105534075062313,0.129921261153265,0.162557957505093,0.206607118540013,0.266401879281813,0.347725886578029,0.457971735488116,0.605936322367969,0.800856536580849,1.05011879378824,1.35514416894662,1.7055450699011,2.07313023973965,2.40950134369371,2.65218346121597,2.74173495605474,2.64494785159752,2.37172736594185,1.97399458004442,1.52616664324216,1.09890211636894,0.740078613569163,0.469253360748243,0.283113642788288,0.165493593681425,0.096586647447884,0.0587931874462999,0.0391060531852085,0.0291326860443782,0.0240293273065656,0.0212549768684507,0.0195807616389994,0.0184500452806013,0.01761975058909,0.0169847240933499,0.0164968871362334,0.0161321379177715,0.0158772130721801,0.0157243239832184,0.0156687307001907,0.0157104934218501,0.0158507423349418,0.0160918566822369,0.0164437718716505,0.016918163388507,0.0175272544139705,0.0182926097003686,0.0192409350850384,0.0204078713892695,0.0218408766822122,0.0236036614954367,0.0257828752118035,0.0284978296737487,0.0319145406431682,0.03627011196651,0.0419083284928589,0.0493386492367219,0.0593325022430431,0.0730858816690695,0.092499531011907,0.120662159976334,0.162709493080768,0.227354795639162,0.329625203188847,0.49570087213257,0.771200535377333,1.2343989085348,2.0139664839064,3.30245363588072,5.33245864458428,8.23990944141767,11.7396622160564,14.7848556120613,15.8726489702348,14.2954275848309,10.9190215080184,7.28826952603339,4.40103354699122,2.4761070507194,1.32704468594597,0.689448867785041,0.353439134061703,0.183121600470428,0.0993990235457645,0.0592213803385535,0.0402670986462033,0.0313998405814925,0.0272399315254264,0.0252609793989805,0.0243040938298167,0.023848688787375,0.0236650811509232,0.0236543592396259,0.0237750430611994,0.0240116038251133,0.024360876173272,0.0248257676956599,0.0254129941677899,0.0261316896101205,0.0269945445723101,0.0280168557536522,0.0292171063094088,0.030618098839648,0.032246781889562,0.0341352541365387,0.0363221660486197,0.0388530750144435,0.0417818464776917,0.045171773324248,0.049096609387359,0.0536413651632212,0.0589026126578573,0.0649875908777302,0.0720118116364181,0.0800939281148775,0.0893468051316941,0.0998633783452373,0.111695884666434,0.124827508266785,0.139136615592432,0.154355940252123,0.170032435292542,0.185497770731691,0.19986357736243,0.212057513378601,0.220913357252651,0.225317875916525,0.224399867076909,0.21772770358141,0.20545625838006,0.188374956426225,0.167825866934117,0.145490530751069,0.123104654528634,0.102174670847596,0.0837602862589747,0.0684054330742798,0.0561709023279213,0.0467682752377536,0.039718981093223,0.0344964931830648,0.0306224285624163,0.0277120670998509,0.0254822361448676,0.0237368160422849,0.022345231908863,0.0212219182730362,0.0203106517340964,0.0195737634777151,0.0189853899437177,0.0185274372963121,0.0181872059389637,0.0179560160839355,0.0178283851228167,0.0178015983387109,0.0178753565822206,0.0180519300131554,0.0183363188961683,0.0187359311885666,0.0192614473234696,0.0199275995524251,0.0207535745771901,0.0217643470477071,0.0229923752080051,0.0244796931184186,0.0262819622431468,0.0284710005558605,0.0311426362244121,0.0344257844811951,0.0384947498695635,0.0435893580752968,0.0500424910540083,0.0583240922570104,0.0691057582983555,0.0833592732177477,0.102506161702861,0.128650585851978,0.164921086469442,0.215983212706953,0.2887732085454,0.393473130575611,0.544669068652751,0.762367483363718,1.07200739842922,1.50173797714975,2.07415349430772,2.78973245062153,3.60276418681879,4.40056918736084,5.00961186588938,5.24993689897767,5.02389461003158,4.37794195902049,3.48208275106562,2.5426735174226,1.71769709179301,1.08251498356662,0.642335231097197,0.363182241107008,0.199341659589951,0.109558031238929,0.0632037919192965,0.0403735699277078,0.0294251434792887,0.0241342908497697,0.021426719807773,0.019885642251373,0.0188928784845839,0.0181898886169765,0.0176694963642138,0.0172858750110665,0.0170180265556685,0.0168556645085559,0.016794165184657,0.0168313846491696,0.0169691961413436,0.0172113424005986,0.0175645809899571,0.0180397103400849,0.0186501122808391,0.0194140976966233,0.0203570692677404,0.0215110908403034,0.0229178060861804,0.0246337425247784,0.0267336119537348,0.0293174357623644,0.0325218579798952,0.0365359372231208,0.0416251639808147,0.0481687350654708,0.0567167161585805,0.0680831632672504,0.0834941481118115,0.104825500831328,0.134993995708721,0.178601220624917,0.242972523331445,0.339822233533791,0.487821159202787,0.716260811547002,1.06955341459848,1.61077020189248,2.41881385935513,3.56770772435248,5.07175584871884,6.79337280267784,8.36656836552049,9.26504188058883],"mode":"lines","type":"scatter3d","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

@@ -1,0 +1,729 @@
+---
+title: "Prova"
+description: |
+  Resolução da Prova de Economia Matemática.
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+    url: {}
+date: 05-31-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+library(matlib)
+library(tidyverse)
+library(limSolve)
+library(ggfortify)
+library(ggthemes)
+library(ggrepel)
+```
+
+# Questão 1
+
+## Item (a)
+**Proponha uma matriz de transição T e analise a dinâmica do sistema**
+
+Como descrito no enunciado, para encontrar a matriz de Transição T, basta calcular cada probabilidade de deslocamento de classes por parte das firmas, dividindo-se o número de firmas em cada uma das classes pelo total da respectiva coluna.
+
+Seja a tabela das transições:
+
+```{r, echo=FALSE}
+DT::datatable(data = data.frame(c(66, 22, 1, 3, 2, 94),
+                                c(22, 47, 23, 6, 2, 100),
+                                c(6, 21, 50, 22, 5, 104),
+                                c(2, 7, 22, 51, 18, 100),
+                                c(2, 2, 5, 18, 73, 100),
+                                c(98, 99, 101, 100, 100, 498)), 
+              rownames = c("I", "II", "III", "IV", "V", "Total - 2015"), 
+              colnames = c("I", "II", "III", "IV", "V", "Total - 2020"),
+              options = list(dom = 'tip'))
+```
+
+
+A matriz de transição T fica:
+
+```{r}
+matT <- matrix(c(
+  (c(66, 22, 1, 3, 2)  / 94 ),
+  (c(22, 47, 23, 6, 2) / 100),
+  (c(6, 21, 50, 22, 5) / 104),
+  (c(2, 7, 22, 51, 18) / 100),
+  (c(2, 2, 5, 18, 73)  / 100)), 
+  ncol = 5)
+matT
+```
+
+
+$$
+\begin{aligned}
+T = 
+  \begin{bmatrix}
+ 0.702 & 0.22 & 0.058 & 0.02 & 0.02 \\
+ 0.234 & 0.47 & 0.202 & 0.07 & 0.02 \\
+ 0.011 & 0.23 & 0.481 & 0.22 & 0.05 \\
+ 0.032 & 0.06 & 0.212 & 0.51 & 0.18 \\
+ 0.021 & 0.02 & 0.048 & 0.18 & 0.73
+  \end{bmatrix}
+\end{aligned}
+$$
+
+Para analisar a dinâmica do sistema, é preciso verificar como a matriz T modifica a composição de estratos, $X_t$, ao longo do tempo, uma vez que:
+
+$$
+X_{t+1} = T \cdot X_t
+$$
+
+Generalizando:
+
+$$
+X_{t+n} = T^n \cdot X_t
+$$
+
+Ou,
+
+$$
+\begin{aligned}
+   \begin{bmatrix}
+      x_{1,t} \\
+      x_{2,t} \\
+      x_{3,t} \\
+      x_{4,t} \\
+      x_{5,t} \\
+   \end{bmatrix} = 
+   \begin{pmatrix}
+     \begin{bmatrix}
+        0.702 & 0.22 & 0.058 & 0.02 & 0.02 \\
+        0.234 & 0.47 & 0.202 & 0.07 & 0.02 \\
+        0.011 & 0.23 & 0.481 & 0.22 & 0.05 \\
+        0.032 & 0.06 & 0.212 & 0.51 & 0.18 \\
+        0.021 & 0.02 & 0.048 & 0.18 & 0.73
+  \end{bmatrix} 
+  \end{pmatrix} ^t \cdot
+     \begin{bmatrix}
+      x_{1,1} \\
+      x_{2,1} \\
+      x_{3,1} \\
+      x_{4,1} \\
+      x_{5,1} \\
+   \end{bmatrix}
+\end{aligned}
+$$
+
+De acordo com Boldrini (pp. 18-19), caso a matriz T seja *regular*, é possível fazer previsões de longo prazo e essas não dependem dos valores inicias ($t=1$). Para que a matriz T seja *regular*, basta que ela possua todos os seus elementos não nulos. E sendo a matriz T *regular*, as potências $T^n$ vão se aproximar de uma matriz $P$:
+
+```{r}
+matP <- matT
+for(i in 1:1000) {
+ matP <- matP %*% matT
+}
+matP
+```
+
+Todas as colunas de $P$ são iguais, dadas pelo vetor $V$:
+
+```{r}
+V <- matP[,1]
+V
+```
+
+Para qualquer que seja o vetor de probabilidade inicial, $V_1$, o vetor de probabilidades $T^nV_1$ se aproxima de $V$. Assim, no longo não há mais mudança, uma vez que $V=TV$.
+
+```{r}
+data.frame("V" = matrix(V, ncol = 1), "TV" = matT %*% V)
+```
+
+O vetor $V$ indica as probabilidades de uma firmar acabar em cada estrato. Assim, no longo prazo, há 21,2% de probabilidade de a firmar estar no estrato I, 20,1% no estrato II, 19,4% no estrato III, 19,4% no estrato IV e 19,6% no estrato V.
+
+## Item (b) 
+**Estime a composição das classes na estrutura produtiva projetada para 2025 e para 2030**
+
+Em 2020, as firmas eram assim divididas em estratos:
+
+$$
+\begin{aligned}
+  X_{2020} = 
+  \begin{bmatrix}
+    98 \\
+    99 \\
+    101 \\
+    100 \\
+    100
+  \end{bmatrix}
+\end{aligned}
+$$
+
+Para encontrar $X_{2025}$ e $X_{2030}$, basta utilizarmos a equação $X_{t+1} = T \cdot X_t$:
+
+$$
+\begin{aligned}
+   \begin{bmatrix}
+      x_{1,2025} \\
+      x_{2,2025} \\
+      x_{3,2025} \\
+      x_{4,2025} \\
+      x_{5,2025} \\
+   \end{bmatrix} = 
+     \begin{bmatrix}
+        0.702 & 0.22 & 0.058 & 0.02 & 0.02 \\
+        0.234 & 0.47 & 0.202 & 0.07 & 0.02 \\
+        0.011 & 0.23 & 0.481 & 0.22 & 0.05 \\
+        0.032 & 0.06 & 0.212 & 0.51 & 0.18 \\
+        0.021 & 0.02 & 0.048 & 0.18 & 0.73
+  \end{bmatrix} \cdot
+     \begin{bmatrix}
+        98 \\
+        99 \\
+        101 \\
+        100 \\
+        100
+   \end{bmatrix}
+\end{aligned}
+$$
+
+```{r}
+x2020 <- matrix(data = c(98, 99, 101, 100, 100), ncol = 1)
+x2025 <- matT %*% x2020
+x2025
+```
+
+Arredondando:
+
+$$
+\begin{aligned}
+  X_{2025} = 
+  \begin{bmatrix}
+    100 \\
+    99 \\
+    99 \\
+    99 \\
+    100
+  \end{bmatrix}
+\end{aligned}
+$$
+
+```{r}
+x2030 <- matT %*% x2025
+x2030
+```
+
+Arredondando:
+
+$$
+\begin{aligned}
+  X_{2030} = 
+  \begin{bmatrix}
+    102 \\
+    99 \\
+    98 \\
+    99 \\
+    100
+  \end{bmatrix}
+\end{aligned}
+$$
+
+```{r}
+data.frame(x2020, x2025, x2030) %>% round()
+```
+
+
+## Item (c) 
+**Por simulação, mostre a evolução da estrutura no longo prazo e analise as suas características dinâmicas. Justifique a resposta. Qual é a composição das classes para $t \to \infty$? Como interpretamos esses valores?**
+
+Vamos criar a função para rodar a simulação:
+
+```{r}
+simulacao <- function(matT, Xi, t) {
+  
+  X <- matrix(data = NA, nrow = 5, ncol = t)
+  X[, 1] <- Xi
+  
+  for (i in 1:(t-1)) {
+    X[, i+1] <- matT %*% X[, i]
+  }
+  
+  X <- t(X)
+  colnames(X) <- paste0(rep("X_"), 1:5)
+  
+  return(X)
+}
+```
+
+Agora vamos Inicializar os parâmetros da função:
+
+```{r}
+matT <- matrix(c(
+  (c(66, 22, 1, 3, 2)  / 94 ),
+  (c(22, 47, 23, 6, 2) / 100),
+  (c(6, 21, 50, 22, 5) / 104),
+  (c(2, 7, 22, 51, 18) / 100),
+  (c(2, 2, 5, 18, 73)  / 100)), 
+  ncol = 5)
+Xi <- x2020
+t <- 20
+list(matT = matT, Xi = Xi, t = t)
+```
+
+Finalmente, a simulação:
+
+```{r}
+simulacao(matT = matT, Xi = Xi, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, t, 2)) +
+  scale_y_continuous(breaks = seq(90, 110, 1)) +
+  scale_color_discrete("") +
+  theme(plot.title = element_text(size = 18, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  ggtitle("Evolução da Estrutura de Firmas", subtitle = paste0("t = ", t)) +
+  xlab("t") + 
+  ylab("X")
+```
+
+A composição das classes parece convergir para um equilíbrio no longo prazo. Para ter certeza, vejamos em um período de tempo maior:
+
+```{r}
+t <- 200
+simulacao(matT = matT, Xi = Xi, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, t, 20)) +
+  scale_y_continuous(breaks = seq(90, 110, 1)) +
+  scale_color_discrete("") +
+  theme(plot.title = element_text(size = 18, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  ggtitle("Evolução da Estrutura de Firmas", subtitle = paste0("t = ", t)) +
+  xlab("t") + 
+  ylab("X")
+```
+
+De fato, quando $t \to \infty$, a composição das classes converge para um equilíbrio. Vejamos essa composição em $t = 1000$:
+
+```{r}
+Xf <- simulacao(matT = matT, Xi = Xi, t = 1000) %>% tail(1)
+Xf
+```
+
+No longo prazo (arredondando),
+
+$$
+\begin{aligned}
+  X_{t\to\infty} = 
+  \begin{bmatrix}
+    106 \\
+    100 \\
+    97 \\
+    97 \\
+    98
+  \end{bmatrix}
+\end{aligned}
+$$
+
+Se calcularmos as percentagens em cada estrato nesse longo prazo:
+
+```{r}
+Xf_pct <- Xf / sum(Xf)
+Xf_pct
+```
+
+Essas são as mesmas porcentagens do vetor $V$ encontrado no item (a):
+
+```{r}
+data.frame("V" = V, "Xf_pct" = matrix(Xf_pct, ncol = 1))
+```
+
+O que corrobora a hipótese de que no longo prazo o sistema tende a um equilíbrio, uma vez que a matriz de transição é regular. Tal equilíbrio é dado pelo vetor $V$, que indica as porcentagens finais em cada estrato, independente do vetor inicial $V_1$:
+
+```{r}
+X_alt <- simulacao(matT = matT, 
+                   Xi = round(runif(n = 5, min = 80, max = 120)), 
+                   t = 1000) %>% tail(1)
+X_alt
+X_alt_pct <- X_alt / sum(X_alt)
+X_alt_pct
+data.frame("V" = V, "Xf_alt_pct" = matrix(X_alt_pct, ncol = 1))
+```
+
+
+## Item (d)
+
+**Gere uma matriz de Markov aleatória (que atenda às características da matriz de transição e para cinco classes) e a partir de uma estrutura produtiva inicial que você escolha, analise a estrutura final para $t \to \infty$. Compare a dinâmica deste sistema com o anterior (o resultante dos ítens a-c) e justifique as suas observações a partir da análise de estabilidade. Há características persistentes?**
+
+Gerando uma matriz de Markov e uma estrutura produtiva inicial aleatórias:
+
+```{r}
+set.seed(20)
+A <- matrix(data = NA, nrow = 5, ncol = 5)
+for (i in 1:5) {
+  A[, i] <- round(runif(n = 5, min = 1, max = 100))
+  A[, i] <- A[, i] / sum(A[, i])
+}
+X0 <- matrix(data = round(runif(n = 5, min = 80, max = 120)), ncol = 1)
+```
+
+Inicializando os parâmetros:
+
+```{r}
+matT <- A
+Xi <- X0
+t <- 20
+list(matT = matT, Xi = Xi, t = t)
+```
+
+Simulando:
+
+```{r}
+simulacao(matT = matT, Xi = Xi, t = t) %>%
+  ts() %>%
+  autoplot(facets = F) +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, t, 20)) +
+  scale_y_continuous(breaks = seq(50, 200, 10)) +
+  scale_color_discrete("") +
+  theme(plot.title = element_text(size = 18, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  ggtitle("Evolução da Estrutura de Firmas", subtitle = paste0("t = ", t)) +
+  xlab("t") + 
+  ylab("X")
+```
+
+No longo prazo, a estrutura produtiva também converge para um equilíbrio, assim como a do sistema anterior. Esse resultado está de acordo com o que Boldrini (pp. 18-19) afirma, de que caso a matriz de transição seja regular, é possível fazer previsões de longo prazo.
+
+Vejamos essa composição em t = 1000:
+
+```{r}
+Xf <- simulacao(matT = matT, Xi = Xi, t = 1000) %>% tail(1)
+Xf %>% round()
+```
+
+Os valores estão de acordo com o que o gráfico apresenta. Se calcularmos as percentagens em cada estrato nesse longo prazo:
+
+```{r}
+Xf_pct <- Xf / sum(Xf)
+Xf_pct
+```
+
+Agora, calculando a matriz $P = T^n$:
+
+```{r}
+matP <- matT
+for(i in 1:1000) {
+matP <- matP %*% matT
+}
+matP
+```
+
+Temos o vetor $V$ das probabilidades no longo prazo:
+
+```{r}
+V <- matP[,1]
+V
+```
+
+Comparando os dois vetores de probabilidades:
+
+```{r}
+data.frame("V" = V, "Xf_pct" = matrix(Xf_pct, ncol = 1))
+```
+
+Assim como no sistema dos itens (a) a (c), como $T$ é regular, esse sistema também entra em equilíbrio no longo prazo, com as probabilidades dos estratos sendo iguais as probabilidades do vetor $V$ --- resultante de $T^n$, com $n \to \infty$.
+
+# Questão 2
+
+## Item (a)
+**Elabore a descrição do modelo e a representação formal do mesmo (as equações)**
+
+De acordo com Possas e Baltar, o modelo de Kalecki, em sua primeira versão (1933), é composto por:
+
+- $P$: Lucro
+- $C$: Consumo dos capitalistas
+- $B$: Parte constante do consumo dos capitalistas
+- $I$: Investimento bruto (encomendas)
+- $A$: Produção e entrega de bens de investimento
+  - Com $A_t= I_{t-\theta}$, onde $\theta$ é o período médio de construção e instação dos equipamentos
+- $K$: Capital fixo
+
+A partir dessas variáveis, são construídas as equações do modelo:
+
+\begin{align}
+  P_t = C_t  + A_t
+\end{align}
+
+\begin{align}
+  C_t = B  + \lambda P_t
+\end{align}
+
+Sendo que $\lambda$ é constante no curto prazo.
+
+De (1) e (2):
+
+\begin{align}
+  P_t = \dfrac{B+A_t}{1-\lambda}
+\end{align}
+
+As decisões de investimento são dadas pela função
+
+\begin{align}
+  \dfrac{I_t}{K_t} = f(\dfrac{P_t}{K_t})
+\end{align}
+
+Como de (3) tem-se que $\dfrac{P}{K}$ é proporcional a $\dfrac{B+A}{K}$, (4) pode ser reescrita como:
+
+\begin{align}
+  \dfrac{I_t}{K_t} = \phi (\dfrac{B+A_t}{K_t})
+\end{align}
+
+Assim, supondo uma função linear:
+
+\begin{align}
+  I_t = m (B+A_t) - nK_t
+\end{align}
+
+Os autores apontam que é necessário ter $m>0$, sendo $\phi$ uma função crescente, e $n>0$ para que o modelo comporte a ocorrência de ciclos econômicos.
+
+A variação do capital fixo, K, em cada período, é, por definição:
+
+\begin{align}
+  \Delta K_t = K_{t+1} - K_t = A_t - U
+\end{align}
+
+onde U representa a reposição de capital.
+
+Da definição tem-se que $I_t = A_{t+\theta}$. Partindo de $\theta = 1$ e substituindo (7) em (6):
+
+\begin{align}
+  \boxed{K_{t+2} - (m + 1) K_{t+1} + (m + n) K_t = mB + (m - 1) U}
+\end{align}
+
+que é uma equação em diferença de segunda ordem, do tipo:
+
+$$
+\begin{aligned}
+  y_{t+2} + a_1y_{t+1} + a_2y_t = c
+\end{aligned}
+$$
+
+Com
+
+
+\begin{align}
+  \begin{cases}
+    a_1 &=  -(m+1) \\
+    a_2 &=  (m+n) \\
+    c &=  mB + (m-1) U
+  \end{cases}
+\end{align}
+
+
+## Item (b)
+**Determine as condições de estabilidade do modelo em função dos parâmetros**
+
+A solução da equação homogênea ($c=0$) é do tipo $y_t=kx^t$, sendo $k$ e $x$ coeficientes que precisam ser determinados. 
+
+Substituindo a solução $y_t=kx^t$ na equação homogênea, tem-se:
+
+$$
+\begin{aligned}
+  x^2 + a_1x + a_2 = 0
+\end{aligned}
+$$
+
+As raízes $(x_1,x_2)$ definirão o comportamento da variável $y$ no tempo. 
+
+Apenas com raízes complexas há a ocorrência de flutuações cíclicas no modelo. Nesse caso, a solução homogênea será da forma:
+
+$$
+y_t = ar^tcos(wt + \epsilon)
+$$
+
+onde $a$ e $\epsilon$ são arbitrárias e dependem apenas das condições iniciais.
+
+De acordo com os autores, a ocorrência de flutuações cíclicas depende da condição $a_1^2<4a_2$. Juntando com (9), tem-se:
+
+\begin{align}
+  (m-1)^2 < 4n
+\end{align}
+
+Também a partir de (9), os coeficientes $w$ e $r$ ficam assim:
+
+$$
+\begin{aligned}
+&w = cos^{-1} \begin{pmatrix} \dfrac{m+1}{2\sqrt{m+n}} \end{pmatrix} \\[10pt]
+&r = \sqrt{m+n}
+\end{aligned}
+$$
+
+Com isso, as flutuações dos ciclos podem ser de três tipos:
+
+- Flutuações explosivas: $r > 1 \to m + n > 1$
+- Flutuações amortecidas: $r < 1 \to m + n < 1$
+- Flutuações regulares: $r = 1 \to m + n = 1$
+
+Por fim, as demais variáveis (renda, lucros, investimento) terão o mesmo comportamento
+
+## Item (c)
+**Simule um caso estável e um caso instável**
+
+Para simular uma equação em diferença de ordem 2, vamos construir uma função. Lembrando que a forma geral da equação homogênea é
+
+$$
+\begin{aligned}
+  y_{t+2} + a_1y_{t+1} + a_2y_t = 0 \\
+  y_{t+2} = -a_1y_{t+1} - a_2y_t
+\end{aligned}
+$$
+
+```{r}
+simulacao_2o <- function(y0, y1, a1, a2, t) {
+  
+  out <- vector(mode = "numeric", length = t)
+  out[1] <- y0
+  out[2] <- y1
+  for (i in 1:(t-2)) {
+    out[i+2] <- -a1*out[i+1] -a2*out[i]
+  }
+  
+  return(out)
+  
+}
+```
+
+Para rodar a simulação, precisamos de valores paras as condições iniciais $y_0$ e $y_1$ e para os parâmetros $a_1$ e $a_2$. Lembrando que:
+
+$$
+\begin{aligned}
+  \begin{cases}
+    a_1 &=  -(m+1) \\
+    a_2 &=  (m+n) 
+  \end{cases}
+\end{aligned}
+$$
+
+E que
+
+- Flutuações explosivas: $m + n > 1$
+- Flutuações amortecidas: $m + n < 1$
+- Flutuações regulares: $m + n = 1$
+
+### Caso Estável
+
+Para que o comportamento seja estável, basta que a soma de $m$ e $n$ não seja maior que 1.
+
+**Flutuações Amortecidas**
+
+Condições iniciais e parâmetros:
+
+```{r}
+m <- 0.4
+n <- 0.5
+
+y0 <- 1
+y1 <- -2
+a1 <- -(m + 1)
+a2 <- (m + n)
+
+t <- 100
+```
+
+Rodando a simulação:
+
+```{r}
+simulacao_2o(y0 = y0, y1 = y1, a1 = a1, a2 = a2, t = t) %>%
+  ts() %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, t, 10)) +
+  scale_y_continuous(breaks = seq(-5, 5, 1)) +
+  scale_color_discrete("") +
+  theme(plot.title = element_text(size = 18, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  ggtitle("Flutuações Amortecidas", subtitle = "") +
+  xlab("t") +
+  ylab("K")
+```
+
+**Flutuações Regulares**
+
+Condições iniciais e parâmetros:
+
+```{r}
+m <- 0.4
+n <- 0.6
+
+y0 <- 1
+y1 <- -2
+a1 <- -(m + 1)
+a2 <- (m + n)
+
+t <- 100
+```
+
+Rodando a simulação:
+
+```{r}
+simulacao_2o(y0 = y0, y1 = y1, a1 = a1, a2 = a2, t = t) %>%
+  ts() %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, t, 10)) +
+  scale_y_continuous(breaks = seq(-5, 5, 1)) +
+  scale_color_discrete("") +
+  theme(plot.title = element_text(size = 18, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  ggtitle("Flutuações Regulares", subtitle = "") +
+  xlab("t") +
+  ylab("K")
+```
+
+
+### Caso Instável
+
+Para que o comportamento seja instável, basta que a soma de $m$ e $n$ seja maior que 1.
+
+**Flutuações Explosivas**
+
+Condições iniciais e parâmetros:
+
+```{r}
+m <- 0.45
+n <- 0.6
+
+y0 <- 1
+y1 <- -2
+a1 <- -(m + 1)
+a2 <- (m + n)
+
+t <- 100
+```
+
+Rodando a simulação:
+
+```{r}
+simulacao_2o(y0 = y0, y1 = y1, a1 = a1, a2 = a2, t = t) %>%
+  ts() %>%
+  autoplot() +
+  theme_hc() +
+  scale_x_continuous(breaks = seq(0, t, 10)) +
+  scale_y_continuous(breaks = seq(-50, 50, 10)) +
+  scale_color_discrete("") +
+  theme(plot.title = element_text(size = 18, hjust = 0.5, colour = "black"),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, colour = "black"),
+        legend.position = "top") +
+  ggtitle("Flutuações Explosivas", subtitle = "") +
+  xlab("t") +
+  ylab("K")
+```
+
+

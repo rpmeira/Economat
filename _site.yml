@@ -9,11 +9,13 @@ navbar:
   right:
       - text: "Jogo da Vida"
         href: jdv.html
+      - text: "Prova"
+        href: prova.html
       - text: "Aulas"
         menu:
         - text: "Algelin"
           href: about.html
-        - text: "Eq. Diff"
+        - text: "Eq. em Diff"
           href: eqdiff.html
         - text: "Cobweb"
           href: cobweb.html
@@ -22,5 +24,7 @@ navbar:
         - text: "Ordem Superior"
           href: ordemsup.html
         - text: "Sistema Ordem 1"
-          href: sist1.html            
+          href: sist1.html
+        - text: "Eq. Diferencial"
+          href: diferencial.html   
 output: distill::distill_article
