@@ -5,13 +5,8 @@ description: |
 author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
-    url: {}
 date: 05-31-2021
-output:
-  distill::distill_article:
-    self_contained: false
-    toc: true
-    highlight: breezedark
+output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}

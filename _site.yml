@@ -1,5 +1,6 @@
 name: "Economat"
 title: "Economat"
+theme: theme.css
 description: |
   Economat
 output_dir: "docs"
@@ -27,4 +28,12 @@ navbar:
           href: sist1.html
         - text: "Eq. Diferencial"
           href: diferencial.html   
-output: distill::distill_article
+        - text: "Retrato de Fase"
+          href: retfase.html   
+output: 
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+    includes:
+      before_body: backtotop.html

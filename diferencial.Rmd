@@ -5,13 +5,8 @@ description: |
 author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
-    url: {}
 date: 04-30-2021
-output:
-  distill::distill_article:
-    self_contained: false
-    toc: true
-    highlight: breezedark
+output: distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
@@ -26,89 +21,6 @@ library(deSolve)
 library(plotly)
 ```
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
-<a id="button"></a>
-
-```{js, echo=FALSE}
-var btn = $('#button');
-
-$(window).scroll(function() {
-  if ($(window).scrollTop() > 300) {
-    btn.addClass('show');
-  } else {
-    btn.removeClass('show');
-  }
-});
-
-btn.on('click', function(e) {
-  e.preventDefault();
-  $('html, body').animate({scrollTop:0}, '300');
-});
-
-```
-
-```{css, echo=FALSE}
-#button {
-  display: inline-block;
-  background-color: #e8eeeb;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  border-radius: 4px;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  transition: background-color .3s, 
-    opacity .5s, visibility .5s;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 1000;
-}
-#button::after {
-  content: "\f077";
-  font-family: FontAwesome;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 2em;
-  line-height: 50px;
-  color: #fff;
-}
-#button:hover {
-  cursor: pointer;
-  background-color: #333;
-}
-#button:active {
-  background-color: #555;
-}
-#button.show {
-  opacity: 0.5;
-  visibility: visible;
-}
-
-```
-
-
-```{css, echo=FALSE}
-d-article p {
-  text-align: justify;
-  font-size: 16px;
-}
-
-d-article p code {
-  background: rgba(230, 230, 230, 1);
-}
-
-span.math.inline {
-  background: rgba(230, 230, 230, 1);
-  font-size: 15px;
-}
-
-d-article div.sourceCode {
-  overflow: auto !important;
-}
-
-```
 
 ## Equação de Bernoulli
 

@@ -5,14 +5,10 @@ description: |
 author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
-    url: {}
 date: 04-30-2021
-output:
-  distill::distill_article:
-    self_contained: false
-    toc: true
-    highlight: breezedark
+output: distill::distill_article
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -24,26 +20,6 @@ library(ggthemes)
 library(ggrepel)
 ```
 
-```{css, echo=FALSE}
-d-article p {
-  text-align: justify;
-  font-size: 16px;
-}
-
-d-article p code {
-  background: rgba(230, 230, 230, 1);
-}
-
-span.math.inline {
-  background: rgba(230, 230, 230, 1);
-  font-size: 15px;
-}
-
-d-article div.sourceCode {
-  overflow: auto !important;
-}
-
-```
 
 ## Autovalores e Autovetores
 
@@ -712,7 +688,9 @@ Zeq # Zeq é o Z*, ou seja, o Z de equilíbrio
 
 Por tanto temos o ponto fixo $\small (x^∗, y^∗) = (−9, − 2.5)$ que não é nem atrator, nem repulsor.
 
-## Modelo de Cournot
+[Início](#)
+
+## Modelo de Cournot 
 
 Analisaremos a versão dinâmica do modelo (sec. 10.1 do Gandolfo). O modelo contempla `n` firmas, que ajustam as suas decisões a partir da observação do comportamento das suas concorrentes. Pragmaticamente, para cada período de tempo `t`, a firma `i` observa o comportamento das outras `n−1` firmas (o produto) e assume que essas quantidades se manterão em `t+1`. Logo, dada a demanda, a firma `i` decidirá a quantidade a produzir visando a maximização dos seus lucros. Simularemos dois casos: quando `n=2` e quando `n>2`. Seja então o mercado oligopolístico com `n` firmas produzindo um bem homogêneo. Assumindo uma curva de demanda linear, temos que:
 
@@ -982,3 +960,6 @@ teremos um autovalor com módulo maior que um e por tanto, obteremos trajetória
 explosivas, como o gráfico deixa claro.
 
 De forma geral, para $n > 3$ teremos trajetórias não convergentes, pois podemos demonstrar (ver o livro) que nesses casos, teremos sempre um autovalor $\lambda = -(n-1)/2$, que possui módulo maior que a unidade para o caso de três firmas em diante. 
+
+[Início](#)
+

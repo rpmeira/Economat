@@ -3,7 +3,6 @@ title: "Economia Matemática"
 author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
-    url: {}
 date: 03-26-2021
 site: distill::distill_website
 ---
@@ -30,5 +29,5 @@ d-article div.sourceCode {
 ```
 
 
-**Esse site acompanha as aulas da disciplina Economia Matemática (HO-012).**
+**Esse site acompanha as aulas da disciplina _Economia Matemática_ (HO-012), do Instituto de Economia da Unicamp, no primeiro semestre de 2021.**
 
